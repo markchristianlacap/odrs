@@ -2,6 +2,7 @@ global using FastEndpoints;
 using System.Text.Json;
 using Backend.Database;
 using Backend.Database.Interceptors;
+using Backend.Database.Seeders;
 using Backend.Services;
 using FastEndpoints.Security;
 using Microsoft.AspNetCore.DataProtection;
@@ -31,13 +32,23 @@ bld.Services.AddAuthenticationCookie(validFor: TimeSpan.FromHours(8))
     .AddFastEndpoints();
 
 var app = bld.Build();
+
+// Run args seed the database
+if (args.Length > 0 && args[0] == "seed")
+{
+    using var scope = app.Services.CreateScope();
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    Seeder.Seed(db);
+    Environment.Exit(0);
+}
+
 app.UseRouting();
 app.UseAuthentication()
     .UseAuthorization()
     .UseFastEndpoints(o =>
     {
-      o.Endpoints.RoutePrefix = "api";
-      o.Serializer.Options.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+        o.Endpoints.RoutePrefix = "api";
+        o.Serializer.Options.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
     });
 app.UseEndpoints(_ => { });
 
@@ -45,9 +56,9 @@ app.UseEndpoints(_ => { });
 app.UseSpaStaticFiles();
 app.UseSpa(x =>
 {
-  if (!app.Environment.IsDevelopment())
-    return;
-  x.UseProxyToSpaDevelopmentServer("http://localhost:3201");
+    if (!app.Environment.IsDevelopment())
+        return;
+    x.UseProxyToSpaDevelopmentServer("http://localhost:3201");
 });
 
 app.Run();

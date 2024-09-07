@@ -4,8 +4,8 @@ namespace Backend.Features.ForgotPassword;
 
 public class Validator : Validator<ForgotPasswordReq>
 {
-  public Validator()
-  {
-    RuleFor(x => x.Email).NotEmpty().EmailAddress();
-  }
+    public Validator()
+    {
+        RuleFor(x => x.Email).NotEmpty().EmailAddress();
+    }
 }

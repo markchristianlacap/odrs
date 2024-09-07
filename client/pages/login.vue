@@ -7,9 +7,13 @@ const form = useForm({
   password: '',
   remember: false,
 })
+const router = useRouter()
+const { fetchUser } = useUser()
 async function onSubmit() {
   await form.submit(async () => {
     await api.post('/login', form.fields)
+    await fetchUser()
+    router.push('/user')
   })
 }
 </script>
