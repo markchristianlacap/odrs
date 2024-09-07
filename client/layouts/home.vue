@@ -1,24 +1,26 @@
 <template>
   <QLayout>
-    <QHeader>
+    <QHeader elevated reveal>
       <QToolbar>
         <QToolbarTitle>
-          OMSC ODRS
+          <span class="font-bold">
+            OMSC ODRS
+          </span>
         </QToolbarTitle>
         <q-space />
         <QBtn flat to="/">
           Home
         </QBtn>
-        <QBtn flat>
+        <QBtn flat to="/login">
           Get Documents
         </QBtn>
-        <QBtn flat>
+        <QBtn flat to="/contact-us">
           Contact Us
         </QBtn>
       </QToolbar>
     </QHeader>
     <QPageContainer>
-      <RouterView />
+      <slot />
     </QPageContainer>
   </QLayout>
 </template>

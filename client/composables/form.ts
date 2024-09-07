@@ -25,5 +25,11 @@ export function useForm<T = any>(fields: T) {
     reset() {
       this.fields = fields
     },
+    getError(field: keyof T) {
+      return this.errors[field]?.[0]
+    },
+    hasError(field: keyof T) {
+      return !!this.getError(field)
+    },
   })
 }

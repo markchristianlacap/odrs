@@ -1,4 +1,4 @@
-import { defineConfig, presetUno, presetWebFonts } from 'unocss'
+import { defineConfig, presetIcons, presetUno, presetWebFonts } from 'unocss'
 
 export default defineConfig({
   theme: {
@@ -17,9 +17,10 @@ export default defineConfig({
     presetUno(),
     presetWebFonts({
       fonts: {
-        lato: 'Lato',
+        inter: 'Inter',
       },
     }),
+    presetIcons(),
   ],
   shortcuts: {
     card: 'p-4 bg-white rounded-lg shadow-xl',
