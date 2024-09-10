@@ -12,7 +12,9 @@ async function onLogout() {
     <QHeader elevated reveal>
       <QToolbar>
         <QToolbarTitle>
-          OMSC ODRS
+          <span class="font-bold">
+            OMSC ODRS
+          </span>
         </QToolbarTitle>
         <QSpace />
         <div>

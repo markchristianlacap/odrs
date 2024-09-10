@@ -19,8 +19,8 @@ const { user } = useUser()
             </p>
           </div>
           <div class="flex flex-col gap-sm">
-            <QBtn label="Open Documents" color="primary" />
-            <QBtn label="New Request" color="primary" outline />
+            <QBtn label="Open Documents" color="primary" to="/user/documents" />
+            <QBtn label="New Request" color="primary" outline to="/user/documents/form" />
           </div>
         </div>
       </QCardSection>

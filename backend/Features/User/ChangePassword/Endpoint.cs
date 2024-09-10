@@ -19,12 +19,12 @@ public class Endpoint : Endpoint<ChangePasswordReq>
         var user = await Db.Users.FirstOrDefaultAsync(x => x.Id == UserService.UserId, ct);
         if (user == null)
         {
-             ThrowError(x => x.CurrentPassword, "Incorrect password");
+            ThrowError(x => x.CurrentPassword, "Incorrect password");
         }
         if (!BCrypt.Net.BCrypt.EnhancedVerify(req.CurrentPassword, user.Password))
         {
-          
-             ThrowError(x => x.CurrentPassword, "Incorrect password");
+
+            ThrowError(x => x.CurrentPassword, "Incorrect password");
         }
         var hashed = BCrypt.Net.BCrypt.EnhancedHashPassword(req.NewPassword);
         user.Password = hashed;
