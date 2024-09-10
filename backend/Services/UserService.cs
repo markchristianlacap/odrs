@@ -46,7 +46,7 @@ public class UserService(IHttpContextAccessor ctx, IEmailService emailService, A
         var subject = "Reset Password";
         var body =
             $"Click <a href=\"http://localhost:3000/reset-password?token={token}\">here</a> to reset your password.";
-        return await emailService.SendEmail(emailAddress, subject, body);
+        return await emailService.SendEmail(emailAddress, subject, body, true);
     }
 
     private async Task<string> GenerateToken()

@@ -4,19 +4,20 @@ namespace Backend.Database.Seeders;
 
 public static class UsersSeeder
 {
-  public static void Seed(AppDbContext context)
-  {
-    var admin = new User
+    public static void Seed(AppDbContext context)
     {
-      Name = "Admin",
-      Email = "admin@admin.com",
-      Password = BCrypt.Net.BCrypt.EnhancedHashPassword("password"),
-      ContactNumber = "n/a",
-    };
-    if (!context.Users.Any(u => u.Email == admin.Email))
-    {
-      context.Users.Add(admin);
+        var admin = new User
+        {
+            LastName = "Admin",
+            FirstName = "OMSC",
+            Email = "admin@admin.com",
+            Password = BCrypt.Net.BCrypt.EnhancedHashPassword("password"),
+            ContactNumber = "n/a",
+        };
+        if (!context.Users.Any(u => u.Email == admin.Email))
+        {
+            context.Users.Add(admin);
+        }
+        context.SaveChanges();
     }
-    context.SaveChanges();
-  }
 }

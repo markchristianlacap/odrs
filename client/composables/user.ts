@@ -7,12 +7,15 @@ export function useUser() {
       const { data } = await api.get('/user')
       user.value = data
     }
-    catch {
-      // do nothing
-    }
+    catch {}
+  }
+  async function logout() {
+    await api.post('/logout')
+    user.value = null
   }
   return {
     user,
     fetchUser,
+    logout,
   }
 }

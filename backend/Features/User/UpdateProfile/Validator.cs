@@ -4,10 +4,11 @@ namespace Backend.Features.User.UpdateProfile;
 
 public class Validator : Validator<UpdateProfileReq>
 {
-  public Validator()
-  {
-    RuleFor(x => x.Name).NotEmpty();
-    RuleFor(x => x.Email).NotEmpty().EmailAddress();
-    RuleFor(x => x.ContactNumber).NotEmpty();
-  }
+    public Validator()
+    {
+        RuleFor(x => x.FirstName).NotEmpty();
+        RuleFor(x => x.LastName).NotEmpty();
+        RuleFor(x => x.Email).NotEmpty().EmailAddress();
+        RuleFor(x => x.ContactNumber).NotEmpty();
+    }
 }

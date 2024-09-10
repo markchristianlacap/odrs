@@ -3,12 +3,15 @@ definePageMeta({
   layout: 'home',
 })
 const isSuccess = ref(false)
+const route = useRoute()
 const form = useForm({
-  email: '',
+  token: route.query.token as string || '',
+  password: '',
+  confirmPassword: '',
 })
 async function onSubmit() {
   await form.submit(async () => {
-    await api.post('/forgot-password', form.fields)
+    await api.post('/reset-password', form.fields)
     isSuccess.value = true
   })
 }
@@ -20,10 +23,10 @@ async function onSubmit() {
       <QCardSection>
         <form @submit.prevent="onSubmit">
           <p class="text-xl font-bold">
-            Forgot Password
+            Reset Password
           </p>
           <p class="mb-xl text-primary">
-            Please enter your email and wait for a link to reset your password to be sent.
+            Please enter your new password and login to your account.
           </p>
           <QBanner v-if="isSuccess" class="text-positive border-1 border-green rounded">
             <template #avatar>
@@ -31,17 +34,28 @@ async function onSubmit() {
                 <div class="i-hugeicons:checkmark-circle-01 text-3xl" />
               </QIcon>
             </template>
-            Email successfully sent. Please check your inbox.
+            Password successfully changed. You can now login.
           </QBanner>
           <div v-else>
             <QInput
-              v-model="form.fields.email"
-              label="Email"
-              :error-message="form.getError('email')"
-              :error="form.hasError('email')"
-              placeholder="Type your email"
-              type="email"
-              hint="Must be a valid email address"
+              v-model="form.fields.password"
+              label="New Password"
+              :error-message="form.getError('password')"
+              :error="form.hasError('password')"
+              placeholder="Type your new password"
+              type="password"
+            >
+              <template #prepend>
+                <div class="i-hugeicons:mail-01" />
+              </template>
+            </QInput>
+            <QInput
+              v-model="form.fields.confirmPassword"
+              label="Confirm Password"
+              :error-message="form.getError('confirmPassword')"
+              :error="form.hasError('confirmPassword')"
+              placeholder="Confirm your new password"
+              type="password"
             >
               <template #prepend>
                 <div class="i-hugeicons:mail-01" />
@@ -54,7 +68,7 @@ async function onSubmit() {
                 :loading="form.loading"
                 type="submit"
               >
-                Send Link
+                Confirm
               </QBtn>
             </div>
           </div>

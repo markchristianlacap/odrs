@@ -27,6 +27,14 @@ async function onSubmit() {
           <p class="mb-2xl text-primary">
             Please enter your email and password
           </p>
+          <QBanner v-if="form.hasError('generalErrors')" class="text-negative border-1 border-red rounded">
+            <template #avatar>
+              <QIcon>
+                <div class="i-hugeicons:cancel-circle text-3xl" />
+              </QIcon>
+            </template>
+            {{ form.getError('generalErrors') }}
+          </QBanner>
           <QInput
             v-model="form.fields.email"
             label="Email"

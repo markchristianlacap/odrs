@@ -11,7 +11,7 @@ const { user } = useUser()
             <p class="text-xl">
               Welcome back
               <span class="font-bold">
-                {{ user?.name }}
+                {{ user?.firstName }}
               </span>,
             </p>
             <p class="text-gray-6">

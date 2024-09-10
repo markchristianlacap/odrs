@@ -1,4 +1,5 @@
 using Backend.Database;
+using Backend.Enums;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
 using UserEntity = Backend.Entities.User;
@@ -23,6 +24,7 @@ public class Endpoint : Endpoint<RegisterReq>
             ThrowError(x => x.Email, "Email already exists");
         }
         var user = req.Adapt<UserEntity>();
+        user.Role = Role.Requester;
         user.Password = BCrypt.Net.BCrypt.EnhancedHashPassword(req.Password);
         await Db.Users.AddAsync(user, ct);
         await Db.SaveChangesAsync(ct);

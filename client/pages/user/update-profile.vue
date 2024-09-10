@@ -1,36 +1,41 @@
 <script setup lang="ts">
-definePageMeta({
-  layout: 'home',
-})
+const { user } = useUser()
+const isSuccess = ref(false)
 const form = useForm({
-  firstName: '',
-  lastName: '',
-  middleName: '',
-  extensionName: '',
-  email: '',
-  contactNumber: '',
-  password: '',
-  confirmPassword: '',
-  agree: false,
+  firstName: user.value?.firstName,
+  lastName: user.value?.lastName,
+  middleName: user.value?.middleName,
+  extensionName: user.value?.extensionName,
+  email: user.value?.email,
+  contactNumber: user.value?.contactNumber,
 })
-async function onSubmit() {
-  await form.submit(async () => {
-    await api.post('/register', form.fields)
+function onSubmit() {
+  form.submit(async (fields) => {
+    await api.post('/user/update-profile', fields)
+    isSuccess.value = true
   })
 }
 </script>
 
 <template>
-  <div class="mx-auto mt-5xl max-w-120 w-full">
-    <QCard>
+  <div class="mx-auto mt-xl max-w-xl">
+    <QCard flat bordered>
       <QCardSection>
+        <p class="text-lg font-bold">
+          Update Profile
+        </p>
+        <p class="mb-sm text-primary">
+          Please enter your personal information.
+        </p>
+        <QBanner v-if="isSuccess" class="text-positive border-1 border-green rounded">
+          <template #avatar>
+            <QIcon>
+              <div class="i-hugeicons:checkmark-circle-01 text-3xl" />
+            </QIcon>
+          </template>
+          Profile successfully updated.
+        </QBanner>
         <QForm @submit="onSubmit">
-          <p class="text-xl font-bold">
-            Registration
-          </p>
-          <p class="mb-2xl text-primary">
-            Please enter your personal information and password for registration.
-          </p>
           <QInput
             v-model="form.fields.lastName"
             label="Last Name"
@@ -97,54 +102,14 @@ async function onSubmit() {
             </template>
           </QInput>
 
-          <QInput
-            v-model="form.fields.password"
-            label="Password"
-            :error-message="form.getError('password')"
-            :error="form.hasError('password')"
-            placeholder="Type your password"
-            type="password"
+          <QBtn
+            type="submit"
+            color="primary"
+            :loading="form.loading"
+            class="mt-xl w-full"
           >
-            <template #prepend>
-              <div class="i-hugeicons:square-lock-01" />
-            </template>
-          </QInput>
-          <QInput
-            v-model="form.fields.confirmPassword"
-            label="Confirm Password"
-            :error-message="form.getError('confirmPassword')"
-            :error="form.hasError('confirmPassword')"
-            placeholder="Type your password"
-            type="password"
-          >
-            <template #prepend>
-              <div class="i-hugeicons:square-lock-01" />
-            </template>
-          </QInput>
-          <div>
-            <QCheckbox v-model="form.fields.agree" />
-            I accept the <NuxtLink to="/terms" class="text-primary font-bold">
-              terms of service
-            </NuxtLink> and <NuxtLink to="/privacy" class="text-primary font-bold">
-              privacy policy
-            </NuxtLink>
-          </div>
-          <div class="mt-xl text-right">
-            <QBtn
-              color="primary"
-              class="w-full"
-              :loading="form.loading"
-              type="submit"
-            >
-              Register Now
-            </QBtn>
-          </div>
-          <p class="mb-sm mt-2xl text-center">
-            Already have an account?
-            <NuxtLink to="/login" class="text-primary font-bold">
-              Login now
-            </NuxtLink>
-          </p>
+            Update
+          </QBtn>
         </QForm>
       </QCardSection>
     </QCard>

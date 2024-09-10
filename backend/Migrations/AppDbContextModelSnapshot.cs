@@ -63,11 +63,21 @@ namespace Backend.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<string>("ExtensionName")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("LastName")
                         .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("MiddleName")
                         .HasColumnType("longtext");
 
                     b.Property<string>("Password")

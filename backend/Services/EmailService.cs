@@ -5,16 +5,26 @@ namespace Backend.Services;
 
 public interface IEmailService
 {
-    Task<bool> SendEmail(string emailAddress, string subject, string body);
+    Task<bool> SendEmail(string emailAddress, string subject, string body, bool isHtml = false);
 }
 
 public class EmailService(IConfiguration config) : IEmailService
 {
-    public async Task<bool> SendEmail(string emailAddress, string subject, string body)
+    public async Task<bool> SendEmail(
+        string emailAddress,
+        string subject,
+        string body,
+        bool isHtml = false
+    )
     {
         var to = new MailAddress(emailAddress);
-        var from = new MailAddress(config.GetValue<string>("Email:Username") ?? "");
-        var email = new MailMessage(from, to) { Subject = subject, Body = body };
+        var from = new MailAddress(config.GetValue<string>("Email:From") ?? "");
+        var email = new MailMessage(from, to)
+        {
+            Subject = subject,
+            Body = body,
+            IsBodyHtml = isHtml
+        };
 
         using var smtp = new SmtpClient
         {
