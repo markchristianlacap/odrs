@@ -1,5 +1,7 @@
 using FluentValidation;
+
 namespace Backend.Features.User.Documents.Store;
+
 public class Validator : Validator<DocumentRequestReq>
 {
   public Validator()
@@ -10,8 +12,8 @@ public class Validator : Validator<DocumentRequestReq>
     RuleFor(x => x.LastAttendanceEndYear).NotEmpty();
     RuleFor(x => x.LastAttendanceSemester).NotNull().IsInEnum();
     RuleFor(x => x.LastAttendanceYearLevel).NotNull().IsInEnum();
-    RuleFor(x => x.LastAttendanceSection).NotNull();
-    RuleFor(x => x.Purpose).NotNull();
+    RuleFor(x => x.LastAttendanceSection).NotEmpty();
+    RuleFor(x => x.Purpose).NotEmpty();
     RuleFor(x => x.FirstName).NotEmpty();
     RuleFor(x => x.LastName).NotEmpty();
     RuleFor(x => x.ContactNumber).NotEmpty();
