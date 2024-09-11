@@ -9,12 +9,15 @@ async function onLogout() {
 
 <template>
   <QLayout>
-    <QHeader elevated reveal>
+    <QHeader bordered reveal class="bg-white text-primary">
       <QToolbar>
         <QToolbarTitle>
-          <span class="font-bold">
-            OMSC ODRS
-          </span>
+          <div class="my-2 flex items-center gap-sm">
+            <img class="w-13" src="~/assets/img/odrs-logo.png" alt="ODRS Logo">
+            <span>
+              OMSC ODRS
+            </span>
+          </div>
         </QToolbarTitle>
         <QSpace />
         <div>

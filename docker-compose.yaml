@@ -1,0 +1,11 @@
+services:
+  web:
+    build: .
+    container_name: odrs 
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+      - ./data/storage:/storage
+    restart: unless-stopped
+    ports:
+      - 3400:80

@@ -1,9 +1,10 @@
 export default defineNuxtConfig({
+  ssr: false,
   app: {
     head: {
       charset: 'utf-8',
       viewport: 'width=device-width, initial-scale=1',
-      title: 'ODRS - Occidental Mindoro State College',
+      title: 'Online Document Request System - Occidental Mindoro State College',
     },
   },
   compatibilityDate: '2024-04-03',
