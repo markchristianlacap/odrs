@@ -69,6 +69,10 @@ namespace Backend.Migrations
                         ContactNumber = table
                             .Column<string>(type: "longtext", nullable: false)
                             .Annotation("MySql:CharSet", "utf8mb4"),
+                        Birthdate = table.Column<DateOnly>(type: "date", nullable: false),
+                        Address = table
+                            .Column<string>(type: "longtext", nullable: false)
+                            .Annotation("MySql:CharSet", "utf8mb4"),
                         Password = table
                             .Column<string>(type: "longtext", nullable: false)
                             .Annotation("MySql:CharSet", "utf8mb4"),

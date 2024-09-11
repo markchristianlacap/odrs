@@ -23,7 +23,6 @@ public class Endpoint : Endpoint<ChangePasswordReq>
         }
         if (!BCrypt.Net.BCrypt.EnhancedVerify(req.CurrentPassword, user.Password))
         {
-
             ThrowError(x => x.CurrentPassword, "Incorrect password");
         }
         var hashed = BCrypt.Net.BCrypt.EnhancedHashPassword(req.NewPassword);

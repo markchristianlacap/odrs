@@ -1,7 +1,4 @@
 <script setup lang="ts">
-definePageMeta({
-  layout: 'home',
-})
 const form = useForm({
   email: '',
   password: '',

@@ -21,18 +21,28 @@ async function onLogout() {
           <QBtn flat to="/">
             Home
           </QBtn>
-          <QBtn flat to="/login">
-            Documents
+          <QBtn flat to="/user/documents">
+            Get Documents
           </QBtn>
           <QBtn flat to="/contact-us">
             Contact Us
           </QBtn>
-          <QBtnDropdown flat no-caps>
+          <QBtnDropdown v-if="user" flat no-caps>
             <template #label>
               <span class="i-hugeicons:user-circle mr-sm text-lg" />
               <span>{{ user?.firstName }}</span>
             </template>
             <QList>
+              <QItem clickable to="/user">
+                <QItemSection avatar>
+                  <QIcon>
+                    <div class="i-hugeicons:user-circle" />
+                  </QIcon>
+                </QItemSection>
+                <QItemSection>
+                  Dashboard
+                </QItemSection>
+              </QItem>
               <QItem clickable to="/user/update-profile">
                 <QItemSection avatar>
                   <QIcon>
@@ -43,7 +53,6 @@ async function onLogout() {
                   Update Profile
                 </QItemSection>
               </QItem>
-
               <QItem clickable to="/user/change-password">
                 <QItemSection avatar>
                   <QIcon>

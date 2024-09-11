@@ -5,6 +5,6 @@
   ],
   "scripts": {
     "dev": "pnpm --filter client dev",
-    "watch": "dotnet watch --project backend"
+    "watch": "dotnet watch --project backend --no-hot-reload"
   }
 }

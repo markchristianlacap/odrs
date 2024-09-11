@@ -10,5 +10,7 @@ public class Validator : Validator<UpdateProfileReq>
         RuleFor(x => x.LastName).NotEmpty();
         RuleFor(x => x.Email).NotEmpty().EmailAddress();
         RuleFor(x => x.ContactNumber).NotEmpty();
+        RuleFor(x => x.Birthdate).NotEmpty();
+        RuleFor(x => x.Address).NotEmpty();
     }
 }

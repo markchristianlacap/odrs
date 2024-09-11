@@ -26,7 +26,11 @@ public class Endpoint : Endpoint<LoginReq>
                 x.Role,
             })
             .FirstOrDefaultAsync(ct);
-        var incorrectPassword = !BCrypt.Net.BCrypt.EnhancedVerify(req?.Password, user?.Password);
+        if (user == null)
+        {
+            ThrowError("Incorrect email or password");
+        }
+        var incorrectPassword = !BCrypt.Net.BCrypt.EnhancedVerify(req.Password, user.Password);
         if (incorrectPassword || user == null)
         {
             ThrowError("Incorrect email or password");

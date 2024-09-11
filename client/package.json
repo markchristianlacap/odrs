@@ -21,11 +21,11 @@
     "nuxt": "^3.13.1",
     "nuxt-quasar-ui": "^2.1.4",
     "quasar": "^2.16.11",
-    "vue": "^3.5.3",
+    "vue": "^3.5.4",
     "vuetify-nuxt-module": "^0.18.2"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^3.5.0",
+    "@antfu/eslint-config": "^3.5.1",
     "@iconify-json/hugeicons": "^1.2.0",
     "@nuxt/eslint": "^0.5.6",
     "@unocss/eslint-plugin": "^0.62.3",

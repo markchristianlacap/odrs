@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { user } = useUser()
+const { user, fetchUser } = useUser()
 const isSuccess = ref(false)
 const form = useForm({
   firstName: user.value?.firstName,
@@ -8,11 +8,14 @@ const form = useForm({
   extensionName: user.value?.extensionName,
   email: user.value?.email,
   contactNumber: user.value?.contactNumber,
+  birthdate: user.value?.birthdate,
+  address: user.value?.address,
 })
 function onSubmit() {
   form.submit(async (fields) => {
     await api.post('/user/update-profile', fields)
     isSuccess.value = true
+    await fetchUser()
   })
 }
 </script>
@@ -90,18 +93,42 @@ function onSubmit() {
               <div class="i-hugeicons:mail-01" />
             </template>
           </QInput>
+          <div class="grid grid-cols-2 gap-2">
+            <QInput
+              v-model="form.fields.contactNumber"
+              label="Contact Number"
+              :error-message="form.getError('contactNumber')"
+              :error="form.hasError('contactNumber')"
+              placeholder="Type your contact number"
+            >
+              <template #prepend>
+                <div class="i-hugeicons:call" />
+              </template>
+            </QInput>
+            <QInput
+              v-model="form.fields.birthdate"
+              label="Birthdate"
+              type="date"
+              :error-message="form.getError('birthdate')"
+              :error="form.hasError('birthdate')"
+            >
+              <template #prepend>
+                <div class="i-hugeicons:calendar-01" />
+              </template>
+            </QInput>
+          </div>
           <QInput
-            v-model="form.fields.contactNumber"
-            label="Contact Number"
-            :error-message="form.getError('contactNumber')"
-            :error="form.hasError('contactNumber')"
-            placeholder="Type your contact number"
+            v-model="form.fields.address"
+            label="Address"
+            :error-message="form.getError('address')"
+            :error="form.hasError('address')"
+            placeholder="Type your address"
+            type="textarea"
           >
             <template #prepend>
-              <div class="i-hugeicons:call" />
+              <div class="i-hugeicons:location-01" />
             </template>
           </QInput>
-
           <QBtn
             type="submit"
             color="primary"

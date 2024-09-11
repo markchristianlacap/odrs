@@ -52,6 +52,13 @@ namespace Backend.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateOnly>("Birthdate")
+                        .HasColumnType("date");
+
                     b.Property<string>("ContactNumber")
                         .IsRequired()
                         .HasColumnType("longtext");

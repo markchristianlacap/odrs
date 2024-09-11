@@ -10,20 +10,21 @@ public class AppDbContext(
     AuditInterceptor? auditInterceptor = null
 ) : DbContext(options)
 {
-    private readonly AuditInterceptor? _auditInterceptor = auditInterceptor;
+  private readonly AuditInterceptor? _auditInterceptor = auditInterceptor;
 
-    protected override void OnModelCreating(ModelBuilder builder)
-    {
-        base.OnModelCreating(builder);
-        builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-    }
+  protected override void OnModelCreating(ModelBuilder builder)
+  {
+    base.OnModelCreating(builder);
+    builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+  }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        if (_auditInterceptor != null)
-            optionsBuilder.AddInterceptors(_auditInterceptor);
-    }
+  protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+  {
+    if (_auditInterceptor != null)
+      optionsBuilder.AddInterceptors(_auditInterceptor);
+  }
 
-    public DbSet<User> Users { get; set; } = null!;
-    public DbSet<ResetPassword> ResetPasswords { get; set; } = null!;
+  public DbSet<User> Users { get; set; } = null!;
+  public DbSet<ResetPassword> ResetPasswords { get; set; } = null!;
+  public DbSet<DocumentRequest> DocumentRequests { get; set; } = null!;
 }

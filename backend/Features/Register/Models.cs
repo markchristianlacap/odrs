@@ -8,6 +8,8 @@ public class RegisterReq
     public string? ExtensionName { get; set; }
     public string Email { get; set; } = null!;
     public string ContactNumber { get; set; } = null!;
+    public DateOnly? Birthdate { get; set; } = null;
+    public string Address { get; set; } = null!;
     public string Password { get; set; } = null!;
     public string ConfirmPassword { get; set; } = null!;
 }

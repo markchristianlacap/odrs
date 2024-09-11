@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Backend.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240910061040_InitialMigration")]
+    [Migration("20240911065716_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -54,6 +54,13 @@ namespace Backend.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateOnly>("Birthdate")
+                        .HasColumnType("date");
 
                     b.Property<string>("ContactNumber")
                         .IsRequired()
