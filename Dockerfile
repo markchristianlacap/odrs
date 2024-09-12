@@ -15,7 +15,7 @@ COPY ./pnpm-lock.yaml ./pnpm-workspace.yaml ./package.json ./
 RUN --mount=type=cache,id=pnpm-store,target=/root/.pnpm-store \
   pnpm install --frozen-lockfile
 COPY client client
-RUN pnpm --filter client genarate 
+RUN pnpm --filter client generate 
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0-alpine
 RUN apk add --no-cache icu-libs tzdata msttcorefonts-installer fontconfig && \
