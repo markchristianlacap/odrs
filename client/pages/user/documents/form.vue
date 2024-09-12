@@ -75,18 +75,6 @@ onMounted(() => {
           There's an error please check all the highlighted fields.
         </QBanner>
         <p class="mt-xl font-bold">
-          Copy type:
-        </p>
-        <QRadio
-          v-for="copyType in copyTypes"
-          :key="copyType.value"
-          v-model="form.fields.copyType"
-          :val="copyType.value"
-          :label="copyType.label"
-          :color="form.hasError('copyType') ? 'negative' : 'primary'"
-          keep-color
-        />
-        <p class="mt-xl font-bold">
           Select document you want to request:
         </p>
         <QRadio
@@ -98,27 +86,6 @@ onMounted(() => {
           :val="documentType.value"
           :label="documentType.label"
         />
-        <div class="mt-xl flex items-center gap-sm">
-          <p class="font-bold">
-            Status
-          </p>
-          <div>
-            <QRadio
-              v-model="form.fields.isGraduate" :val="true"
-              label="Graduated"
-              :color="form.hasError('isGraduate') ? 'negative' : 'primary'"
-              keep-color
-            />
-          </div>
-          <div>
-            <QRadio
-              v-model="form.fields.isGraduate"
-              :color="form.hasError('isGraduate') ? 'negative' : 'primary'"
-              keep-color :val="false"
-              label="Not Graduated"
-            />
-          </div>
-        </div>
         <div class="mt-xl">
           <p class="font-bold">
             Last Attendance:
