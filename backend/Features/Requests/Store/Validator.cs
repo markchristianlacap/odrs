@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace Backend.Features.User.Documents.Store;
+namespace Backend.Features.Requests.Store;
 
 public class Validator : Validator<DocumentRequestReq>
 {
@@ -17,7 +17,7 @@ public class Validator : Validator<DocumentRequestReq>
         RuleFor(x => x.FirstName).NotEmpty();
         RuleFor(x => x.LastName).NotEmpty();
         RuleFor(x => x.ContactNumber).NotEmpty();
-        RuleFor(x => x.Birthdate).NotEmpty();
+        RuleFor(x => x.Birthdate).NotNull();
         RuleFor(x => x.Address).NotEmpty();
         RuleFor(x => x.IsGraduate).NotNull();
         RuleFor(x => x.Email).NotEmpty().EmailAddress();

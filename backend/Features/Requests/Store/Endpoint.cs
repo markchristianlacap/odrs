@@ -3,7 +3,7 @@ using Backend.Entities;
 using Backend.Services;
 using Mapster;
 
-namespace Backend.Features.User.Documents.Store;
+namespace Backend.Features.Requests.Store;
 
 public class Endpoint : Endpoint<DocumentRequestReq>
 {
@@ -12,7 +12,8 @@ public class Endpoint : Endpoint<DocumentRequestReq>
 
     public override void Configure()
     {
-        Post("/user/documents");
+        Post("/requests");
+        AllowAnonymous();
     }
 
     public override async Task HandleAsync(DocumentRequestReq req, CancellationToken ct)

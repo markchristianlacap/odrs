@@ -1,6 +1,6 @@
 ﻿using Backend.Enums;
 
-namespace Backend.Features.User.Documents;
+namespace Backend.Features.Requests;
 
 public class DocumentRequestModel
 {
@@ -13,7 +13,7 @@ public class DocumentRequestModel
     public string? ExtensionName { get; set; }
     public string Email { get; set; } = null!;
     public string ContactNumber { get; set; } = null!;
-    public DateOnly Birthdate { get; set; }
+    public DateOnly? Birthdate { get; set; }
     public string Address { get; set; } = null!;
     public string Purpose { get; set; } = null!;
     public int? LastAttendanceStartYear { get; set; }

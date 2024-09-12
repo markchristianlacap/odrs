@@ -3,14 +3,12 @@ import type { DocumentType } from '~/enums/document-type'
 import type { CopyType } from '~/enums/request-type'
 import type { Semester } from '~/enums/semester'
 import type { YearLevel } from '~/enums/year-level'
-import { copyTypes } from '~/options/copy-types'
 import { documentTypes } from '~/options/document-types'
 import { semesters } from '~/options/semesters'
 import { yearLevels } from '~/options/year-levels'
 
 const campuses = useRequest(() => api.get('/options/campuses').then(r => r.data))
 const courses = useRequest(() => api.get('/options/courses').then(r => r.data))
-const { user } = useUser()
 const form = useForm({
   documentType: null as DocumentType | null,
   copyType: null as CopyType | null,
@@ -19,7 +17,7 @@ const form = useForm({
   middleName: '' as string | undefined,
   extensionName: '' as string | undefined,
   contactNumber: '',
-  birthdate: '',
+  birthdate: null,
   address: '',
   purpose: '',
   lastAttendanceStartYear: null as number | null,
@@ -33,21 +31,12 @@ const form = useForm({
 })
 function onSubmit() {
   form.submit(async (fields) => {
-    await api.post('/user/documents', fields)
+    await api.post('/requests', fields)
   })
 }
 onMounted(() => {
   campuses.submit()
   courses.submit()
-  if (!user.value)
-    return
-  form.fields.lastName = user.value.lastName
-  form.fields.firstName = user.value.firstName
-  form.fields.middleName = user.value.middleName
-  form.fields.extensionName = user.value.extensionName
-  form.fields.contactNumber = user.value.contactNumber
-  form.fields.birthdate = user.value.birthdate
-  form.fields.address = user.value.address
 })
 </script>
 

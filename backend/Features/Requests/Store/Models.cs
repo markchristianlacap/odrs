@@ -1,3 +1,2 @@
-﻿namespace Backend.Features.User.Documents.Store;
-
+﻿namespace Backend.Features.Requests.Store;
 public class DocumentRequestReq : DocumentRequestModel { }
