@@ -32,7 +32,7 @@
                 Tuesday - Thursday 8:00 am - 5:00 pm
               </li>
             </ul>
-            <QBtn label="Get Started" color="primary" to="/login" class="mt-sm" />
+            <QBtn label="Get Started" color="primary" to="/requests/form" class="mt-sm" />
           </div>
         </div>
       </div>

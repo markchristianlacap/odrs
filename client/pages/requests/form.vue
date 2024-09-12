@@ -117,6 +117,7 @@ onMounted(() => {
               </p>
               <QInput
                 v-model="form.fields.lastAttendanceStartYear"
+                class="max-w-40"
                 label="Start Year"
                 type="number"
                 hide-bottom-space
@@ -127,6 +128,7 @@ onMounted(() => {
               </p>
               <QInput
                 v-model="form.fields.lastAttendanceEndYear"
+                class="max-w-40"
                 :error="form.hasError('lastAttendanceEndYear')"
                 label="End Year"
                 hide-bottom-space
@@ -193,7 +195,7 @@ onMounted(() => {
         />
         <QExpansionItem
           label="Personal Information"
-          caption="You can edit your Personal Information for this request here." icon="person"
+          caption="You can edit your Personal Information for this request here." icon="person" :model-value="true"
           header-class="text-primary font-bold bg-blue-1 rounded-xl border-1 border-blue-2"
         >
           <QCard flat>
@@ -248,8 +250,7 @@ onMounted(() => {
           </QCard>
         </QExpansionItem>
 
-        <div class="grid grid-cols-2 my-2xl gap-sm">
-          <QBtn label="Back to Dashboard" color="primary" to="/user" outline icon="arrow_back" />
+        <div class="grid my-2xl gap-sm">
           <QBtn
             color="primary"
             class="w-full"

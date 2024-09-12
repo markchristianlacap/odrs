@@ -75,12 +75,6 @@ async function onSubmit() {
               Login Now
             </QBtn>
           </div>
-          <p class="mb-sm mt-xl text-center">
-            Don't have an account?
-            <NuxtLink to="/register" class="text-primary font-bold">
-              Signup now
-            </NuxtLink>
-          </p>
         </form>
       </QCardSection>
     </QCard>

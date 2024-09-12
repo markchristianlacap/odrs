@@ -24,8 +24,8 @@ async function onLogout() {
           <QBtn flat to="/">
             Home
           </QBtn>
-          <QBtn flat to="/user/documents">
-            Get Documents
+          <QBtn flat to="/requests/form">
+            Request Documents
           </QBtn>
           <QBtn flat to="/contact-us">
             Contact Us

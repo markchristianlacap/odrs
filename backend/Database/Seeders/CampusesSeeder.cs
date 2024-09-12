@@ -10,10 +10,6 @@ public static class CampusesSeeder
         {
             new() { Name = "Main", },
             new() { Name = "San Jose", },
-            new() { Name = "Murtha", },
-            new() { Name = "Sablayan", },
-            new() { Name = "Mamburao", },
-            new() { Name = "Lubang", },
         };
         foreach (var campus in campuses)
         {

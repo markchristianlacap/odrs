@@ -20,7 +20,7 @@ const { user } = useUser()
           </div>
           <div class="flex flex-col gap-sm">
             <QBtn label="Open Documents" color="primary" to="/user/documents" />
-            <QBtn label="New Request" color="primary" outline to="/user/documents/form" />
+            <!-- <QBtn label="New Request" color="primary" outline to="/user/documents/form" /> -->
           </div>
         </div>
       </QCardSection>
@@ -29,7 +29,7 @@ const { user } = useUser()
     <QCard flat bordered class="mt-xl">
       <QCardSection>
         <p class="text-lg font-bold">
-          Recent Documents
+          Recent Requests
         </p>
         <QMarkupTable flat>
           <thead>
