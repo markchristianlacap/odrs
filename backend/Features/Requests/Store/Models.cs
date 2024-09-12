@@ -1,2 +1,2 @@
 ﻿namespace Backend.Features.Requests.Store;
-public class DocumentRequestReq : DocumentRequestModel { }
+public class RequestReq : RequestModel { }

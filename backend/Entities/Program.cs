@@ -2,7 +2,7 @@
 
 namespace Backend.Entities;
 
-public class Course : AuditEntity
+public class Program : AuditEntity
 {
     public string Name { get; set; } = null!;
 }

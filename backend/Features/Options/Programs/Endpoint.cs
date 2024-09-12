@@ -2,19 +2,19 @@
 using Mapster;
 using Microsoft.EntityFrameworkCore;
 
-namespace Backend.Features.Options.Courses;
+namespace Backend.Features.Options.Programs;
 public class Endpoint : EndpointWithoutRequest
 {
     public AppDbContext Db { get; set; } = null!;
     public override void Configure()
     {
-        Get("/options/courses");
+        Get("/options/programs");
     }
     public override async Task HandleAsync(CancellationToken ct)
     {
         var res = await Db
-            .Courses
-            .ProjectToType<CourseOptionRes>()
+            .Programs
+            .ProjectToType<ProgramOptionsRes>()
             .ToListAsync(ct);
         Response = res;
     }

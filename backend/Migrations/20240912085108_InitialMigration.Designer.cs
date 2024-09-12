@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Backend.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240912025604_InitialMigration")]
+    [Migration("20240912085108_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -56,7 +56,7 @@ namespace Backend.Migrations
                     b.ToTable("Campuses");
                 });
 
-            modelBuilder.Entity("Backend.Entities.Course", b =>
+            modelBuilder.Entity("Backend.Entities.Program", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -84,10 +84,10 @@ namespace Backend.Migrations
 
                     b.HasIndex("UpdatedById");
 
-                    b.ToTable("Courses");
+                    b.ToTable("Programs");
                 });
 
-            modelBuilder.Entity("Backend.Entities.DocumentRequest", b =>
+            modelBuilder.Entity("Backend.Entities.Request", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -100,18 +100,15 @@ namespace Backend.Migrations
                     b.Property<DateOnly>("Birthdate")
                         .HasColumnType("date");
 
+                    b.Property<Guid>("CampusId")
+                        .HasColumnType("char(36)");
+
                     b.Property<string>("ContactNumber")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("CopyType")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
-
-                    b.Property<Guid?>("CreatedById")
-                        .HasColumnType("char(36)");
 
                     b.Property<int>("DocumentType")
                         .HasColumnType("int");
@@ -127,23 +124,10 @@ namespace Backend.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<bool>("IsGraduate")
-                        .HasColumnType("tinyint(1)");
-
                     b.Property<int>("LastAttendanceEndYear")
                         .HasColumnType("int");
 
-                    b.Property<string>("LastAttendanceSection")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<int>("LastAttendanceSemester")
-                        .HasColumnType("int");
-
                     b.Property<int>("LastAttendanceStartYear")
-                        .HasColumnType("int");
-
-                    b.Property<int>("LastAttendanceYearLevel")
                         .HasColumnType("int");
 
                     b.Property<string>("LastName")
@@ -153,28 +137,40 @@ namespace Backend.Migrations
                     b.Property<string>("MiddleName")
                         .HasColumnType("longtext");
 
+                    b.Property<Guid>("ProgramId")
+                        .HasColumnType("char(36)");
+
                     b.Property<string>("Purpose")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<Guid>("RequestById")
-                        .HasColumnType("char(36)");
+                    b.Property<int>("RequesterType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Section")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("Semester")
+                        .HasColumnType("int");
+
+                    b.Property<string>("StudentNumber")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<Guid?>("UpdatedById")
-                        .HasColumnType("char(36)");
+                    b.Property<int>("YearLevel")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CreatedById");
+                    b.HasIndex("CampusId");
 
-                    b.HasIndex("RequestById");
+                    b.HasIndex("ProgramId");
 
-                    b.HasIndex("UpdatedById");
-
-                    b.ToTable("DocumentRequests");
+                    b.ToTable("Requests");
                 });
 
             modelBuilder.Entity("Backend.Entities.ResetPassword", b =>
@@ -272,7 +268,7 @@ namespace Backend.Migrations
                     b.Navigation("UpdatedBy");
                 });
 
-            modelBuilder.Entity("Backend.Entities.Course", b =>
+            modelBuilder.Entity("Backend.Entities.Program", b =>
                 {
                     b.HasOne("Backend.Entities.User", "CreatedBy")
                         .WithMany()
@@ -287,27 +283,23 @@ namespace Backend.Migrations
                     b.Navigation("UpdatedBy");
                 });
 
-            modelBuilder.Entity("Backend.Entities.DocumentRequest", b =>
+            modelBuilder.Entity("Backend.Entities.Request", b =>
                 {
-                    b.HasOne("Backend.Entities.User", "CreatedBy")
+                    b.HasOne("Backend.Entities.Campus", "Campus")
                         .WithMany()
-                        .HasForeignKey("CreatedById");
-
-                    b.HasOne("Backend.Entities.User", "RequestBy")
-                        .WithMany()
-                        .HasForeignKey("RequestById")
+                        .HasForeignKey("CampusId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Backend.Entities.User", "UpdatedBy")
+                    b.HasOne("Backend.Entities.Program", "Program")
                         .WithMany()
-                        .HasForeignKey("UpdatedById");
+                        .HasForeignKey("ProgramId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("CreatedBy");
+                    b.Navigation("Campus");
 
-                    b.Navigation("RequestBy");
-
-                    b.Navigation("UpdatedBy");
+                    b.Navigation("Program");
                 });
 #pragma warning restore 612, 618
         }

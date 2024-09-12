@@ -93,7 +93,7 @@ namespace Backend.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Courses",
+                name: "Programs",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
@@ -106,14 +106,14 @@ namespace Backend.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Courses", x => x.Id);
+                    table.PrimaryKey("PK_Programs", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Courses_Users_CreatedById",
+                        name: "FK_Programs_Users_CreatedById",
                         column: x => x.CreatedById,
                         principalTable: "Users",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Courses_Users_UpdatedById",
+                        name: "FK_Programs_Users_UpdatedById",
                         column: x => x.UpdatedById,
                         principalTable: "Users",
                         principalColumn: "Id");
@@ -121,13 +121,14 @@ namespace Backend.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "DocumentRequests",
+                name: "Requests",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    CopyType = table.Column<int>(type: "int", nullable: false),
                     DocumentType = table.Column<int>(type: "int", nullable: false),
-                    RequestById = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Email = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    RequesterType = table.Column<int>(type: "int", nullable: false),
                     FirstName = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     LastName = table.Column<string>(type: "longtext", nullable: false)
@@ -136,7 +137,7 @@ namespace Backend.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     ExtensionName = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Email = table.Column<string>(type: "longtext", nullable: false)
+                    StudentNumber = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     ContactNumber = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -147,35 +148,30 @@ namespace Backend.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     LastAttendanceStartYear = table.Column<int>(type: "int", nullable: false),
                     LastAttendanceEndYear = table.Column<int>(type: "int", nullable: false),
-                    LastAttendanceSemester = table.Column<int>(type: "int", nullable: false),
-                    LastAttendanceYearLevel = table.Column<int>(type: "int", nullable: false),
-                    LastAttendanceSection = table.Column<string>(type: "longtext", nullable: false)
+                    Semester = table.Column<int>(type: "int", nullable: false),
+                    YearLevel = table.Column<int>(type: "int", nullable: false),
+                    Section = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    IsGraduate = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    ProgramId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    CampusId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    CreatedById = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
-                    UpdatedById = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci")
+                    UpdatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DocumentRequests", x => x.Id);
+                    table.PrimaryKey("PK_Requests", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_DocumentRequests_Users_CreatedById",
-                        column: x => x.CreatedById,
-                        principalTable: "Users",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_DocumentRequests_Users_RequestById",
-                        column: x => x.RequestById,
-                        principalTable: "Users",
+                        name: "FK_Requests_Campuses_CampusId",
+                        column: x => x.CampusId,
+                        principalTable: "Campuses",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_DocumentRequests_Users_UpdatedById",
-                        column: x => x.UpdatedById,
-                        principalTable: "Users",
-                        principalColumn: "Id");
+                        name: "FK_Requests_Programs_ProgramId",
+                        column: x => x.ProgramId,
+                        principalTable: "Programs",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -190,45 +186,40 @@ namespace Backend.Migrations
                 column: "UpdatedById");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Courses_CreatedById",
-                table: "Courses",
+                name: "IX_Programs_CreatedById",
+                table: "Programs",
                 column: "CreatedById");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Courses_UpdatedById",
-                table: "Courses",
+                name: "IX_Programs_UpdatedById",
+                table: "Programs",
                 column: "UpdatedById");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DocumentRequests_CreatedById",
-                table: "DocumentRequests",
-                column: "CreatedById");
+                name: "IX_Requests_CampusId",
+                table: "Requests",
+                column: "CampusId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DocumentRequests_RequestById",
-                table: "DocumentRequests",
-                column: "RequestById");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_DocumentRequests_UpdatedById",
-                table: "DocumentRequests",
-                column: "UpdatedById");
+                name: "IX_Requests_ProgramId",
+                table: "Requests",
+                column: "ProgramId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Campuses");
-
-            migrationBuilder.DropTable(
-                name: "Courses");
-
-            migrationBuilder.DropTable(
-                name: "DocumentRequests");
+                name: "Requests");
 
             migrationBuilder.DropTable(
                 name: "ResetPasswords");
+
+            migrationBuilder.DropTable(
+                name: "Campuses");
+
+            migrationBuilder.DropTable(
+                name: "Programs");
 
             migrationBuilder.DropTable(
                 name: "Users");

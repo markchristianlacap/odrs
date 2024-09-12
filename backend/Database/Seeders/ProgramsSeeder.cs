@@ -1,12 +1,10 @@
-﻿using Backend.Entities;
+﻿namespace Backend.Database.Seeders;
 
-namespace Backend.Database.Seeders;
-
-public static class CoursesSeeder
+public static class ProgramsSeeder
 {
     public static void Seed(AppDbContext context)
     {
-        var courses = new List<Course>
+        var courses = new List<Entities.Program>
         {
             new() { Name = "Bachelor in Human Services", },
             new() { Name = "Bachelor of Agriculture Technology", },
@@ -43,9 +41,9 @@ public static class CoursesSeeder
 
         foreach (var course in courses)
         {
-            if (!context.Courses.Any(c => c.Name == course.Name))
+            if (!context.Programs.Any(c => c.Name == course.Name))
             {
-                context.Courses.Add(course);
+                context.Programs.Add(course);
             }
         }
         context.SaveChanges();

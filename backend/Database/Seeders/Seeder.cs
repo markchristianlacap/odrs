@@ -6,6 +6,6 @@ public static class Seeder
     {
         UsersSeeder.Seed(context);
         CampusesSeeder.Seed(context);
-        CoursesSeeder.Seed(context);
+        ProgramsSeeder.Seed(context);
     }
 }

@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { DocumentType } from '~/enums/document-type'
-import type { CopyType } from '~/enums/request-type'
 import type { Semester } from '~/enums/semester'
 import type { YearLevel } from '~/enums/year-level'
 import { documentTypes } from '~/options/document-types'
@@ -8,10 +7,9 @@ import { semesters } from '~/options/semesters'
 import { yearLevels } from '~/options/year-levels'
 
 const campuses = useRequest(() => api.get('/options/campuses').then(r => r.data))
-const courses = useRequest(() => api.get('/options/courses').then(r => r.data))
+const programs = useRequest(() => api.get('/options/programs').then(r => r.data))
 const form = useForm({
   documentType: null as DocumentType | null,
-  copyType: null as CopyType | null,
   lastName: '',
   firstName: '',
   middleName: '' as string | undefined,
@@ -22,11 +20,11 @@ const form = useForm({
   purpose: '',
   lastAttendanceStartYear: null as number | null,
   lastAttendanceEndYear: null as number | null,
-  lastAttendanceSemester: null as Semester | null,
-  lastAttendanceYearLevel: null as YearLevel | null,
-  lastAttendanceSection: '',
-  lastAttendanceCampusId: null as string | null,
-  lastAttendanceCourseId: null as string | null,
+  yearLevel: null as YearLevel | null,
+  semester: null as Semester | null,
+  section: '',
+  campusId: null as string | null,
+  programId: null as string | null,
   isGraduate: null as boolean | null,
 })
 function onSubmit() {
@@ -36,7 +34,7 @@ function onSubmit() {
 }
 onMounted(() => {
   campuses.submit()
-  courses.submit()
+  programs.submit()
 })
 </script>
 
@@ -81,7 +79,7 @@ onMounted(() => {
           </p>
           <div class="grid gap-sm lg:grid-cols-2">
             <QSelect
-              v-model="form.fields.lastAttendanceCampusId"
+              v-model="form.fields.campusId"
               :options="campuses.response"
               option-value="id"
               option-label="name"
@@ -91,8 +89,8 @@ onMounted(() => {
               :error="form.hasError('lastAttendanceCampusId')"
             />
             <QSelect
-              v-model="form.fields.lastAttendanceCourseId"
-              :options="courses.response"
+              v-model="form.fields.programId"
+              :options="programs.response"
               option-value="id"
               option-label="name"
               emit-value
@@ -144,7 +142,7 @@ onMounted(() => {
                 Year Level
               </p>
               <QSelect
-                v-model="form.fields.lastAttendanceYearLevel"
+                v-model="form.fields.yearLevel"
                 label="Select your last year level"
                 class="flex-1"
                 :error="form.hasError('lastAttendanceYearLevel')"
@@ -162,7 +160,7 @@ onMounted(() => {
                 Section
               </p>
               <QInput
-                v-model="form.fields.lastAttendanceSection"
+                v-model="form.fields.section"
                 hide-bottom-space
                 class="flex-1"
                 label="Enter your last section"
