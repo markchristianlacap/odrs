@@ -1,14 +1,12 @@
-using Backend.Entities.Common;
+﻿using Backend.Entities.Common;
 using Backend.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace Backend.Database.Interceptors;
 
-public class AuditInterceptor(IDateTimeService dateTime) : SaveChangesInterceptor
+public class AuditInterceptor(IUserService userService) : SaveChangesInterceptor
 {
-    private readonly IDateTimeService _date = dateTime;
-
     public override InterceptionResult<int> SavingChanges(
         DbContextEventData eventData,
         InterceptionResult<int> result
@@ -35,15 +33,15 @@ public class AuditInterceptor(IDateTimeService dateTime) : SaveChangesIntercepto
         if (context == null)
             return;
         // base entity
-        foreach (var entry in context.ChangeTracker.Entries<BaseEntity>())
+        foreach (var entry in context.ChangeTracker.Entries<AuditEntity>())
         {
-            if (entry.State == EntityState.Added)
+            if (entry.State == EntityState.Added && userService.UserId != null)
             {
-                entry.Entity.CreatedAt = _date.Now;
+                entry.Entity.CreatedById = userService.UserId.Value;
             }
-            else if (entry.State == EntityState.Modified)
+            else if (entry.State == EntityState.Modified && userService.UserId != null)
             {
-                entry.Entity.UpdatedAt = _date.Now;
+                entry.Entity.UpdatedById = userService.UserId.Value;
             }
         }
     }

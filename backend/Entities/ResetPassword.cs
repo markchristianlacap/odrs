@@ -1,4 +1,4 @@
-namespace Backend.Entities;
+﻿namespace Backend.Entities;
 
 public class ResetPassword
 {

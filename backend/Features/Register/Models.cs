@@ -1,4 +1,4 @@
-namespace Backend.Features.Register;
+﻿namespace Backend.Features.Register;
 
 public class RegisterReq
 {

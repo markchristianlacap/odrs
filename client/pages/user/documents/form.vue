@@ -8,6 +8,8 @@ import { documentTypes } from '~/options/document-types'
 import { semesters } from '~/options/semesters'
 import { yearLevels } from '~/options/year-levels'
 
+const campuses = useRequest(() => api.get('/options/campuses').then(r => r.data))
+const courses = useRequest(() => api.get('/options/courses').then(r => r.data))
 const { user } = useUser()
 const form = useForm({
   documentType: null as DocumentType | null,
@@ -25,6 +27,8 @@ const form = useForm({
   lastAttendanceSemester: null as Semester | null,
   lastAttendanceYearLevel: null as YearLevel | null,
   lastAttendanceSection: '',
+  lastAttendanceCampusId: null as string | null,
+  lastAttendanceCourseId: null as string | null,
   isGraduate: null as boolean | null,
 })
 function onSubmit() {
@@ -33,6 +37,8 @@ function onSubmit() {
   })
 }
 onMounted(() => {
+  campuses.submit()
+  courses.submit()
   if (!user.value)
     return
   form.fields.lastName = user.value.lastName
@@ -60,6 +66,14 @@ onMounted(() => {
           <b>Reminder:</b>
           Make sure your provided information is correct before submitting the request.
         </p>
+        <QBanner v-if="form.hasErrors()" class="text-negative mt-xl border-1 border-red rounded">
+          <template #avatar>
+            <QIcon>
+              <div class="i-hugeicons:cancel-circle text-3xl" />
+            </QIcon>
+          </template>
+          There's an error please check all the highlighted fields.
+        </QBanner>
         <p class="mt-xl font-bold">
           Copy type:
         </p>
@@ -109,7 +123,27 @@ onMounted(() => {
           <p class="font-bold">
             Last Attendance:
           </p>
-          <div class="grid grid-cols-2 gap-sm">
+          <div class="grid gap-sm lg:grid-cols-2">
+            <QSelect
+              v-model="form.fields.lastAttendanceCampusId"
+              :options="campuses.response"
+              option-value="id"
+              option-label="name"
+              emit-value
+              map-options
+              label="Select Campus"
+              :error="form.hasError('lastAttendanceCampusId')"
+            />
+            <QSelect
+              v-model="form.fields.lastAttendanceCourseId"
+              :options="courses.response"
+              option-value="id"
+              option-label="name"
+              emit-value
+              map-options
+              label="Select Course"
+              :error="form.hasError('lastAttendanceCourseId')"
+            />
             <div class="flex items-center gap-2">
               <p class="mr-sm">
                 Academic Year

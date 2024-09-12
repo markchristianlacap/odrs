@@ -1,4 +1,4 @@
-using Backend.Database;
+﻿using Backend.Database;
 using FastEndpoints.Security;
 
 namespace Backend.Features.Logout;

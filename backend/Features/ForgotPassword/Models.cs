@@ -1,4 +1,4 @@
-namespace Backend.Features.ForgotPassword;
+﻿namespace Backend.Features.ForgotPassword;
 
 public class ForgotPasswordReq
 {

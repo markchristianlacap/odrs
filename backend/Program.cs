@@ -1,4 +1,4 @@
-global using FastEndpoints;
+﻿global using FastEndpoints;
 using System.Text.Json;
 using Backend.Database;
 using Backend.Database.Interceptors;
@@ -19,9 +19,9 @@ bld.Services.AddDbContext<AppDbContext>(options =>
 );
 
 bld.Services.AddSingleton<IDateTimeService, DateTimeService>();
-bld.Services.AddScoped<IUserService, UserService>();
+bld.Services.AddSingleton<IUserService, UserService>();
+bld.Services.AddSingleton<AuditInterceptor>();
 bld.Services.AddSingleton<IEmailService, EmailService>();
-bld.Services.AddScoped<AuditInterceptor>();
 bld.Services.AddSpaStaticFiles(o => o.RootPath = "dist");
 bld.Services.AddDataProtection()
     .PersistKeysToFileSystem(new DirectoryInfo(directory))

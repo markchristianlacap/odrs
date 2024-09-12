@@ -1,4 +1,4 @@
-namespace Backend.Enums;
+﻿namespace Backend.Enums;
 
 public enum CopyType
 {

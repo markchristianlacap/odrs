@@ -31,5 +31,8 @@ export function useForm<T = any>(fields: T) {
     hasError(field: keyof ErrorResponse<T>) {
       return !!this.getError(field)
     },
+    hasErrors() {
+      return Object.keys(this.errors).length > 0
+    },
   })
 }

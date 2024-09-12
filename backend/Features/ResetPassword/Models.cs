@@ -1,4 +1,4 @@
-namespace Backend.Features.ResetPassword;
+﻿namespace Backend.Features.ResetPassword;
 
 public class ResetPasswordReq
 {

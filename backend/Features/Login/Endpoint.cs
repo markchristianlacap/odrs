@@ -1,4 +1,4 @@
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using Backend.Database;
 using FastEndpoints.Security;
 using Microsoft.EntityFrameworkCore;
