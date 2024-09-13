@@ -7,11 +7,9 @@ namespace Backend.Database;
 
 public class AppDbContext(
     DbContextOptions<AppDbContext> options,
-    AuditInterceptor? auditInterceptor = null
+    AppDbInterceptor? interceptor = null
 ) : DbContext(options)
 {
-    private readonly AuditInterceptor? _auditInterceptor = auditInterceptor;
-
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
@@ -20,8 +18,8 @@ public class AppDbContext(
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        if (_auditInterceptor != null)
-            optionsBuilder.AddInterceptors(_auditInterceptor);
+        if (interceptor != null)
+            optionsBuilder.AddInterceptors(interceptor);
     }
 
     public DbSet<User> Users { get; set; } = null!;

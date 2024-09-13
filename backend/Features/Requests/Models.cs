@@ -13,14 +13,14 @@ public class RequestModel
     public string? ExtensionName { get; set; }
     public string StudentNumber { get; set; } = null!;
     public string ContactNumber { get; set; } = null!;
-    public DateOnly Birthdate { get; set; }
+    public DateOnly? Birthdate { get; set; }
     public string Address { get; set; } = null!;
     public string Purpose { get; set; } = null!;
-    public int LastAttendanceStartYear { get; set; }
-    public int LastAttendanceEndYear { get; set; }
+    public int? LastAttendanceStartYear { get; set; }
+    public int? LastAttendanceEndYear { get; set; }
     public Semester? Semester { get; set; }
     public YearLevel? YearLevel { get; set; }
     public string Section { get; set; } = null!;
-    public Guid ProgramId { get; set; }
-    public Guid CampusId { get; set; }
+    public Guid? ProgramId { get; set; }
+    public Guid? CampusId { get; set; }
 }

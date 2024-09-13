@@ -3,7 +3,12 @@ import withNuxt from './.nuxt/eslint.config.mjs'
 
 export default withNuxt(
   antfu({
-    formatters: true,
+    formatters: {
+      html: 'prettier',
+      css: 'prettier',
+      markdown: 'prettier',
+      xml: 'prettier',
+    },
     unocss: true,
   }),
 )

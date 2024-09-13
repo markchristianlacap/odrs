@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace Backend.Database.Interceptors;
 
-public class AuditInterceptor(IUserService userService) : SaveChangesInterceptor
+public class AppDbInterceptor(IUserService userService) : SaveChangesInterceptor
 {
     public override InterceptionResult<int> SavingChanges(
         DbContextEventData eventData,

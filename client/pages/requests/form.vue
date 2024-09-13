@@ -6,8 +6,22 @@ import { documentTypes } from '~/options/document-types'
 import { semesters } from '~/options/semesters'
 import { yearLevels } from '~/options/year-levels'
 
-const campuses = useRequest(() => api.get('/options/campuses').then(r => r.data))
-const programs = useRequest(() => api.get('/options/programs').then(r => r.data))
+const campuses = useRequest(() =>
+  api.get('/options/campuses').then(r => r.data),
+)
+const programs = useRequest(() =>
+  api.get('/options/programs').then(r => r.data),
+)
+const purposes = [
+  'For Employment',
+  'For Reference',
+  'For Scholarship',
+  'For PNP Applicaiton',
+  'For Napolcom Examination',
+  'For Board Examination',
+  'For Promotion',
+]
+const otherPurpose = ref(false)
 const form = useForm({
   documentType: null as DocumentType | null,
   lastName: '',
@@ -25,13 +39,25 @@ const form = useForm({
   section: '',
   campusId: null as string | null,
   programId: null as string | null,
-  isGraduate: null as boolean | null,
 })
 function onSubmit() {
   form.submit(async (fields) => {
     await api.post('/requests', fields)
   })
 }
+watch(otherPurpose, () => {
+  if (otherPurpose.value) {
+    form.fields.purpose = ''
+  }
+})
+watch(
+  () => form.fields.purpose,
+  (v) => {
+    if (purposes.includes(v)) {
+      otherPurpose.value = false
+    }
+  },
+)
 onMounted(() => {
   campuses.submit()
   programs.submit()
@@ -45,15 +71,18 @@ onMounted(() => {
         <p class="text-xl font-bold">
           Request Form
         </p>
-
         <p class="text-primary">
           Please fill in the form below
         </p>
         <p class="text-gray-7">
           <b>Reminder:</b>
-          Make sure your provided information is correct before submitting the request.
+          Make sure your provided information is correct before submitting the
+          request.
         </p>
-        <QBanner v-if="form.hasErrors()" class="text-negative mt-xl border-1 border-red rounded">
+        <QBanner
+          v-if="form.hasErrors()"
+          class="text-negative mt-xl border-1 border-red rounded"
+        >
           <template #avatar>
             <QIcon>
               <div class="i-hugeicons:cancel-circle text-3xl" />
@@ -86,7 +115,7 @@ onMounted(() => {
               emit-value
               map-options
               label="Select Campus"
-              :error="form.hasError('lastAttendanceCampusId')"
+              :error="form.hasError('campusId')"
             />
             <QSelect
               v-model="form.fields.programId"
@@ -96,7 +125,7 @@ onMounted(() => {
               emit-value
               map-options
               label="Select Course"
-              :error="form.hasError('lastAttendanceCourseId')"
+              :error="form.hasError('programId')"
             />
             <div class="flex items-center gap-2">
               <p class="mr-sm">
@@ -123,16 +152,14 @@ onMounted(() => {
               />
             </div>
             <div class="flex items-center gap-2">
-              <p>
-                Semester
-              </p>
+              <p>Semester</p>
               <QRadio
                 v-for="semester in semesters"
                 :key="semester.value"
-                v-model="form.fields.lastAttendanceSemester"
-                :color="form.hasError('lastAttendanceSemester') ? 'negative' : 'primary'"
+                v-model="form.fields.semester"
+                :color="form.hasError('semester') ? 'negative' : 'primary'"
                 keep-color
-                :error="form.hasError('lastAttendanceSemester')"
+                :error="form.hasError('semester')"
                 :val="semester.value"
                 :label="semester.label"
               />
@@ -145,7 +172,7 @@ onMounted(() => {
                 v-model="form.fields.yearLevel"
                 label="Select your last year level"
                 class="flex-1"
-                :error="form.hasError('lastAttendanceYearLevel')"
+                :error="form.hasError('yearLevel')"
                 :options="yearLevels"
                 option-value="value"
                 option-label="label"
@@ -164,25 +191,39 @@ onMounted(() => {
                 hide-bottom-space
                 class="flex-1"
                 label="Enter your last section"
-                :error="form.hasError('lastAttendanceSection')"
+                :error="form.hasError('section')"
               />
             </div>
           </div>
         </div>
-        <div class="mt-xl font-bold">
+        <p lass="mt-xl font-bold">
           Purpose
+        </p>
+        <div class="grid grid-cols-2">
+          <QRadio
+            v-for="purpose in purposes"
+            :key="purpose"
+            v-model="form.fields.purpose"
+            :val="purpose"
+            :label="purpose"
+          />
         </div>
-        <QInput
-          v-model="form.fields.purpose"
-          placeholder="Type your purpose"
-          :error="form.hasError('purpose')"
-          :error-message="form.getError('purpose')"
-          class="mb-lg"
-          type="textarea"
-        />
+        <div>
+          <QRadio v-model="otherPurpose" :val="true" label="Other" />
+          <QInput
+            v-model="form.fields.purpose"
+            placeholder="Type your purpose"
+            :error="form.hasError('purpose')"
+            :error-message="form.getError('purpose')"
+            class="mb-lg"
+            type="textarea"
+          />
+        </div>
         <QExpansionItem
           label="Personal Information"
-          caption="You can edit your Personal Information for this request here." icon="person" :model-value="true"
+          caption="You can edit your Personal Information for this request here."
+          icon="person"
+          :model-value="true"
           header-class="text-primary font-bold bg-blue-1 rounded-xl border-1 border-blue-2"
         >
           <QCard flat>

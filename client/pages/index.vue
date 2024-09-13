@@ -1,10 +1,10 @@
-<script setup lang="ts">
-
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <div>
-    <div class="grid mx-auto mt-5xl items-center justify-center gap-sm pa-lg container md:grid-cols-2">
+    <div
+      class="grid mx-auto mt-5xl items-center justify-center gap-sm pa-lg container md:grid-cols-2"
+    >
       <div>
         <img src="~/assets/img/cover.jpg" alt="ODRS Cover">
       </div>
@@ -25,14 +25,18 @@
               Open Hours
             </p>
             <ul>
-              <li>
-                Monday 7:00 am - 4:00 pm
-              </li>
-              <li>
-                Tuesday - Thursday 8:00 am - 5:00 pm
-              </li>
+              <li>Monday 7:00 am - 4:00 pm</li>
+              <li>Tuesday - Thursday 8:00 am - 5:00 pm</li>
             </ul>
-            <QBtn label="Get Started" color="primary" to="/requests/form" class="mt-sm" />
+            <div class="mt-xl flex gap-xl">
+              <QBtn label="Get Started" color="primary" to="/requests/form" />
+              <QBtn
+                label="Contact Us"
+                color="primary"
+                outline
+                to="/contact-us"
+              />
+            </div>
           </div>
         </div>
       </div>

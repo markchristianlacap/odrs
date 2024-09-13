@@ -4,5 +4,5 @@ public enum Semester
 {
     First,
     Second,
-    Summer
+    Summer,
 }
