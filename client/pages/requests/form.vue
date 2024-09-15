@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import type { DocumentType } from '~/enums/document-type'
+import type { RequesterType } from '~/enums/requester-type'
 import type { Semester } from '~/enums/semester'
 import type { YearLevel } from '~/enums/year-level'
 import { documentTypes } from '~/options/document-types'
+import { requesterTypes } from '~/options/requester-types'
 import { semesters } from '~/options/semesters'
 import { yearLevels } from '~/options/year-levels'
 
@@ -16,13 +18,15 @@ const purposes = [
   'For Employment',
   'For Reference',
   'For Scholarship',
-  'For PNP Applicaiton',
+  'For PNP Application',
   'For Napolcom Examination',
   'For Board Examination',
   'For Promotion',
 ]
 const otherPurpose = ref(false)
 const form = useForm({
+  studentNumber: '',
+  email: '',
   documentType: null as DocumentType | null,
   lastName: '',
   firstName: '',
@@ -39,6 +43,7 @@ const form = useForm({
   section: '',
   campusId: null as string | null,
   programId: null as string | null,
+  requesterType: null as RequesterType | null,
 })
 function onSubmit() {
   form.submit(async (fields) => {
@@ -65,7 +70,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <QCard class="mx-auto mt-xl container">
+  <QCard class="mx-auto mt-xl container" flat>
     <QCardSection>
       <QForm @submit="onSubmit">
         <p class="text-xl font-bold">
@@ -90,6 +95,23 @@ onMounted(() => {
           </template>
           There's an error please check all the highlighted fields.
         </QBanner>
+        <div class="grid grid-cols-2 items-center gap-sm">
+          <div class="mt-xl font-bold">
+            <QRadio
+              v-for="requesterType in requesterTypes" :key="requesterType.value"
+              v-model="form.fields.requesterType"
+              :val="requesterType.value"
+              :label="requesterType.label"
+              :error="form.hasError('requesterType')"
+            />
+          </div>
+          <QInput
+            v-model="form.fields.studentNumber"
+            label="Student Number"
+            :error="form.hasError('studentNumber')"
+            :error-message="form.getError('studentNumber')"
+          />
+        </div>
         <p class="mt-xl font-bold">
           Select document you want to request:
         </p>
@@ -102,6 +124,7 @@ onMounted(() => {
           :val="documentType.value"
           :label="documentType.label"
         />
+
         <div class="mt-xl">
           <p class="font-bold">
             Last Attendance:
@@ -213,10 +236,10 @@ onMounted(() => {
           <QInput
             v-model="form.fields.purpose"
             placeholder="Type your purpose"
+            :disable="!otherPurpose"
             :error="form.hasError('purpose')"
             :error-message="form.getError('purpose')"
             class="mb-lg"
-            type="textarea"
           />
         </div>
         <QExpansionItem
@@ -252,6 +275,15 @@ onMounted(() => {
                   label="Extension Name"
                   :error="form.hasError('extensionName')"
                   :error-message="form.getError('extensionName')"
+                />
+                <QInput
+                  v-model="form.fields.email"
+                  placeholder="Type your email"
+                  class="col-span-2"
+                  type="email"
+                  label="Email"
+                  :error="form.hasError('email')"
+                  :error-message="form.getError('email')"
                 />
                 <QInput
                   v-model="form.fields.contactNumber"
