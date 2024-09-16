@@ -37,9 +37,6 @@ importers:
       vue:
         specifier: ^3.5.5
         version: 3.5.5(typescript@5.6.2)
-      vuetify-nuxt-module:
-        specifier: ^0.18.3
-        version: 0.18.3(magicast@0.3.5)(rollup@4.21.3)(typescript@5.6.2)(vite@5.4.5(@types/node@22.5.5)(terser@5.32.0))(vue@3.5.5(typescript@5.6.2))(webpack-sources@3.2.3)
     devDependencies:
       '@antfu/eslint-config':
         specifier: ^3.6.0
@@ -74,12 +71,6 @@ importers:
       unocss:
         specifier: ^0.62.3
         version: 0.62.3(@unocss/webpack@0.62.3(rollup@4.21.3)(webpack@5.94.0(esbuild@0.23.1)))(postcss@8.4.47)(rollup@4.21.3)(vite@5.4.5(@types/node@22.5.5)(terser@5.32.0))
-      vite-plugin-vuetify:
-        specifier: ^2.0.4
-        version: 2.0.4(vite@5.4.5(@types/node@22.5.5)(terser@5.32.0))(vue@3.5.5(typescript@5.6.2))(vuetify@3.7.1)
-      vuetify:
-        specifier: ^3.7.1
-        version: 3.7.1(typescript@5.6.2)(vite-plugin-vuetify@2.0.4)(vue@3.5.5(typescript@5.6.2))
 
 packages:
 
@@ -1543,12 +1534,6 @@ packages:
 
   '@vue/shared@3.5.5':
     resolution: {integrity: sha512-0KyMXyEgnmFAs6rNUL+6eUHtUCqCaNrVd+AW3MX3LyA0Yry5SA0Km03CDKiOua1x1WWnIr+W9+S0GMFoSDWERQ==}
-
-  '@vuetify/loader-shared@2.0.3':
-    resolution: {integrity: sha512-Ss3GC7eJYkp2SF6xVzsT7FAruEmdihmn4OCk2+UocREerlXKWgOKKzTN5PN3ZVN5q05jHHrsNhTuWbhN61Bpdg==}
-    peerDependencies:
-      vue: ^3.0.0
-      vuetify: ^3.0.0
 
   '@webassemblyjs/ast@1.12.1':
     resolution: {integrity: sha512-EKfMUOPRRUTy5UII4qJDGPpqfwjOmZ5jeGFwid9mnoqIFK+e0vqoi1qH56JpmZSzEL53jKnNzScdmftJyG5xWg==}
@@ -4392,10 +4377,6 @@ packages:
   unwasm@0.3.9:
     resolution: {integrity: sha512-LDxTx/2DkFURUd+BU1vUsF/moj0JsoTvl+2tcg2AUOiEzVturhGGx17/IMgGvKUYdZwr33EJHtChCJuhu9Ouvg==}
 
-  upath@2.0.1:
-    resolution: {integrity: sha512-1uEe95xksV1O0CYKXo8vQvN1JEbtJp7lb7C5U9HMsIp6IVwntkH/oNUzyVNQSd4S1sYk2FpSSW44FqMc8qee5w==}
-    engines: {node: '>=4'}
-
   update-browserslist-db@1.1.0:
     resolution: {integrity: sha512-EdRAaAyk2cUE1wOf2DkEhzxqOQvFOoRJFNS6NeyJ01Gp2beMRpBAINjM2iDXE3KCuKhwnvHIQCJm6ThL2Z+HzQ==}
     hasBin: true
@@ -4476,14 +4457,6 @@ packages:
     peerDependencies:
       vite: ^3.0.0-0 || ^4.0.0-0 || ^5.0.0-0
 
-  vite-plugin-vuetify@2.0.4:
-    resolution: {integrity: sha512-A4cliYUoP/u4AWSRVRvAPKgpgR987Pss7LpFa7s1GvOe8WjgDq92Rt3eVXrvgxGCWvZsPKziVqfHHdCMqeDhfw==}
-    engines: {node: ^18.0.0 || >=20.0.0}
-    peerDependencies:
-      vite: '>=5'
-      vue: ^3.0.0
-      vuetify: ^3.0.0
-
   vite@5.4.5:
     resolution: {integrity: sha512-pXqR0qtb2bTwLkev4SE3r4abCNioP3GkjvIDLlzziPpXtHgiJIjuKl+1GN6ESOT3wMjG3JTeARopj2SwYaHTOA==}
     engines: {node: ^18.0.0 || >=20.0.0}
@@ -4562,25 +4535,6 @@ packages:
       typescript: '*'
     peerDependenciesMeta:
       typescript:
-        optional: true
-
-  vuetify-nuxt-module@0.18.3:
-    resolution: {integrity: sha512-Mv5mcqfqk5dR9oVJiITXn5p4NmDzp57AR2Txf/0iIoAjFlMsDWzTpUvn9ELTzDI3Z0LjiYVqptwxrOlMcju2Wg==}
-
-  vuetify@3.7.1:
-    resolution: {integrity: sha512-N1XlczbgeGt/O+JUk72QPrqcDaRIXUdptUciJqGyTvZ9cfMoSlEWs6TZO+dOOfXbKvmIMFMycYg4dgSHDpCPhg==}
-    engines: {node: ^12.20 || >=14.13}
-    peerDependencies:
-      typescript: '>=4.7'
-      vite-plugin-vuetify: '>=1.0.0'
-      vue: ^3.3.0
-      webpack-plugin-vuetify: '>=2.0.0'
-    peerDependenciesMeta:
-      typescript:
-        optional: true
-      vite-plugin-vuetify:
-        optional: true
-      webpack-plugin-vuetify:
         optional: true
 
   watchpack@2.4.2:
@@ -6432,12 +6386,6 @@ snapshots:
       vue: 3.5.5(typescript@5.6.2)
 
   '@vue/shared@3.5.5': {}
-
-  '@vuetify/loader-shared@2.0.3(vue@3.5.5(typescript@5.6.2))(vuetify@3.7.1(typescript@5.6.2)(vite-plugin-vuetify@2.0.4)(vue@3.5.5(typescript@5.6.2)))':
-    dependencies:
-      upath: 2.0.1
-      vue: 3.5.5(typescript@5.6.2)
-      vuetify: 3.7.1(typescript@5.6.2)(vite-plugin-vuetify@2.0.4)(vue@3.5.5(typescript@5.6.2))
 
   '@webassemblyjs/ast@1.12.1':
     dependencies:
@@ -9780,8 +9728,6 @@ snapshots:
     transitivePeerDependencies:
       - webpack-sources
 
-  upath@2.0.1: {}
-
   update-browserslist-db@1.1.0(browserslist@4.23.3):
     dependencies:
       browserslist: 4.23.3
@@ -9879,17 +9825,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  vite-plugin-vuetify@2.0.4(vite@5.4.5(@types/node@22.5.5)(terser@5.32.0))(vue@3.5.5(typescript@5.6.2))(vuetify@3.7.1):
-    dependencies:
-      '@vuetify/loader-shared': 2.0.3(vue@3.5.5(typescript@5.6.2))(vuetify@3.7.1(typescript@5.6.2)(vite-plugin-vuetify@2.0.4)(vue@3.5.5(typescript@5.6.2)))
-      debug: 4.3.7
-      upath: 2.0.1
-      vite: 5.4.5(@types/node@22.5.5)(terser@5.32.0)
-      vue: 3.5.5(typescript@5.6.2)
-      vuetify: 3.7.1(typescript@5.6.2)(vite-plugin-vuetify@2.0.4)(vue@3.5.5(typescript@5.6.2))
-    transitivePeerDependencies:
-      - supports-color
-
   vite@5.4.5(@types/node@22.5.5)(terser@5.32.0):
     dependencies:
       esbuild: 0.21.5
@@ -9956,36 +9891,6 @@ snapshots:
       '@vue/shared': 3.5.5
     optionalDependencies:
       typescript: 5.6.2
-
-  vuetify-nuxt-module@0.18.3(magicast@0.3.5)(rollup@4.21.3)(typescript@5.6.2)(vite@5.4.5(@types/node@22.5.5)(terser@5.32.0))(vue@3.5.5(typescript@5.6.2))(webpack-sources@3.2.3):
-    dependencies:
-      '@nuxt/kit': 3.13.1(magicast@0.3.5)(rollup@4.21.3)(webpack-sources@3.2.3)
-      defu: 6.1.4
-      destr: 2.0.3
-      local-pkg: 0.5.0
-      pathe: 1.1.2
-      perfect-debounce: 1.0.0
-      ufo: 1.5.4
-      unconfig: 0.5.5
-      upath: 2.0.1
-      vite-plugin-vuetify: 2.0.4(vite@5.4.5(@types/node@22.5.5)(terser@5.32.0))(vue@3.5.5(typescript@5.6.2))(vuetify@3.7.1)
-      vuetify: 3.7.1(typescript@5.6.2)(vite-plugin-vuetify@2.0.4)(vue@3.5.5(typescript@5.6.2))
-    transitivePeerDependencies:
-      - magicast
-      - rollup
-      - supports-color
-      - typescript
-      - vite
-      - vue
-      - webpack-plugin-vuetify
-      - webpack-sources
-
-  vuetify@3.7.1(typescript@5.6.2)(vite-plugin-vuetify@2.0.4)(vue@3.5.5(typescript@5.6.2)):
-    dependencies:
-      vue: 3.5.5(typescript@5.6.2)
-    optionalDependencies:
-      typescript: 5.6.2
-      vite-plugin-vuetify: 2.0.4(vite@5.4.5(@types/node@22.5.5)(terser@5.32.0))(vue@3.5.5(typescript@5.6.2))(vuetify@3.7.1)
 
   watchpack@2.4.2:
     dependencies:
