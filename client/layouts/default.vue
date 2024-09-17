@@ -13,10 +13,12 @@ async function onLogout() {
       <QToolbar>
         <QToolbarTitle>
           <div class="my-2 flex items-center gap-sm">
-            <img class="w-13" src="~/assets/img/odrs-logo.png" alt="ODRS Logo">
-            <span>
-              OMSC ODRS
-            </span>
+            <img
+              class="w-13"
+              src="~/assets/img/odrs-logo.png"
+              alt="ODRS Logo"
+            >
+            <span> OMSC ODRS </span>
           </div>
         </QToolbarTitle>
         <QSpace />
@@ -42,9 +44,7 @@ async function onLogout() {
                     <div class="i-hugeicons:user-circle" />
                   </QIcon>
                 </QItemSection>
-                <QItemSection>
-                  Dashboard
-                </QItemSection>
+                <QItemSection> Dashboard </QItemSection>
               </QItem>
               <QItem clickable to="/user/update-profile">
                 <QItemSection avatar>
@@ -52,9 +52,7 @@ async function onLogout() {
                     <div class="i-hugeicons:system-update-01" />
                   </QIcon>
                 </QItemSection>
-                <QItemSection>
-                  Update Profile
-                </QItemSection>
+                <QItemSection> Update Profile </QItemSection>
               </QItem>
               <QItem clickable to="/user/change-password">
                 <QItemSection avatar>
@@ -62,9 +60,7 @@ async function onLogout() {
                     <div class="i-hugeicons:circle-lock-check-01" />
                   </QIcon>
                 </QItemSection>
-                <QItemSection>
-                  Change Password
-                </QItemSection>
+                <QItemSection> Change Password </QItemSection>
               </QItem>
               <QItem clickable @click="onLogout">
                 <QItemSection avatar>
@@ -72,9 +68,7 @@ async function onLogout() {
                     <div class="i-hugeicons:logout-circle-01" />
                   </QIcon>
                 </QItemSection>
-                <QItemSection>
-                  Logout
-                </QItemSection>
+                <QItemSection> Logout </QItemSection>
               </QItem>
             </QList>
           </QBtnDropdown>

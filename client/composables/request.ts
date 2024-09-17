@@ -1,4 +1,6 @@
-export function useRequest<TRes = any, TReq = any>(req: (params: TReq) => Promise<TRes>) {
+export function useRequest<TRes = any, TReq = any>(
+  req: (params: TReq) => Promise<TRes>,
+) {
   return reactive({
     request: {} as TReq,
     response: {} as TRes,

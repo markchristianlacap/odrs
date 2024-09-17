@@ -1,5 +1,10 @@
 export default defineNuxtRouteMiddleware(async (to) => {
-  const guestRoutes = ['/login', '/register', '/forgot-password', '/reset-password']
+  const guestRoutes = [
+    '/login',
+    '/register',
+    '/forgot-password',
+    '/reset-password',
+  ]
   const { user, fetchUser } = useUser()
   if (guestRoutes.includes(to.path)) {
     if (!user.value) {

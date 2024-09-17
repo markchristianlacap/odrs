@@ -17,8 +17,7 @@ export function useForm<T = any>(fields: T) {
       catch (e) {
         if (isAxiosError(e))
           this.errors = e?.response?.data?.errors ?? {}
-        else
-          throw e
+        else throw e
       }
       this.loading = false
     },

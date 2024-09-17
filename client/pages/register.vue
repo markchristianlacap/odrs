@@ -33,7 +33,8 @@ async function onSubmit() {
                   <div class="i-hugeicons:checkmark-circle-01 text-3xl" />
                 </QIcon>
               </template>
-              Registration Successful. You can now login using your credentials provided.
+              Registration Successful. You can now login using your credentials
+              provided.
             </QBanner>
           </div>
           <template v-else>
@@ -41,7 +42,8 @@ async function onSubmit() {
               Registration
             </p>
             <p class="text-primary">
-              Please enter your personal information and password for registration.
+              Please enter your personal information and password for
+              registration.
             </p>
             <QInput
               v-model="form.fields.lastName"
@@ -159,9 +161,12 @@ async function onSubmit() {
             </QInput>
             <div>
               <QCheckbox v-model="form.fields.agree" />
-              I accept the <NuxtLink to="/terms" class="text-primary font-bold">
+              I accept the
+              <NuxtLink to="/terms" class="text-primary font-bold">
                 terms of service
-              </NuxtLink> and <NuxtLink to="/privacy" class="text-primary font-bold">
+              </NuxtLink>
+              and
+              <NuxtLink to="/privacy" class="text-primary font-bold">
                 privacy policy
               </NuxtLink>
             </div>

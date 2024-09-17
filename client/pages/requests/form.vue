@@ -96,9 +96,10 @@ onMounted(() => {
           There's an error please check all the highlighted fields.
         </QBanner>
         <div class="grid grid-cols-2 items-center gap-sm">
-          <div class="mt-xl font-bold">
+          <div class="mt-xl">
             <QRadio
-              v-for="requesterType in requesterTypes" :key="requesterType.value"
+              v-for="requesterType in requesterTypes"
+              :key="requesterType.value"
               v-model="form.fields.requesterType"
               :val="requesterType.value"
               :label="requesterType.label"

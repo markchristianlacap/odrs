@@ -2,7 +2,7 @@
 const isSuccess = ref(false)
 const route = useRoute()
 const form = useForm({
-  token: route.query.token as string || '',
+  token: (route.query.token as string) || '',
   password: '',
   confirmPassword: '',
 })
@@ -25,7 +25,10 @@ async function onSubmit() {
           <p class="mb-xl text-primary">
             Please enter your new password and login to your account.
           </p>
-          <QBanner v-if="isSuccess" class="text-positive border-1 border-green rounded">
+          <QBanner
+            v-if="isSuccess"
+            class="text-positive border-1 border-green rounded"
+          >
             <template #avatar>
               <QIcon>
                 <div class="i-hugeicons:checkmark-circle-01 text-3xl" />

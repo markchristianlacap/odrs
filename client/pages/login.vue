@@ -33,7 +33,7 @@ async function onSubmit() {
                 <div class="i-hugeicons:cancel-circle text-3xl" />
               </QIcon>
             </template>
-            {{ form.getError('generalErrors') }}
+            {{ form.getError("generalErrors") }}
           </QBanner>
           <QInput
             v-model="form.fields.email"
@@ -60,10 +60,7 @@ async function onSubmit() {
             </template>
           </QInput>
           <div class="flex items-center justify-between">
-            <QCheckbox
-              v-model="form.fields.remember"
-              label="Remember me"
-            />
+            <QCheckbox v-model="form.fields.remember" label="Remember me" />
             <NuxtLink to="/forgot-password" class="text-primary font-bold">
               Forgot password?
             </NuxtLink>

@@ -1,9 +1,8 @@
-﻿using Backend.Entities.Common;
-using Backend.Enums;
+﻿using Backend.Enums;
 
-namespace Backend.Entities;
+namespace Backend.Features.User.Requests;
 
-public class Request : BaseEntity
+public class RequestModel
 {
     public string ReferenceNumber { get; set; } = null!;
     public DocumentType DocumentType { get; set; }
@@ -24,8 +23,5 @@ public class Request : BaseEntity
     public YearLevel YearLevel { get; set; }
     public string Section { get; set; } = null!;
     public Guid ProgramId { get; set; }
-    public Program Program { get; set; } = null!;
     public Guid CampusId { get; set; }
-    public Campus Campus { get; set; } = null!;
-    public List<RequestHistory> Histories { get; set; } = null!;
 }
