@@ -6,10 +6,10 @@ export default defineNuxtRouteMiddleware(async (to) => {
     '/reset-password',
   ]
   const { user, fetchUser } = useUser()
+  if (!user.value) {
+    await fetchUser()
+  }
   if (guestRoutes.includes(to.path)) {
-    if (!user.value) {
-      await fetchUser()
-    }
     if (user.value) {
       return navigateTo('/user')
     }

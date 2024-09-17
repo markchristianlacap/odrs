@@ -8,6 +8,7 @@ import { requesterTypes } from '~/options/requester-types'
 import { semesters } from '~/options/semesters'
 import { yearLevels } from '~/options/year-levels'
 
+const step = ref<'form' | 'payment'>('form')
 const campuses = useRequest(() =>
   api.get('/options/campuses').then(r => r.data),
 )
@@ -24,6 +25,7 @@ const purposes = [
   'For Promotion',
 ]
 const otherPurpose = ref(false)
+const response = ref({ referenceNumber: '' })
 const form = useForm({
   studentNumber: '',
   email: '',
@@ -47,7 +49,9 @@ const form = useForm({
 })
 function onSubmit() {
   form.submit(async (fields) => {
-    await api.post('/requests', fields)
+    const { data } = await api.post('/requests', fields)
+    response.value = data
+    step.value = 'payment'
   })
 }
 watch(otherPurpose, () => {
@@ -72,7 +76,8 @@ onMounted(() => {
 <template>
   <QCard class="mx-auto mt-xl container" flat>
     <QCardSection>
-      <QForm @submit="onSubmit">
+      <RequestPaymentForm v-if="step === 'payment'" :reference-number="response.referenceNumber" />
+      <QForm v-else-if="step === 'form'" @submit="onSubmit">
         <p class="text-xl font-bold">
           Request Form
         </p>

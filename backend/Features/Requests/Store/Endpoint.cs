@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Features.Requests.Store;
 
-public class Endpoint : Endpoint<RequestReq>
+public class Endpoint : Endpoint<RequestReq, RequestRes>
 {
     public AppDbContext Db { get; set; } = null!;
 
@@ -30,6 +30,7 @@ public class Endpoint : Endpoint<RequestReq>
         request.Histories.Add(history);
         await Db.Requests.AddAsync(request, ct);
         await Db.SaveChangesAsync(ct);
+        Response = request.Adapt<RequestRes>();
     }
 
     private async Task<string> GenerateReferenceNumber(CancellationToken ct)
