@@ -8,7 +8,7 @@ onMounted(() => request.submit())
 </script>
 
 <template>
-  <div class="mx-auto mt-xl container">
+  <div v-if="request.response" class="mx-auto mt-xl container">
     <div class="flex items-center justify-between">
       <div>
         <p class="mb-xl text-xl font-bold">

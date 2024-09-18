@@ -6,11 +6,11 @@ defineProps<{
 
 <template>
   <div>
-    <p>
+    <p class="mb-xl text-lg">
       Payment Details
     </p>
-    <p>
-      Reference Number: {{ referenceNumber }}
-    </p>
+    <ul>
+      <li><b>Reference Number:</b> {{ referenceNumber }}</li>
+    </ul>
   </div>
 </template>

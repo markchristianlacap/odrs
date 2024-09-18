@@ -17,5 +17,7 @@ export default defineNuxtConfig({
       standalone: false,
     },
   },
-  quasar: {},
+  quasar: {
+    plugins: ['Notify'],
+  },
 })

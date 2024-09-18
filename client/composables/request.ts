@@ -3,7 +3,7 @@ export function useRequest<TRes = any, TReq = any>(
 ) {
   return reactive({
     request: {} as TReq,
-    response: {} as TRes,
+    response: null as TRes | null,
     loading: false,
     async submit() {
       this.loading = true

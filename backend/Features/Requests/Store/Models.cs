@@ -2,4 +2,7 @@
 
 public class RequestReq : RequestModel { }
 
-public class RequestRes : RequestReq { }
+public class RequestRes : RequestModel
+{
+    public string ReferenceNumber { get; set; } = null!;
+}

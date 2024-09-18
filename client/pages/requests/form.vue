@@ -8,7 +8,8 @@ import { requesterTypes } from '~/options/requester-types'
 import { semesters } from '~/options/semesters'
 import { yearLevels } from '~/options/year-levels'
 
-const step = ref<'form' | 'payment'>('form')
+const $q = useQuasar()
+const router = useRouter()
 const campuses = useRequest(() =>
   api.get('/options/campuses').then(r => r.data),
 )
@@ -25,7 +26,6 @@ const purposes = [
   'For Promotion',
 ]
 const otherPurpose = ref(false)
-const response = ref({ referenceNumber: '' })
 const form = useForm({
   studentNumber: '',
   email: '',
@@ -50,8 +50,12 @@ const form = useForm({
 function onSubmit() {
   form.submit(async (fields) => {
     const { data } = await api.post('/requests', fields)
-    response.value = data
-    step.value = 'payment'
+    $q.notify({
+      type: 'positive',
+      message:
+        'Request submitted successfully. You can track your request status using the reference number.',
+    })
+    router.push(`/requests/${data.referenceNumber}`)
   })
 }
 watch(otherPurpose, () => {
@@ -76,8 +80,7 @@ onMounted(() => {
 <template>
   <QCard class="mx-auto mt-xl container" flat>
     <QCardSection>
-      <RequestPaymentForm v-if="step === 'payment'" :reference-number="response.referenceNumber" />
-      <QForm v-else-if="step === 'form'" @submit="onSubmit">
+      <QForm @submit="onSubmit">
         <p class="text-xl font-bold">
           Request Form
         </p>
@@ -137,6 +140,7 @@ onMounted(() => {
           </p>
           <div class="grid gap-sm lg:grid-cols-2">
             <QSelect
+              v-if="campuses.response"
               v-model="form.fields.campusId"
               :options="campuses.response"
               option-value="id"
@@ -147,6 +151,7 @@ onMounted(() => {
               :error="form.hasError('campusId')"
             />
             <QSelect
+              v-if="programs.response"
               v-model="form.fields.programId"
               :options="programs.response"
               option-value="id"

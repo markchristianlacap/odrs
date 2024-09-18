@@ -1,9 +1,5 @@
 export default defineNuxtRouteMiddleware(async (to) => {
-  const guestRoutes = [
-    '/login',
-    '/forgot-password',
-    '/reset-password',
-  ]
+  const guestRoutes = ['/login', '/forgot-password', '/reset-password']
   const { user, fetchUser } = useUser()
   if (!user.value) {
     await fetchUser()

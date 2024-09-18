@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 const { user } = useUser()
-const request = useRequest(() => api.get('/user/requests/recent').then(r => r.data))
+const request = useRequest(() =>
+  api.get('/user/requests/recent').then(r => r.data),
+)
 onMounted(() => request.submit())
 </script>
 
@@ -12,8 +14,7 @@ onMounted(() => request.submit())
           <div>
             <p class="text-xl">
               Welcome back
-              <span class="font-bold">
-                {{ user?.firstName }} </span>,
+              <span class="font-bold"> {{ user?.firstName }} </span>,
             </p>
             <p class="text-gray-6">
               You can manage documents requested here
@@ -21,7 +22,8 @@ onMounted(() => request.submit())
           </div>
           <div class="flex flex-col gap-sm">
             <QBtn color="primary" to="/user/requests">
-              View Requests <div class="i-hugeicons:arrow-right-02 text-2xl" />
+              View Requests
+              <div class="i-hugeicons:arrow-right-02 text-2xl" />
             </QBtn>
           </div>
         </div>
@@ -47,13 +49,15 @@ onMounted(() => request.submit())
               </th>
             </tr>
           </thead>
-          <tbody>
+          <tbody v-if="request.response">
             <tr v-for="row in request.response" :key="row.id">
               <td>
                 {{ row.referenceNumber }}
               </td>
               <td>
-                {{ `${row.lastName} ${row.firstName} ${row.middleName} ${row.extensionName}` }}
+                {{
+                  `${row.lastName} ${row.firstName} ${row.middleName} ${row.extensionName}`
+                }}
               </td>
               <td>
                 {{ row.documentTypeDesc }}

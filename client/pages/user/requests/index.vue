@@ -94,7 +94,7 @@ onMounted(() => requests.submit())
       :columns="columns"
       :loading="requests.loading"
       :filter="requests.request"
-      @request="r => requests.onRequest(r)"
+      @request="(r) => requests.onRequest(r)"
     >
       <template #body-cell-actions="props">
         <QTd :props="props">
