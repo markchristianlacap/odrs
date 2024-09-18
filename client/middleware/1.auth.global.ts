@@ -1,7 +1,6 @@
 export default defineNuxtRouteMiddleware(async (to) => {
   const guestRoutes = [
     '/login',
-    '/register',
     '/forgot-password',
     '/reset-password',
   ]
@@ -17,9 +16,6 @@ export default defineNuxtRouteMiddleware(async (to) => {
 
   // check if route to is `/user/*`
   if (to.path.startsWith('/user')) {
-    if (!user.value) {
-      await fetchUser()
-    }
     if (!user.value) {
       return navigateTo('/login')
     }
