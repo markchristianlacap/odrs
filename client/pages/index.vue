@@ -51,7 +51,7 @@ function submit() {
         </div>
       </div>
     </div>
-    <div class="mx-auto mb-5xl mt-xl container">
+    <div class="mx-auto mb-5xl mt-xl container md:mx-0">
       <p class="text-xl font-bold">
         Request Status Tracker
       </p>
@@ -59,7 +59,7 @@ function submit() {
         Enter your reference number to check the status of your request
       </p>
       <!-- request tracker  -->
-      <div class="flex items-center justify-between gap-sm">
+      <div class="flex flex-wrap items-center gap-sm">
         <QInput
           v-model="request.fields.referenceNumber"
           label="Enter Reference Number"

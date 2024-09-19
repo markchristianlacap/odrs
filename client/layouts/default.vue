@@ -1,13 +1,13 @@
 <script setup lang="ts">
 const $q = useQuasar()
-const isMobile = computed(() => $q.screen.lt.md)
+const isMobile = computed(() => $q.screen.lt.sm)
 </script>
 
 <template>
   <QLayout>
     <QHeader bordered reveal class="bg-white text-primary">
       <div class="flex flex-wrap items-center justify-between">
-        <div class="w-full flex items-center justify-between gap-sm md:w-auto">
+        <div class="w-full flex items-center justify-between gap-sm sm:w-auto">
           <div class="flex items-center justify-between">
             <img
               src="~/assets/img/odrs-logo.png"
@@ -21,7 +21,7 @@ const isMobile = computed(() => $q.screen.lt.md)
           <UserDropdown v-if="isMobile" />
         </div>
         <QTabs
-          dense items-center
+          dense
           :class="{ 'w-full': isMobile }"
         >
           <QRouteTab flat to="/">
