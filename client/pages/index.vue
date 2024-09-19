@@ -1,4 +1,14 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const router = useRouter()
+const request = useForm({
+  referenceNumber: '',
+})
+function submit() {
+  request.submit(async (fields) => {
+    await router.push(`/requests/${fields.referenceNumber}`)
+  })
+}
+</script>
 
 <template>
   <div>
@@ -39,6 +49,34 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
+    <div class="mx-auto mt-5xl container">
+      <p>
+        <b class="text-xl text-primary font-bold">
+          Request Status Tracker
+        </b>
+      </p>
+      <!-- request tracker  -->
+      <div class="flex items-center justify-between gap-sm">
+        <QInput
+          v-model="request.fields.referenceNumber"
+          label="Enter Reference Number"
+          class="flex-1"
+          placeholder="Enter reference number here to check the status"
+        >
+          <template #prepend>
+            <div class="i-hugeicons:square-lock-password text-2xl" />
+          </template>
+        </QInput>
+        <QBtn
+          color="primary"
+          :disable="!request.fields.referenceNumber"
+          @click="submit"
+        >
+          <div class="i-hugeicons:search-02 text-xl" />
+          Check Status
+        </QBtn>
       </div>
     </div>
   </div>

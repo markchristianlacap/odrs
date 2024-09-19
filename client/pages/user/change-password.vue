@@ -24,7 +24,10 @@ function onSubmit() {
         <p class="mb-sm text-primary">
           Please enter your password and new password.
         </p>
-        <QBanner v-if="isSuccess" class="text-positive border-1 border-green rounded">
+        <QBanner
+          v-if="isSuccess"
+          class="text-positive border-1 border-green rounded"
+        >
           <template #avatar>
             <QIcon>
               <div class="i-hugeicons:checkmark-circle-01 text-3xl" />

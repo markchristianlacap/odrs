@@ -20,9 +20,13 @@ async function onSubmit() {
             Forgot Password
           </p>
           <p class="mb-xl text-primary">
-            Please enter your email and wait for a link to reset your password to be sent.
+            Please enter your email and wait for a link to reset your password
+            to be sent.
           </p>
-          <QBanner v-if="isSuccess" class="text-positive border-1 border-green rounded">
+          <QBanner
+            v-if="isSuccess"
+            class="text-positive border-1 border-green rounded"
+          >
             <template #avatar>
               <QIcon>
                 <div class="i-hugeicons:checkmark-circle-01 text-3xl" />

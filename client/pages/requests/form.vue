@@ -8,6 +8,8 @@ import { requesterTypes } from '~/options/requester-types'
 import { semesters } from '~/options/semesters'
 import { yearLevels } from '~/options/year-levels'
 
+const $q = useQuasar()
+const router = useRouter()
 const campuses = useRequest(() =>
   api.get('/options/campuses').then(r => r.data),
 )
@@ -47,7 +49,13 @@ const form = useForm({
 })
 function onSubmit() {
   form.submit(async (fields) => {
-    await api.post('/requests', fields)
+    const { data } = await api.post('/requests', fields)
+    $q.notify({
+      type: 'positive',
+      message:
+        'Request submitted successfully. You can track your request status using the reference number.',
+    })
+    router.push(`/requests/${data.referenceNumber}`)
   })
 }
 watch(otherPurpose, () => {
@@ -96,9 +104,10 @@ onMounted(() => {
           There's an error please check all the highlighted fields.
         </QBanner>
         <div class="grid grid-cols-2 items-center gap-sm">
-          <div class="mt-xl font-bold">
+          <div class="mt-xl">
             <QRadio
-              v-for="requesterType in requesterTypes" :key="requesterType.value"
+              v-for="requesterType in requesterTypes"
+              :key="requesterType.value"
               v-model="form.fields.requesterType"
               :val="requesterType.value"
               :label="requesterType.label"
@@ -131,6 +140,7 @@ onMounted(() => {
           </p>
           <div class="grid gap-sm lg:grid-cols-2">
             <QSelect
+              v-if="campuses.response"
               v-model="form.fields.campusId"
               :options="campuses.response"
               option-value="id"
@@ -141,6 +151,7 @@ onMounted(() => {
               :error="form.hasError('campusId')"
             />
             <QSelect
+              v-if="programs.response"
               v-model="form.fields.programId"
               :options="programs.response"
               option-value="id"

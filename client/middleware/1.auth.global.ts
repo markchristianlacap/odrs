@@ -1,10 +1,10 @@
 export default defineNuxtRouteMiddleware(async (to) => {
-  const guestRoutes = ['/login', '/register', '/forgot-password', '/reset-password']
+  const guestRoutes = ['/login', '/forgot-password', '/reset-password']
   const { user, fetchUser } = useUser()
+  if (!user.value) {
+    await fetchUser()
+  }
   if (guestRoutes.includes(to.path)) {
-    if (!user.value) {
-      await fetchUser()
-    }
     if (user.value) {
       return navigateTo('/user')
     }
@@ -12,9 +12,6 @@ export default defineNuxtRouteMiddleware(async (to) => {
 
   // check if route to is `/user/*`
   if (to.path.startsWith('/user')) {
-    if (!user.value) {
-      await fetchUser()
-    }
     if (!user.value) {
       return navigateTo('/login')
     }

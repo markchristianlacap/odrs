@@ -6,7 +6,7 @@ export function useForm<T = any>(fields: T) {
     fields: JSON.parse(JSON.stringify(fields)) as typeof fields,
     loading: false,
     errors: {} as ErrorResponse<T>,
-    async submit(submitter: (fields: T) => Promise<void>) {
+    async submit(submitter: (fields: T) => Promise<any>) {
       if (this.loading)
         return
       this.errors = {}
@@ -17,8 +17,7 @@ export function useForm<T = any>(fields: T) {
       catch (e) {
         if (isAxiosError(e))
           this.errors = e?.response?.data?.errors ?? {}
-        else
-          throw e
+        else throw e
       }
       this.loading = false
     },

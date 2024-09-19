@@ -1,5 +1,9 @@
 <script lang="ts" setup>
 const { user } = useUser()
+const request = useRequest(() =>
+  api.get('/user/requests/recent').then(r => r.data),
+)
+onMounted(() => request.submit())
 </script>
 
 <template>
@@ -10,17 +14,17 @@ const { user } = useUser()
           <div>
             <p class="text-xl">
               Welcome back
-              <span class="font-bold">
-                {{ user?.firstName }}
-              </span>,
+              <span class="font-bold"> {{ user?.firstName }} </span>,
             </p>
             <p class="text-gray-6">
-              You can now request documents from us.
+              You can manage documents requested here
             </p>
           </div>
           <div class="flex flex-col gap-sm">
-            <QBtn label="Open Documents" color="primary" to="/user/documents" />
-            <!-- <QBtn label="New Request" color="primary" outline to="/user/documents/form" /> -->
+            <QBtn color="primary" to="/user/requests">
+              View Requests
+              <div class="i-hugeicons:arrow-right-02 text-2xl" />
+            </QBtn>
           </div>
         </div>
       </QCardSection>
@@ -35,16 +39,31 @@ const { user } = useUser()
           <thead>
             <tr>
               <th class="text-left">
-                Document Name
+                Reference #
               </th>
               <th class="text-left">
-                Requested On
+                Name
               </th>
-              <th>Status</th>
+              <th class="text-left">
+                Document
+              </th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
+          <tbody v-if="request.response">
+            <tr v-for="row in request.response" :key="row.id">
+              <td>
+                {{ row.referenceNumber }}
+              </td>
+              <td>
+                {{
+                  `${row.lastName} ${row.firstName} ${row.middleName} ${row.extensionName}`
+                }}
+              </td>
+              <td>
+                {{ row.documentTypeDesc }}
+              </td>
+            </tr>
+            <tr v-if="!request.response.length">
               <td colspan="3">
                 No requests found
               </td>

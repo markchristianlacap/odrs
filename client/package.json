@@ -15,25 +15,27 @@
   "dependencies": {
     "@mdi/font": "^7.4.47",
     "@quasar/extras": "^1.16.12",
-    "@unocss/reset": "^0.62.3",
+    "@unocss/reset": "^0.62.4",
     "axios": "^1.7.7",
     "normalize.css": "^8.0.1",
-    "nuxt": "^3.13.1",
-    "nuxt-quasar-ui": "^2.1.5",
-    "quasar": "^2.16.11",
-    "vue": "^3.5.5"
+    "nuxt": "^3.13.2",
+    "nuxt-quasar-ui": "^2.1.6",
+    "quasar": "^2.17.0",
+    "vue": "^3.5.6"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^3.6.0",
+    "@antfu/eslint-config": "^3.6.2",
     "@iconify-json/hugeicons": "^1.2.0",
     "@nuxt/eslint": "^0.5.7",
     "@prettier/plugin-xml": "^3.4.1",
-    "@unocss/eslint-plugin": "^0.62.3",
-    "@unocss/nuxt": "^0.62.3",
-    "@unocss/preset-icons": "^0.62.3",
+    "@unocss/eslint-plugin": "^0.62.4",
+    "@unocss/nuxt": "^0.62.4",
+    "@unocss/preset-icons": "^0.62.4",
+    "@vueuse/core": "^11.1.0",
+    "@vueuse/nuxt": "^11.1.0",
     "eslint": "^9.10.0",
     "eslint-plugin-format": "^0.1.2",
     "typescript": "^5.6.2",
-    "unocss": "^0.62.3"
+    "unocss": "^0.62.4"
   }
 }
