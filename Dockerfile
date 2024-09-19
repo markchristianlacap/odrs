@@ -25,5 +25,7 @@ COPY --from=server /app/out ./
 COPY --from=client /app/client/.output/public ./dist
 ENV TZ=Asia/Manila
 ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false
+ENV ASPNETCORE_URLS=http://+:3200
+EXPOSE 3200
 ENTRYPOINT ["dotnet", "Backend.dll"]
 

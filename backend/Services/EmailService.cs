@@ -34,8 +34,6 @@ public class EmailService(IConfiguration config) : IEmailService
                 config.GetValue<string>("Email:Username") ?? "",
                 config.GetValue<string>("Email:Password") ?? ""
             ),
-            DeliveryMethod = SmtpDeliveryMethod.Network,
-            EnableSsl = true,
         };
 
         try

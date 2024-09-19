@@ -7,5 +7,4 @@ services:
       - /etc/timezone:/etc/timezone:ro
       - ./data/storage:/storage
     restart: unless-stopped
-    ports:
-      - 3400:80
+    network_mode: "host" 
