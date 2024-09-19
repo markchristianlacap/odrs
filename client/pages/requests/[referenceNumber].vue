@@ -39,7 +39,7 @@ onMounted(async () => {
     <p class="mt-xl text-xl font-bold">
       Check Request Status
     </p>
-    <p class="text-gray-7">
+    <p class="text-primary">
       <b>Reference Number:</b>
       {{ request.response.referenceNumber }}
     </p>

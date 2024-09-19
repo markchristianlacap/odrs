@@ -13,7 +13,7 @@ function submit() {
 <template>
   <div>
     <div
-      class="grid mx-auto mt-5xl items-center justify-center gap-sm pa-lg container md:grid-cols-2"
+      class="grid mx-auto mt-5xl items-center justify-center gap-sm container md:grid-cols-2"
     >
       <div>
         <img src="~/assets/img/cover.jpg" alt="ODRS Cover">
@@ -51,11 +51,12 @@ function submit() {
         </div>
       </div>
     </div>
-    <div class="mx-auto mt-5xl container">
-      <p>
-        <b class="text-xl text-primary font-bold">
-          Request Status Tracker
-        </b>
+    <div class="mx-auto mb-5xl mt-xl container">
+      <p class="text-xl font-bold">
+        Request Status Tracker
+      </p>
+      <p class="text-primary">
+        Enter your reference number to check the status of your request
       </p>
       <!-- request tracker  -->
       <div class="flex items-center justify-between gap-sm">
@@ -71,6 +72,7 @@ function submit() {
         </QInput>
         <QBtn
           color="primary"
+          class="w-full md:w-auto"
           :disable="!request.fields.referenceNumber"
           @click="submit"
         >

@@ -78,7 +78,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <QCard class="mx-auto mt-xl container" flat>
+  <QCard class="mx-auto mt-xl container">
     <QCardSection>
       <QForm @submit="onSubmit">
         <p class="text-xl font-bold">
