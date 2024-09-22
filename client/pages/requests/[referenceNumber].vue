@@ -89,5 +89,12 @@ onMounted(async () => {
         </tr>
       </tbody>
     </QMarkupTable>
+    <p>
+      <b>Note:</b> Print the receipt if the status is ready to pickup.
+    </p>
+    <p>
+      <b>Payment:</b>
+      Pay via gcash if the status is ready to pickup.
+    </p>
   </div>
 </template>

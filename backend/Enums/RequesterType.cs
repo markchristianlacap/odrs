@@ -1,6 +1,6 @@
 ﻿namespace Backend.Enums;
 
-public enum RequesterType 
+public enum RequesterType
 {
     FormerStudent,
     Alumni

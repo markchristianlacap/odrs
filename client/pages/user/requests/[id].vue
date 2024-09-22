@@ -1,9 +1,35 @@
 <script setup lang="ts">
 const route = useRoute()
 const id = computed(() => route.params.id)
+const $q = useQuasar()
 const request = useRequest(() =>
   api.get(`/user/requests/${id.value}`).then(r => r.data),
 )
+function approve() {
+  $q.dialog({
+    title: 'Approve Confirmation',
+    message: 'Are you sure you want to approve this request?',
+  }).onOk(async () => {
+    await api.post(`/user/requests/${id.value}/approve`)
+    $q.notify({
+      message: 'Approved successfully',
+      type: 'success',
+    })
+  })
+}
+function reject() {
+  $q.dialog({
+    title: 'Reject Confirmation',
+    message: 'Are you sure you want to reject this request?',
+    color: 'negative',
+  }).onOk(async () => {
+    await api.post(`/user/requests/${id.value}/reject`)
+    $q.notify({
+      message: 'Reject successfully',
+      type: 'success',
+    })
+  })
+}
 onMounted(() => request.submit())
 </script>
 
@@ -11,9 +37,15 @@ onMounted(() => request.submit())
   <div v-if="request.response" class="mx-auto mt-xl container">
     <div class="flex items-center justify-between">
       <div>
-        <p class="mb-xl text-xl font-bold">
-          Request #{{ request.response.referenceNumber }}
-        </p>
+        <div class="flex justify-between gap-sm">
+          <p class="mb-xl text-xl font-bold">
+            Request #{{ request.response.referenceNumber }}
+          </p>
+          <div class="flex gap-sm">
+            <QBtn label="Approve" @click="approve" />
+            <QBtn label="Reject" color="negative" @click="reject" />
+          </div>
+        </div>
         <p class="mb-sm text-lg">
           Request Details
         </p>

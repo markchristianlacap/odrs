@@ -7,9 +7,7 @@ public class HistoryModel
 {
     public Guid RequestId { get; set; }
     public RequestStatus RequestStatus { get; set; }
-    public PaymentStatus PaymentStatus { get; set; }
     public string RequestStatusDesc => RequestStatus.Humanize(LetterCasing.Title);
-    public string PaymentStatusDesc => PaymentStatus.Humanize(LetterCasing.Title);
     public string? Remarks { get; set; }
 }
 

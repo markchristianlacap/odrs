@@ -7,6 +7,5 @@ public class RequestHistory : AuditEntity
 {
     public Guid RequestId { get; set; }
     public RequestStatus RequestStatus { get; set; }
-    public PaymentStatus PaymentStatus { get; set; }
     public string? Remarks { get; set; }
 }

@@ -28,4 +28,5 @@ public class Request : BaseEntity
     public Guid CampusId { get; set; }
     public Campus Campus { get; set; } = null!;
     public List<RequestHistory> Histories { get; set; } = null!;
+    public decimal Amount { get; set; }
 }

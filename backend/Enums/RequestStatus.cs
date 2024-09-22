@@ -3,6 +3,11 @@
 public enum RequestStatus
 {
     Submitted,
-    OnGoing,
+    Rejected,
+    WaitingForPayment,
+    Paid,
+    OnProcess,
+    PendingForPickup,
     Completed,
+    Canceled,
 }
