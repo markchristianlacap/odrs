@@ -21,11 +21,6 @@ public class Endpoint : Endpoint<RequestReq, RequestRes>
         var request = req.Adapt<Request>();
         request.Histories = [];
         request.ReferenceNumber = await GenerateReferenceNumber(ct);
-        var fee = await Db.Fees.FirstOrDefaultAsync(
-            x => x.DocumentType == request.DocumentType,
-            ct
-        );
-        request.Amount = fee?.Amount ?? 0;
         var history = new RequestHistory
         {
             Remarks = "Request created",

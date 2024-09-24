@@ -28,5 +28,4 @@ public class AppDbContext(
     public DbSet<Campus> Campuses { get; set; } = null!;
     public DbSet<Entities.Program> Programs { get; set; } = null!;
     public DbSet<RequestHistory> RequestHistories { get; set; } = null!;
-    public DbSet<Fee> Fees { get; set; } = null!;
 }
