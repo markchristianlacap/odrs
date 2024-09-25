@@ -18,6 +18,6 @@ export default defineNuxtConfig({
     },
   },
   quasar: {
-    plugins: ['Notify'],
+    plugins: ['Notify', 'Dialog'],
   },
 })

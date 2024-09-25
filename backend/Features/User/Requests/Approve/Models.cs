@@ -2,5 +2,5 @@
 
 public class ApproveRequestReq
 {
-    public decimal Amount { get; set; }
+    public string Amount { get; set; } = null!;
 }
