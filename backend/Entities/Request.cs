@@ -29,4 +29,5 @@ public class Request : BaseEntity
     public Campus Campus { get; set; } = null!;
     public List<RequestHistory> Histories { get; set; } = null!;
     public decimal Amount { get; set; }
+    public RequestStatus Status { get; set; }
 }

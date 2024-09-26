@@ -1,4 +1,5 @@
 ﻿using Backend.Database;
+using Backend.Entities;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,10 +17,15 @@ public class Endpoint : EndpointWithoutRequest<RequestShowRes>
     public override async Task HandleAsync(CancellationToken ct)
     {
         var id = Route<Guid>("id");
+        var mapCfG = new TypeAdapterConfig();
+        mapCfG
+            .NewConfig<RequestHistory, HistoryModel>()
+            .Map(d => d.CreatedBy, s => s.CreatedBy!.FirstName);
+
         var request = await Db
             .Requests.AsQueryable()
             .Where(x => x.Id == id)
-            .ProjectToType<RequestShowRes>()
+            .ProjectToType<RequestShowRes>(mapCfG)
             .FirstOrDefaultAsync(ct);
         if (request == null)
         {

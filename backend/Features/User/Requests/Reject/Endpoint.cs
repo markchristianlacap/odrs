@@ -25,9 +25,11 @@ public class Endpoint : Endpoint<RejectRequestReq>
         }
         var status = new RequestHistory
         {
+            RequestId = id,
             Remarks = req.Remarks,
             RequestStatus = RequestStatus.Rejected,
         };
+        request.Status = RequestStatus.Rejected;
         await Db.RequestHistories.AddAsync(status, ct);
         await Db.SaveChangesAsync(ct);
     }

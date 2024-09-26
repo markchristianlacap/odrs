@@ -23,6 +23,7 @@ public class Endpoint : Endpoint<ApproveRequestReq>
             await SendNotFoundAsync(ct);
             return;
         }
+        request.Status = RequestStatus.WaitingForPayment;
         request.Amount = decimal.Parse(req.Amount);
         var status = new RequestHistory
         {

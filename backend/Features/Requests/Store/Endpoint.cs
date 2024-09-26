@@ -21,6 +21,7 @@ public class Endpoint : Endpoint<RequestReq, RequestRes>
         var request = req.Adapt<Request>();
         request.Histories = [];
         request.ReferenceNumber = await GenerateReferenceNumber(ct);
+        request.Status = RequestStatus.Submitted;
         var history = new RequestHistory
         {
             Remarks = "Request created",

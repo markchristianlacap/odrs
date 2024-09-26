@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { isAxiosError } from 'axios'
+import { RequestStatus } from '~/enums/request-status'
 
 const route = useRoute()
 const referenceNumber = route.params.referenceNumber as string
@@ -37,7 +38,13 @@ onMounted(async () => {
   </div>
   <div v-else-if="request.response && status === 200" class="mx-auto container">
     <p class="mt-xl text-xl font-bold">
-      Check Request Status
+      Check Request Status |
+      <span
+        :class="{
+          'text-negative': request.response.status === RequestStatus.Rejected,
+          'text-primary': request.response.status !== RequestStatus.Rejected,
+        }"
+      > {{ request.response.statusDesc }} </span>
     </p>
     <p class="text-primary">
       <b>Reference Number:</b>
@@ -59,9 +66,6 @@ onMounted(async () => {
             Details
           </th>
           <th class="text-left">
-            Payment
-          </th>
-          <th class="text-left">
             Status
           </th>
         </tr>
@@ -81,10 +85,7 @@ onMounted(async () => {
             {{ request.response.documentTypeDesc }}
           </td>
           <td>
-            {{ request.response.payment }}
-          </td>
-          <td>
-            {{ request.response.status }}
+            {{ request.response.statusDesc }}
           </td>
         </tr>
       </tbody>
@@ -92,9 +93,64 @@ onMounted(async () => {
     <p>
       <b>Note:</b> Print the receipt if the status is ready to pickup.
     </p>
-    <p>
-      <b>Payment:</b>
-      Pay via gcash if the status is ready to pickup.
+    <div v-if="request.response.status === RequestStatus.WaitingForPayment" class="mt-xl">
+      <p>
+        <b>Payment:</b>
+        Pay via gcash if the status is ready to pickup.
+      </p>
+      <p class="text-lg font-bold">
+        Please pay the following amount to start the process:
+      </p>
+      <ul class="list-disc pl-xl">
+        <li>
+          <b>Reference Number:</b> {{ request.response.referenceNumber }}
+        </li>
+        <li>
+          <b>Amount:</b> {{ request.response.amount }}
+        </li>
+        <li>
+          <p>GCash Number: 093-12345678</p>
+          <p>Account Name: OMSC Cashier</p>
+        </li>
+      </ul>
+      <div class="max-w-120 w-full">
+        <QFile label="Attach your receipt here">
+          <template #prepend>
+            <div class="i-hugeicons:document-attachment" />
+          </template>
+        </QFile>
+      </div>
+    </div>
+    <p class="mt-xl text-lg font-bold">
+      Request History
     </p>
+    <QMarkupTable class="mt-xl">
+      <thead>
+        <tr>
+          <th class="text-left">
+            Date
+          </th>
+          <th class="text-left">
+            Status
+          </th>
+          <th class="text-left">
+            Remarks
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="history in request.response.histories" :key="history.id" class="text-left">
+          <td>
+            {{ formatDate(history.createdAt) }}
+          </td>
+          <td>
+            {{ history.requestStatusDesc }}
+          </td>
+          <td>
+            {{ history.remarks }}
+          </td>
+        </tr>
+      </tbody>
+    </QMarkupTable>
   </div>
 </template>

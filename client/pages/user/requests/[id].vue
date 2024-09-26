@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { isAxiosError } from 'axios'
+import { RequestStatus } from '~/enums/request-status'
 
 const route = useRoute()
 const id = computed(() => route.params.id)
@@ -31,6 +32,8 @@ function approve() {
         message: 'Approved successfully',
         type: 'positive',
       })
+
+      request.submit()
     }
     catch (e: any) {
       if (isAxiosError(e)) {
@@ -46,6 +49,10 @@ function reject() {
   $q.dialog({
     title: 'Reject Confirmation',
     message: 'This can be undone. Are you sure you want to reject this request?',
+    prompt: {
+      model: '',
+      label: 'Enter reason for rejection',
+    },
     ok: {
       label: 'Confirm',
       color: 'negative',
@@ -54,12 +61,23 @@ function reject() {
       label: 'Cancel',
       flat: true,
     },
-  }).onOk(async () => {
-    await api.post(`/user/requests/${id.value}/reject`)
-    $q.notify({
-      message: 'Reject successfully',
-      type: 'positive',
-    })
+  }).onOk(async (remarks) => {
+    try {
+      await api.post(`/user/requests/${id.value}/reject`, { remarks })
+      $q.notify({
+        message: 'Reject successfully',
+        type: 'positive',
+      })
+      request.submit()
+    }
+    catch (e: any) {
+      if (isAxiosError(e)) {
+        $q.notify({
+          type: 'negative',
+          message: e.response?.data?.errors?.remarks?.[0] || 'Something went wrong',
+        })
+      }
+    }
   })
 }
 onMounted(() => request.submit())
@@ -72,9 +90,9 @@ onMounted(() => request.submit())
         <QCardSection>
           <div class="flex justify-between gap-sm">
             <p class="mb-xl text-xl font-bold">
-              Request #{{ request.response.referenceNumber }}
+              Request #{{ request.response.referenceNumber }} | {{ request.response.statusDesc }}
             </p>
-            <div class="space-x-sm">
+            <div v-if="request.response.status === RequestStatus.Submitted" class="space-x-sm">
               <QBtn color="positive" @click="approve">
                 <div class="i-hugeicons:thumbs-up mr-xs text-xl" />
                 Approve
@@ -129,10 +147,35 @@ onMounted(() => request.submit())
             Request History
           </p>
           <QMarkupTable flat>
-            <tbody>
+            <thead>
               <tr>
-                <td v-for="history in request.response.histories" :key="history.id" class="text-left">
-                  {{ history }}
+                <th class="text-left">
+                  Date
+                </th>
+                <th class="text-left">
+                  Status
+                </th>
+                <th class="text-left">
+                  Remarks
+                </th>
+                <th class="text-left">
+                  Action Taken By
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="history in request.response.histories" :key="history.id" class="text-left">
+                <td>
+                  {{ formatDate(history.createdAt) }}
+                </td>
+                <td>
+                  {{ history.requestStatusDesc }}
+                </td>
+                <td>
+                  {{ history.remarks }}
+                </td>
+                <td>
+                  {{ history.createdBy }}
                 </td>
               </tr>
             </tbody>
