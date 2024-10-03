@@ -68,7 +68,7 @@ onMounted(async () => {
           {{ request.response.referenceNumber }}
         </p>
         <div v-if="request.response.status === RequestStatus.PendingForPickup" class="mt-xl">
-          <p class="text-lg">
+          <p class="text-lg ">
             Your request is ready for pickup. Please bring the needed documents.
           </p>
           <p>
@@ -103,6 +103,7 @@ onMounted(async () => {
               ✓ Photocopy of valid ID of the representative (1 copy)
             </li>
           </ul>
+          <p><b>Note:</b> For second copy of documents such as Second copy of diploma, etc. Please bring a </p>
         </div>
         <div v-else-if="request.response.status === RequestStatus.WaitingForPayment" class="mt-xl">
           <p>
