@@ -1,6 +1,9 @@
 ﻿namespace Backend.Features.Requests.Store;
 
-public class RequestReq : RequestModel { }
+public class RequestReq : RequestModel
+{
+    public IFormFile Picture { get; set; } = null!;
+}
 
 public class RequestRes : RequestModel
 {

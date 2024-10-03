@@ -1,6 +1,9 @@
 export enum DocumentType {
   TOR,
+  SecondCopyOfDiploma,
+  CertificateOfEnrollment,
+  CertificateOfMediumOfInstruction,
+  CertificateOfGPAGWA,
   HonorableDismissal,
-  Diploma,
-  CertificateOfGraduation,
+  CAV,
 }

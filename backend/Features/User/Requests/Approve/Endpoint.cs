@@ -28,7 +28,8 @@ public class Endpoint : Endpoint<ApproveRequestReq>
         var status = new RequestHistory
         {
             RequestStatus = RequestStatus.WaitingForPayment,
-            Remarks = "Request Approved",
+            Remarks =
+                "Request approved. Waiting for payment before proceeding with processing the request.",
             RequestId = id,
         };
         await Db.RequestHistories.AddAsync(status, ct);

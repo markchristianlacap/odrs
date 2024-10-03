@@ -20,6 +20,7 @@ bld.Services.AddDbContext<AppDbContext>(options =>
 
 bld.Services.AddSingleton<IDateTimeService, DateTimeService>();
 bld.Services.AddSingleton<IUserService, UserService>();
+bld.Services.AddSingleton<IStorageService, StorageService>();
 bld.Services.AddSingleton<AppDbInterceptor>();
 bld.Services.AddSingleton<IEmailService, EmailService>();
 bld.Services.AddSpaStaticFiles(o => o.RootPath = "dist");

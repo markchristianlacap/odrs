@@ -137,6 +137,13 @@ namespace Backend.Migrations
                     b.Property<string>("MiddleName")
                         .HasColumnType("longtext");
 
+                    b.Property<string>("PaymentPath")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("PicturePath")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<Guid>("ProgramId")
                         .HasColumnType("char(36)");
 

@@ -46,10 +46,22 @@ const form = useForm({
   campusId: null as string | null,
   programId: null as string | null,
   requesterType: null as RequesterType | null,
+  picture: null as File | null,
 })
+function onPictureChange(files: readonly any[]) {
+  form.fields.picture = files[0]
+}
 function onSubmit() {
   form.submit(async (fields) => {
-    const { data } = await api.post('/requests', fields)
+    const formData = new FormData()
+    for (const [key, value] of Object.entries(fields)) {
+      formData.append(key, value as string)
+    }
+    const { data } = await api.post('/requests', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
     $q.notify({
       type: 'positive',
       message:
@@ -111,7 +123,8 @@ onMounted(() => {
               v-model="form.fields.requesterType"
               :val="requesterType.value"
               :label="requesterType.label"
-              :error="form.hasError('requesterType')"
+              :color="form.hasError('requesterType') ? 'negative' : 'primary'"
+              keep-color
             />
           </div>
           <QInput
@@ -320,7 +333,13 @@ onMounted(() => {
             </QCardSection>
           </QCard>
         </QExpansionItem>
-
+        <p class="mt-xl font-bold">
+          Upload 2x2 Picture
+        </p>
+        <QUploader label="Attach your 2x2 picture here" class="w-sm" :hide-upload-btn="true" flat bordered @added="onPictureChange" />
+        <p v-if="form.hasError('picture')" class="text-negative mt-sm">
+          {{ form.getError('picture') }}
+        </p>
         <div class="grid my-2xl gap-sm">
           <QBtn
             color="primary"

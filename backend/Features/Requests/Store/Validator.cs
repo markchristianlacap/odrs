@@ -23,5 +23,6 @@ public class Validator : Validator<RequestReq>
         RuleFor(x => x.Address).NotEmpty();
         RuleFor(x => x.StudentNumber).NotEmpty();
         RuleFor(x => x.Email).NotEmpty().EmailAddress();
+        RuleFor(x => x.Picture).NotNull();
     }
 }

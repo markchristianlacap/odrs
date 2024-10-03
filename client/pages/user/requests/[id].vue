@@ -8,6 +8,9 @@ const $q = useQuasar()
 const request = useRequest(() =>
   api.get(`/user/requests/${id.value}`).then(r => r.data),
 )
+const imagePreview = ref<string | null>(null)
+const pictureURL = computed(() => `/api/requests/${id.value}/picture`)
+const paymentURL = computed(() => `/api/user/requests/${id.value}/payment`)
 function approve() {
   $q.dialog({
     title: 'Approve Confirmation?',
@@ -40,6 +43,54 @@ function approve() {
         $q.notify({
           type: 'negative',
           message: e.response?.data?.errors?.amount?.[0] || 'Something went wrong',
+        })
+      }
+    }
+  })
+}
+function forPickup() {
+  $q.dialog({
+    title: 'For Pickup Confirmation',
+    message: 'This can be undone. Are you sure you want to change the status of this request to for pickup?',
+
+  }).onOk(async () => {
+    try {
+      await api.post(`/user/requests/${id.value}/for-pickup`)
+      $q.notify({
+        message: 'Reject successfully',
+        type: 'positive',
+      })
+      request.submit()
+    }
+    catch (e: any) {
+      if (isAxiosError(e)) {
+        $q.notify({
+          type: 'negative',
+          message: e.response?.data?.errors?.remarks?.[0] || 'Something went wrong',
+        })
+      }
+    }
+  })
+}
+function process() {
+  $q.dialog({
+    title: 'Process Confirmation',
+    message: 'This can be undone. Are you sure you want to process this request?',
+
+  }).onOk(async () => {
+    try {
+      await api.post(`/user/requests/${id.value}/process`)
+      $q.notify({
+        message: 'Change status successfully',
+        type: 'positive',
+      })
+      request.submit()
+    }
+    catch (e: any) {
+      if (isAxiosError(e)) {
+        $q.notify({
+          type: 'negative',
+          message: e.response?.data?.errors?.remarks?.[0] || 'Something went wrong',
         })
       }
     }
@@ -92,14 +143,23 @@ onMounted(() => request.submit())
             <p class="mb-xl text-xl font-bold">
               Request #{{ request.response.referenceNumber }} | {{ request.response.statusDesc }}
             </p>
-            <div v-if="request.response.status === RequestStatus.Submitted" class="space-x-sm">
-              <QBtn color="positive" @click="approve">
+            <div class="space-x-sm">
+              <QBtn v-if="request.response.status === RequestStatus.Submitted" color="positive" @click="approve">
                 <div class="i-hugeicons:thumbs-up mr-xs text-xl" />
                 Approve
+              </QBtn>
+              <QBtn v-if="request.response.status === RequestStatus.PaymentSubmitted" color="primary" @click="process">
+                <div class="i-hugeicons:thumbs-up mr-xs text-xl" />
+                Start Processing
+              </QBtn>
+              <QBtn v-if="request.response.status === RequestStatus.OnProcess" color="primary" @click="forPickup">
+                <div class="i-hugeicons:thumbs-up mr-xs text-xl" />
+                Ready for Pickup
               </QBtn>
               <QBtn label="Reject" color="negative" @click="reject" />
             </div>
           </div>
+          <img :src="pictureURL" alt="Request Picture" class="mb-xl h-300px cursor-zoom-in" @click="imagePreview = pictureURL">
           <ul class="list-disc pl-xl space-y-2">
             <li>
               {{ request.response.requesterTypeDesc }}
@@ -139,6 +199,24 @@ onMounted(() => request.submit())
             <li><b>Contact Number:</b> {{ request.response.contactNumber }}</li>
             <li><b>Address:</b> {{ request.response.address }}</li>
           </ul>
+          <div class="mt-xl">
+            <p class="text-lg font-bold">
+              Payment Details
+            </p>
+            <p>
+              <b>Reference Number:</b> {{ request.response.referenceNumber }}
+            </p>
+            <p>
+              <b>Amount:</b> {{ request.response.amount }}
+            </p>
+            <p>
+              <b>GCash Number:</b> 093-12345678
+            </p>
+            <p>
+              <b>Account Name:</b> OMSC Cashier
+            </p>
+            <img :src="paymentURL" alt="Request Picture" class="h-300px cursor-zoom-in" @click="imagePreview = paymentURL">
+          </div>
         </QCardSection>
       </QCard>
       <QCard class="mt-xl">
@@ -183,5 +261,12 @@ onMounted(() => request.submit())
         </QCardSection>
       </QCard>
     </template>
+    <QDialog v-if="!!imagePreview" :model-value="!!imagePreview" @update:model-value="imagePreview = null">
+      <QCard>
+        <QCardSection>
+          <img :src="imagePreview" alt="Preview">
+        </QCardSection>
+      </QCard>
+    </QDialog>
   </div>
 </template>

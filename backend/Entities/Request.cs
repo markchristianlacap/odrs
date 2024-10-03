@@ -30,4 +30,6 @@ public class Request : BaseEntity
     public List<RequestHistory> Histories { get; set; } = null!;
     public decimal Amount { get; set; }
     public RequestStatus Status { get; set; }
+    public string PicturePath { get; set; } = null!;
+    public string? PaymentPath { get; set; }
 }

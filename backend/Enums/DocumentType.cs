@@ -6,7 +6,14 @@ public enum DocumentType
 {
     [Description("Transcript of Records")]
     TOR,
+    SecondCopyOfDiploma,
+    CertificateOfEnrollment,
+    CertificateOfMediumOfInstruction,
+
+    [Description("Certificate of GPA/GWA")]
+    CertificateOfGPAGWA,
     HonorableDismissal,
-    Diploma,
-    CertificateOfGraduation,
+
+    [Description("Certificate, Authentication and Verification")]
+    CAV,
 }

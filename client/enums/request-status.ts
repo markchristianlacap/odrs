@@ -1,8 +1,8 @@
 export enum RequestStatus {
-  Submitted,
   Rejected,
+  Submitted,
   WaitingForPayment,
-  Paid,
+  PaymentSubmitted,
   OnProcess,
   PendingForPickup,
   Completed,
