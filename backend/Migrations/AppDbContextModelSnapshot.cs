@@ -17,7 +17,7 @@ namespace Backend.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.8")
+                .HasAnnotation("ProductVersion", "8.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
@@ -103,6 +103,9 @@ namespace Backend.Migrations
                     b.Property<Guid>("CampusId")
                         .HasColumnType("char(36)");
 
+                    b.Property<int>("CollectorType")
+                        .HasColumnType("int");
+
                     b.Property<string>("ContactNumber")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -110,8 +113,9 @@ namespace Backend.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int>("DocumentType")
-                        .HasColumnType("int");
+                    b.Property<string>("DocumentTypes")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -223,6 +227,29 @@ namespace Backend.Migrations
                     b.HasIndex("UpdatedById");
 
                     b.ToTable("RequestHistories");
+                });
+
+            modelBuilder.Entity("Backend.Entities.RequestRequirement", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Path")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<Guid>("RequestId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RequestId");
+
+                    b.ToTable("RequestRequirements");
                 });
 
             modelBuilder.Entity("Backend.Entities.ResetPassword", b =>
@@ -375,9 +402,20 @@ namespace Backend.Migrations
                     b.Navigation("UpdatedBy");
                 });
 
+            modelBuilder.Entity("Backend.Entities.RequestRequirement", b =>
+                {
+                    b.HasOne("Backend.Entities.Request", null)
+                        .WithMany("Requirements")
+                        .HasForeignKey("RequestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Backend.Entities.Request", b =>
                 {
                     b.Navigation("Histories");
+
+                    b.Navigation("Requirements");
                 });
 #pragma warning restore 612, 618
         }

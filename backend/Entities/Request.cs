@@ -6,7 +6,7 @@ namespace Backend.Entities;
 public class Request : BaseEntity
 {
     public string ReferenceNumber { get; set; } = null!;
-    public DocumentType DocumentType { get; set; }
+    public List<DocumentType> DocumentTypes { get; set; } = null!;
     public string Email { get; set; } = null!;
     public RequesterType RequesterType { get; set; }
     public string FirstName { get; set; } = null!;
@@ -32,4 +32,6 @@ public class Request : BaseEntity
     public RequestStatus Status { get; set; }
     public string PicturePath { get; set; } = null!;
     public string? PaymentPath { get; set; }
+    public CollectorType CollectorType { get; set; }
+    public List<RequestRequirement> Requirements { get; set; } = null!;
 }

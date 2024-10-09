@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import type { DocumentType } from '~/enums/document-type'
+import { CollectorType } from '~/enums/collector-type'
+import { DocumentType } from '~/enums/document-type'
 import type { RequesterType } from '~/enums/requester-type'
 import type { Semester } from '~/enums/semester'
 import type { YearLevel } from '~/enums/year-level'
+import { collectorTypes } from '~/options/collector-types'
 import { documentTypes } from '~/options/document-types'
 import { requesterTypes } from '~/options/requester-types'
 import { semesters } from '~/options/semesters'
@@ -29,7 +31,7 @@ const otherPurpose = ref(false)
 const form = useForm({
   studentNumber: '',
   email: '',
-  documentType: null as DocumentType | null,
+  documentTypes: [] as DocumentType[],
   lastName: '',
   firstName: '',
   middleName: '' as string | undefined,
@@ -47,27 +49,43 @@ const form = useForm({
   programId: null as string | null,
   requesterType: null as RequesterType | null,
   picture: null as File | null,
+  authorizationLetter: null as File | null,
+  representativeValidId: null as File | null,
+  validId: null as File | null,
+  specialPowerOfAttorney: null as File | null,
+  affidavitOfLoss: null as File | null,
+  collectorType: CollectorType.Myself,
 })
 function onPictureChange(files: readonly any[]) {
   form.fields.picture = files[0]
 }
 function onSubmit() {
   form.submit(async (fields) => {
-    const formData = new FormData()
-    for (const [key, value] of Object.entries(fields)) {
-      formData.append(key, value as string)
-    }
-    const { data } = await api.post('/requests', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    })
-    $q.notify({
-      type: 'positive',
-      message:
+    try {
+      const formData = new FormData()
+      for (const [key, value] of Object.entries(fields)) {
+        formData.append(key, value as string)
+      }
+      form.fields.documentTypes.forEach((documentType) => {
+        formData.append('documentTypes[]', documentType.toString())
+      })
+      const { data } = await api.post('/requests', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      })
+      $q.notify({
+        type: 'positive',
+        message:
         'Request submitted successfully. You can track your request status using the reference number.',
-    })
-    router.push(`/requests/${data.referenceNumber}`)
+      })
+      router.push(`/requests/${data.referenceNumber}`)
+    }
+    catch (e) {
+      $q.notify({
+        type: 'negative',
+        message: 'Request failed. Please check your information.',
+      })
+      throw e
+    }
   })
 }
 watch(otherPurpose, () => {
@@ -137,11 +155,11 @@ onMounted(() => {
         <p class="mt-xl font-bold">
           Select document you want to request:
         </p>
-        <QRadio
+        <QCheckbox
           v-for="documentType in documentTypes"
           :key="documentType.value"
-          v-model="form.fields.documentType"
-          :color="form.hasError('documentType') ? 'negative' : 'primary'"
+          v-model="form.fields.documentTypes"
+          :color="form.hasError('documentTypes') ? 'negative' : 'primary'"
           keep-color
           :val="documentType.value"
           :label="documentType.label"
@@ -333,13 +351,80 @@ onMounted(() => {
             </QCardSection>
           </QCard>
         </QExpansionItem>
-        <p class="mt-xl font-bold">
-          Upload 2x2 Picture
-        </p>
-        <QUploader label="Attach your 2x2 picture here" class="w-sm" :hide-upload-btn="true" flat bordered @added="onPictureChange" />
-        <p v-if="form.hasError('picture')" class="text-negative mt-sm">
-          {{ form.getError('picture') }}
-        </p>
+        <QExpansionItem
+          label="Requirements"
+          caption="Please upload all the needed requirements for this request."
+          icon="attachment"
+          :model-value="true"
+          header-class="text-primary font-bold bg-blue-1 rounded-xl border-1 border-blue-2"
+        >
+          <p class="mt-xl">
+            2x2 Picture
+          </p>
+          <QUploader label="Attach your 2x2 picture here" class="w-sm" :hide-upload-btn="true" flat bordered @added="onPictureChange" />
+          <p v-if="form.hasError('picture')" class="text-negative mt-sm">
+            {{ form.getError('picture') }}
+          </p>
+          <p class="mt-xl">
+            Who will collect the documents?
+          </p>
+          <QRadio
+            v-for="collector in collectorTypes"
+            :key="collector.value"
+            v-model="form.fields.collectorType"
+            :val="collector.value"
+            :label="collector.label"
+            :color="form.hasError('collectorType') ? 'negative' : 'primary'"
+            keep-color
+          />
+          <QFile
+            v-if="form.fields.collectorType === CollectorType.ImmediateFamilyMember" v-model="form.fields.authorizationLetter" label="Authorization Letter" class="w-sm" flat bordered
+            :error="form.hasError('authorizationLetter')"
+            :error-message="form.getError('authorizationLetter')"
+          >
+            <template #prepend>
+              <div class="i-hugeicons:document-attachment" />
+            </template>
+          </QFile>
+          <QFile
+            v-if="form.fields.collectorType === CollectorType.AuthorizedRepresentative" v-model="form.fields.specialPowerOfAttorney" label="Special Power of Attorney" class="w-sm"
+            flat bordered
+            :error="form.hasError('specialPowerOfAttorney')"
+            :error-message="form.getError('specialPowerOfAttorney')"
+          >
+            <template #prepend>
+              <div class="i-hugeicons:document-attachment" />
+            </template>
+          </QFile>
+          <QFile
+            v-if="form.fields.collectorType !== CollectorType.Myself" v-model="form.fields.validId" label="Owner's Valid ID" class="w-sm"
+            flat bordered
+            :error="form.hasError('validId')"
+            :error-message="form.getError('validId')"
+          >
+            <template #prepend>
+              <div class="i-hugeicons:document-attachment" />
+            </template>
+          </QFile>
+          <QFile
+            v-if="form.fields.collectorType !== CollectorType.Myself" v-model="form.fields.representativeValidId" label="Representative's Valid ID" class="w-sm"
+            flat bordered
+            :error="form.hasError('representativeValidId')"
+            :error-message="form.getError('representativeValidId')"
+          >
+            <template #prepend>
+              <div class="i-hugeicons:document-attachment" />
+            </template>
+          </QFile>
+          <QFile
+            v-if="form.fields.documentTypes.includes(DocumentType.SecondCopyOfDiploma)"
+            v-model="form.fields.affidavitOfLoss" label="Affidavit of Loss" class="w-sm" flat bordered
+          >
+            <template #prepend>
+              <div class="i-hugeicons:document-attachment" />
+            </template>
+          </QFile>
+        </QExpansionItem>
         <div class="grid my-2xl gap-sm">
           <QBtn
             color="primary"

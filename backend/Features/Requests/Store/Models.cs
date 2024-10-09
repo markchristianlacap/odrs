@@ -1,8 +1,16 @@
-﻿namespace Backend.Features.Requests.Store;
+﻿using Backend.Enums;
+
+namespace Backend.Features.Requests.Store;
 
 public class RequestReq : RequestModel
 {
     public IFormFile Picture { get; set; } = null!;
+    public IFormFile? ValidId { get; set; } = null;
+    public IFormFile? RepresentativeValidId { get; set; } = null;
+    public IFormFile? AuthorizationLetter { get; set; } = null;
+    public IFormFile? SpecialPowerOfAttorney { get; set; } = null;
+    public IFormFile? AffidavitOfLoss { get; set; } = null;
+    public CollectorType CollectorType { get; set; }
 }
 
 public class RequestRes : RequestModel

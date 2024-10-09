@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using Backend.Enums;
+using FluentValidation;
 
 namespace Backend.Features.Requests.Store;
 
@@ -6,7 +7,7 @@ public class Validator : Validator<RequestReq>
 {
     public Validator()
     {
-        RuleFor(x => x.DocumentType).NotNull().IsInEnum();
+        RuleFor(x => x.DocumentTypes).NotNull().ForEach(x => x.IsInEnum());
         RuleFor(x => x.LastAttendanceStartYear).NotEmpty();
         RuleFor(x => x.LastAttendanceEndYear).NotEmpty();
         RuleFor(x => x.Semester).NotNull().IsInEnum();
@@ -24,5 +25,34 @@ public class Validator : Validator<RequestReq>
         RuleFor(x => x.StudentNumber).NotEmpty();
         RuleFor(x => x.Email).NotEmpty().EmailAddress();
         RuleFor(x => x.Picture).NotNull();
+        When(
+            x => x.CollectorType != CollectorType.Myself,
+            () =>
+            {
+                RuleFor(x => x.RepresentativeValidId).NotNull();
+                RuleFor(x => x.ValidId).NotNull();
+            }
+        );
+        When(
+            x => x.CollectorType == CollectorType.AuthorizedRepresentative,
+            () =>
+            {
+                RuleFor(x => x.SpecialPowerOfAttorney).NotNull();
+            }
+        );
+        When(
+            x => x.CollectorType == CollectorType.ImmediateFamilyMember,
+            () =>
+            {
+                RuleFor(x => x.AuthorizationLetter).NotNull();
+            }
+        );
+        When(
+            x => x.DocumentTypes.Contains(DocumentType.SecondCopyOfDiploma),
+            () =>
+            {
+                RuleFor(x => x.AffidavitOfLoss).NotNull();
+            }
+        );
     }
 }

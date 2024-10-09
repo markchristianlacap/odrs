@@ -22,7 +22,94 @@ public class Endpoint : Endpoint<RequestReq, RequestRes>
 
     public override async Task HandleAsync(RequestReq req, CancellationToken ct)
     {
+        var requirements = new List<RequestRequirement>();
         var request = req.Adapt<Request>();
+        if (
+            req.AuthorizationLetter != null
+            && req.CollectorType == CollectorType.ImmediateFamilyMember
+        )
+        {
+            var path = await StorageService.UploadFileAsync(
+                req.AuthorizationLetter,
+                "requirements",
+                ct
+            );
+            requirements.Add(
+                new RequestRequirement
+                {
+                    RequestId = request.Id,
+                    Path = path,
+                    Type = RequirementType.AuthorizationLetter,
+                }
+            );
+        }
+        if (req.ValidId != null && req.CollectorType != CollectorType.Myself)
+        {
+            var path = await StorageService.UploadFileAsync(req.ValidId, "requirements", ct);
+            requirements.Add(
+                new RequestRequirement
+                {
+                    RequestId = request.Id,
+                    Path = path,
+                    Type = RequirementType.ValidId,
+                }
+            );
+        }
+        if (req.RepresentativeValidId != null && req.CollectorType != CollectorType.Myself)
+        {
+            var path = await StorageService.UploadFileAsync(
+                req.RepresentativeValidId,
+                "requirements",
+                ct
+            );
+            requirements.Add(
+                new RequestRequirement
+                {
+                    RequestId = request.Id,
+                    Path = path,
+                    Type = RequirementType.RepresentativeValidId,
+                }
+            );
+        }
+        if (
+            req.CollectorType == CollectorType.AuthorizedRepresentative
+            && req.RepresentativeValidId != null
+        )
+        {
+            var path = await StorageService.UploadFileAsync(
+                req.RepresentativeValidId,
+                "requirements",
+                ct
+            );
+            requirements.Add(
+                new RequestRequirement
+                {
+                    RequestId = request.Id,
+                    Path = path,
+                    Type = RequirementType.RepresentativeValidId,
+                }
+            );
+        }
+        if (
+            req.DocumentTypes.Contains(DocumentType.SecondCopyOfDiploma)
+            && req.AffidavitOfLoss != null
+        )
+        {
+            var path = await StorageService.UploadFileAsync(
+                req.AffidavitOfLoss,
+                "requirements",
+                ct
+            );
+            requirements.Add(
+                new RequestRequirement
+                {
+                    RequestId = request.Id,
+                    Path = path,
+                    Type = RequirementType.AffidavitOfLoss,
+                }
+            );
+        }
+        request.Requirements = requirements;
         request.Histories = [];
         request.ReferenceNumber = await GenerateReferenceNumber(ct);
         request.Status = RequestStatus.Submitted;

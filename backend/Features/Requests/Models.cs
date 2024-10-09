@@ -4,7 +4,8 @@ namespace Backend.Features.Requests;
 
 public class RequestModel
 {
-    public DocumentType? DocumentType { get; set; }
+    [BindFrom("documentTypes[]")]
+    public List<DocumentType> DocumentTypes { get; set; } = null!;
     public string Email { get; set; } = null!;
     public RequesterType? RequesterType { get; set; }
     public string FirstName { get; set; } = null!;

@@ -12,15 +12,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Backend.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240917011807_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20241009114533_InItialMigration")]
+    partial class InItialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.8")
+                .HasAnnotation("ProductVersion", "8.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
@@ -97,11 +97,17 @@ namespace Backend.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(65,30)");
+
                     b.Property<DateOnly>("Birthdate")
                         .HasColumnType("date");
 
                     b.Property<Guid>("CampusId")
                         .HasColumnType("char(36)");
+
+                    b.Property<int>("CollectorType")
+                        .HasColumnType("int");
 
                     b.Property<string>("ContactNumber")
                         .IsRequired()
@@ -110,8 +116,9 @@ namespace Backend.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int>("DocumentType")
-                        .HasColumnType("int");
+                    b.Property<string>("DocumentTypes")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -137,6 +144,13 @@ namespace Backend.Migrations
                     b.Property<string>("MiddleName")
                         .HasColumnType("longtext");
 
+                    b.Property<string>("PaymentPath")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("PicturePath")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<Guid>("ProgramId")
                         .HasColumnType("char(36)");
 
@@ -158,6 +172,9 @@ namespace Backend.Migrations
                     b.Property<int>("Semester")
                         .HasColumnType("int");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
                     b.Property<string>("StudentNumber")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -175,6 +192,67 @@ namespace Backend.Migrations
                     b.HasIndex("ProgramId");
 
                     b.ToTable("Requests");
+                });
+
+            modelBuilder.Entity("Backend.Entities.RequestHistory", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<Guid?>("CreatedById")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Remarks")
+                        .HasColumnType("longtext");
+
+                    b.Property<Guid>("RequestId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<int>("RequestStatus")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<Guid?>("UpdatedById")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedById");
+
+                    b.HasIndex("RequestId");
+
+                    b.HasIndex("UpdatedById");
+
+                    b.ToTable("RequestHistories");
+                });
+
+            modelBuilder.Entity("Backend.Entities.RequestRequirement", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Path")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<Guid>("RequestId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RequestId");
+
+                    b.ToTable("RequestRequirements");
                 });
 
             modelBuilder.Entity("Backend.Entities.ResetPassword", b =>
@@ -304,6 +382,43 @@ namespace Backend.Migrations
                     b.Navigation("Campus");
 
                     b.Navigation("Program");
+                });
+
+            modelBuilder.Entity("Backend.Entities.RequestHistory", b =>
+                {
+                    b.HasOne("Backend.Entities.User", "CreatedBy")
+                        .WithMany()
+                        .HasForeignKey("CreatedById");
+
+                    b.HasOne("Backend.Entities.Request", null)
+                        .WithMany("Histories")
+                        .HasForeignKey("RequestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Backend.Entities.User", "UpdatedBy")
+                        .WithMany()
+                        .HasForeignKey("UpdatedById");
+
+                    b.Navigation("CreatedBy");
+
+                    b.Navigation("UpdatedBy");
+                });
+
+            modelBuilder.Entity("Backend.Entities.RequestRequirement", b =>
+                {
+                    b.HasOne("Backend.Entities.Request", null)
+                        .WithMany("Requirements")
+                        .HasForeignKey("RequestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Backend.Entities.Request", b =>
+                {
+                    b.Navigation("Histories");
+
+                    b.Navigation("Requirements");
                 });
 #pragma warning restore 612, 618
         }
