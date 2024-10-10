@@ -215,7 +215,7 @@ onMounted(() => request.submit())
             <p>
               <b>Account Name:</b> OMSC Cashier
             </p>
-            <img :src="paymentURL" alt="Request Picture" class="h-300px cursor-zoom-in" @click="imagePreview = paymentURL">
+            <img v-if="request.response.status === RequestStatus.PaymentSubmitted" :src="paymentURL" alt="Request Picture" class="h-300px cursor-zoom-in" @click="imagePreview = paymentURL">
           </div>
         </QCardSection>
       </QCard>

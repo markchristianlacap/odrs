@@ -5,7 +5,7 @@ namespace Backend.Features.User.Requests;
 public class RequestModel
 {
     public string ReferenceNumber { get; set; } = null!;
-    public DocumentType DocumentType { get; set; }
+    public List<DocumentType> DocumentTypes { get; set; } = null!;
     public string Email { get; set; } = null!;
     public RequesterType RequesterType { get; set; }
     public string FirstName { get; set; } = null!;

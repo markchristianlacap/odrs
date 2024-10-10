@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Options;
-
-namespace Backend.Services;
+﻿namespace Backend.Services;
 
 public interface IStorageService
 {
@@ -25,7 +23,7 @@ public interface IStorageService
 
 public class StorageService(IConfiguration config) : IStorageService
 {
-    private readonly string _rootDirectory = config.GetValue<string>("Storage:Directory") ?? "";
+    private readonly string _rootDirectory = config.GetValue<string>("Directory") ?? "";
 
     public Task<byte[]> DownloadFileAsync(string path, CancellationToken ct = default)
     {
