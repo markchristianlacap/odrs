@@ -34,4 +34,6 @@ public class Request : BaseEntity
     public string? PaymentPath { get; set; }
     public CollectorType CollectorType { get; set; }
     public List<RequestRequirement> Requirements { get; set; } = null!;
+    public string? Representative { get; set; }
+    public DateTime DateOfReleased { get; set; }
 }

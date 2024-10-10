@@ -4,6 +4,7 @@ namespace Backend.Features.User.Requests;
 
 public class RequestModel
 {
+    public CollectorType CollectorType { get; set; }
     public string ReferenceNumber { get; set; } = null!;
     public List<DocumentType> DocumentTypes { get; set; } = null!;
     public string Email { get; set; } = null!;
@@ -24,4 +25,5 @@ public class RequestModel
     public string Section { get; set; } = null!;
     public Guid ProgramId { get; set; }
     public Guid CampusId { get; set; }
+    public string? Representative { get; set; }
 }

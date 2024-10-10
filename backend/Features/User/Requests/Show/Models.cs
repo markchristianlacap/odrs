@@ -13,9 +13,17 @@ public class HistoryModel
     public DateTime CreatedAt { get; set; }
 }
 
+public class RequestRequirementModel
+{
+    public Guid Id { get; set; }
+    public RequirementType Type { get; set; }
+    public string TypeDesc => Type.Humanize(LetterCasing.Title);
+}
+
 public class RequestShowRes : RequestModel
 {
     public Guid Id { get; set; }
+    public string CollectorTypeDesc => CollectorType.Humanize(LetterCasing.Title);
     public string ProgramName { get; set; } = null!;
     public string CampusName { get; set; } = null!;
     public string DocumentTypeDesc =>
@@ -26,4 +34,5 @@ public class RequestShowRes : RequestModel
     public RequestStatus Status { get; set; }
     public string StatusDesc => Status.Humanize(LetterCasing.Title);
     public List<HistoryModel> Histories { get; set; } = null!;
+    public List<RequestRequirementModel> Requirements { get; set; } = null!;
 }

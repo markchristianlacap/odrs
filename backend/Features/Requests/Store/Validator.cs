@@ -54,5 +54,9 @@ public class Validator : Validator<RequestReq>
                 RuleFor(x => x.AffidavitOfLoss).NotNull();
             }
         );
+        When(
+            x => x.CollectorType != CollectorType.Myself,
+            () => RuleFor(x => x.Representative).NotEmpty()
+        );
     }
 }

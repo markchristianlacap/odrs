@@ -57,7 +57,31 @@ function forPickup() {
     try {
       await api.post(`/user/requests/${id.value}/for-pickup`)
       $q.notify({
-        message: 'Reject successfully',
+        message: 'For pickup successfully',
+        type: 'positive',
+      })
+      request.submit()
+    }
+    catch (e: any) {
+      if (isAxiosError(e)) {
+        $q.notify({
+          type: 'negative',
+          message: e.response?.data?.errors?.remarks?.[0] || 'Something went wrong',
+        })
+      }
+    }
+  })
+}
+function release() {
+  $q.dialog({
+    title: 'Release Confirmation',
+    message: 'This can be undone. Are you sure you want to change the status of this request to release?',
+
+  }).onOk(async () => {
+    try {
+      await api.post(`/user/requests/${id.value}/release`)
+      $q.notify({
+        message: 'Release successfully',
         type: 'positive',
       })
       request.submit()
@@ -131,6 +155,9 @@ function reject() {
     }
   })
 }
+function getRequirementURL(requirementId: string) {
+  return `/api/requests/${id.value}/requirements/${requirementId}`
+}
 onMounted(() => request.submit())
 </script>
 
@@ -148,6 +175,10 @@ onMounted(() => request.submit())
                 <div class="i-hugeicons:thumbs-up mr-xs text-xl" />
                 Approve
               </QBtn>
+              <QBtn v-if="request.response.status === RequestStatus.PendingForPickup" color="positive" @click="release">
+                <div class="i-hugeicons:new-releases mr-xs text-xl" />
+                Release Document
+              </QBtn>
               <QBtn v-if="request.response.status === RequestStatus.PaymentSubmitted" color="primary" @click="process">
                 <div class="i-hugeicons:thumbs-up mr-xs text-xl" />
                 Start Processing
@@ -156,18 +187,34 @@ onMounted(() => request.submit())
                 <div class="i-hugeicons:thumbs-up mr-xs text-xl" />
                 Ready for Pickup
               </QBtn>
-              <QBtn label="Reject" color="negative" @click="reject" />
+              <QBtn v-if="request.response.status !== RequestStatus.Released" label="Reject" color="negative" @click="reject" />
             </div>
           </div>
           <img :src="pictureURL" alt="Request Picture" class="mb-xl h-300px cursor-zoom-in" @click="imagePreview = pictureURL">
           <ul class="list-disc pl-xl space-y-2">
             <li>
-              {{ request.response.requesterTypeDesc }}
+              {{ request.response.requesterTypeDesc }}2024100004
             </li>
             <li>
               <b> Type of Document: </b>
               <span class="text-lg text-primary font-bold">
                 {{ request.response.documentTypeDesc }}
+              </span>
+            </li>
+            <li>
+              <b>
+                Who will collect:
+              </b>
+              <span>
+                {{ request.response.collectorTypeDesc }}
+              </span>
+            </li>
+            <li v-if="request.response.representative">
+              <b>
+                Representative:
+              </b>
+              <span>
+                {{ request.response.representative }}
               </span>
             </li>
             <li>
@@ -216,6 +263,19 @@ onMounted(() => request.submit())
               <b>Account Name:</b> OMSC Cashier
             </p>
             <img v-if="request.response.status === RequestStatus.PaymentSubmitted" :src="paymentURL" alt="Request Picture" class="h-300px cursor-zoom-in" @click="imagePreview = paymentURL">
+          </div>
+          <div v-if="request.response.requirements.length > 0 ">
+            <p class="mt-xl text-xl font-bold">
+              Requirements
+            </p>
+            <div class="mt-xl w-full flex flex-wrap items-center justify-between gap-sm">
+              <div v-for="requirement in request.response.requirements" :key="requirement.id">
+                <p class="uppercase">
+                  {{ requirement.typeDesc }}
+                </p>
+                <img :src="getRequirementURL(requirement.id)" :alt="requirement.typeDesc" class="h-300px cursor-zoom-in" @click="imagePreview = getRequirementURL(requirement.id)">
+              </div>
+            </div>
           </div>
         </QCardSection>
       </QCard>

@@ -55,6 +55,7 @@ const form = useForm({
   specialPowerOfAttorney: null as File | null,
   affidavitOfLoss: null as File | null,
   collectorType: CollectorType.Myself,
+  representative: '',
 })
 function onPictureChange(files: readonly any[]) {
   form.fields.picture = files[0]
@@ -361,7 +362,11 @@ onMounted(() => {
           <p class="mt-xl">
             2x2 Picture
           </p>
-          <QUploader label="Attach your 2x2 picture here" class="w-sm" :hide-upload-btn="true" flat bordered @added="onPictureChange" />
+          <QUploader
+            label="Attach your 2x2 picture here" class="w-sm" :hide-upload-btn="true" flat bordered accept="image/*"
+
+            @added="onPictureChange"
+          />
           <p v-if="form.hasError('picture')" class="text-negative mt-sm">
             {{ form.getError('picture') }}
           </p>
@@ -378,7 +383,9 @@ onMounted(() => {
             keep-color
           />
           <QFile
-            v-if="form.fields.collectorType === CollectorType.ImmediateFamilyMember" v-model="form.fields.authorizationLetter" label="Authorization Letter" class="w-sm" flat bordered
+
+            v-if="form.fields.collectorType === CollectorType.ImmediateFamilyMember"
+            v-model="form.fields.authorizationLetter" accept="image/*" label="Authorization Letter" class="w-sm" flat bordered
             :error="form.hasError('authorizationLetter')"
             :error-message="form.getError('authorizationLetter')"
           >
@@ -391,6 +398,8 @@ onMounted(() => {
             flat bordered
             :error="form.hasError('specialPowerOfAttorney')"
             :error-message="form.getError('specialPowerOfAttorney')"
+
+            accept="image/*"
           >
             <template #prepend>
               <div class="i-hugeicons:document-attachment" />
@@ -401,16 +410,27 @@ onMounted(() => {
             flat bordered
             :error="form.hasError('validId')"
             :error-message="form.getError('validId')"
+            accept="image/*"
           >
             <template #prepend>
               <div class="i-hugeicons:document-attachment" />
             </template>
           </QFile>
+          <QInput
+            v-if="form.fields.collectorType !== CollectorType.Myself"
+            v-model="form.fields.representative"
+            label="Name of Representative"
+            class="w-sm" flat
+            :error="form.hasError('representative')"
+            :error-message="form.getError('representative')"
+          />
           <QFile
             v-if="form.fields.collectorType !== CollectorType.Myself" v-model="form.fields.representativeValidId" label="Representative's Valid ID" class="w-sm"
             flat bordered
             :error="form.hasError('representativeValidId')"
             :error-message="form.getError('representativeValidId')"
+
+            accept="image/*"
           >
             <template #prepend>
               <div class="i-hugeicons:document-attachment" />
@@ -419,6 +439,8 @@ onMounted(() => {
           <QFile
             v-if="form.fields.documentTypes.includes(DocumentType.SecondCopyOfDiploma)"
             v-model="form.fields.affidavitOfLoss" label="Affidavit of Loss" class="w-sm" flat bordered
+
+            accept="image/*"
           >
             <template #prepend>
               <div class="i-hugeicons:document-attachment" />

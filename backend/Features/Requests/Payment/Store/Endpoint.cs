@@ -41,11 +41,11 @@ public class Endpoint : EndpointWithoutRequest
         request.Status = RequestStatus.PaymentSubmitted;
         var history = new RequestHistory
         {
-            RequestId = request.Id,
+            RequestId = id,
             Remarks = "Payment submitted. Waiting for admin validation.",
             RequestStatus = RequestStatus.PaymentSubmitted,
         };
-        request.Histories.Add(history);
+        await Db.RequestHistories.AddAsync(history, ct);
         await Db.SaveChangesAsync(ct);
     }
 }

@@ -8,6 +8,6 @@ public enum RequestStatus
     PaymentSubmitted,
     OnProcess,
     PendingForPickup,
-    Completed,
+    Released,
     Canceled,
 }

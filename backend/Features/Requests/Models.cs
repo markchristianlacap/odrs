@@ -24,4 +24,5 @@ public class RequestModel
     public string Section { get; set; } = null!;
     public Guid? ProgramId { get; set; }
     public Guid? CampusId { get; set; }
+    public string? Representative { get; set; }
 }
