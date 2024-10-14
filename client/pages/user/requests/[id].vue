@@ -79,7 +79,7 @@ function release() {
 
   }).onOk(async () => {
     try {
-      await api.post(`/user/requests/${id.value}/release`)
+      await api.post(`/user/requests/${id.value}/release-documents`)
       $q.notify({
         message: 'Release successfully',
         type: 'positive',
