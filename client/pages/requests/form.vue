@@ -406,7 +406,7 @@ onMounted(() => {
             </template>
           </QFile>
           <QFile
-            v-if="form.fields.collectorType !== CollectorType.Myself" v-model="form.fields.validId" label="Owner's Valid ID" class="w-sm"
+            v-model="form.fields.validId" label="Owner's Valid ID" class="w-sm"
             flat bordered
             :error="form.hasError('validId')"
             :error-message="form.getError('validId')"

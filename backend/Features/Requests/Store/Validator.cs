@@ -25,6 +25,7 @@ public class Validator : Validator<RequestReq>
         RuleFor(x => x.StudentNumber).NotEmpty();
         RuleFor(x => x.Email).NotEmpty().EmailAddress();
         RuleFor(x => x.Picture).NotNull();
+        RuleFor(x => x.ValidId).NotNull();
         When(
             x => x.CollectorType != CollectorType.Myself,
             () =>

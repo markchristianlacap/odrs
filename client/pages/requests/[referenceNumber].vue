@@ -68,7 +68,7 @@ onMounted(async () => {
           {{ request.response.referenceNumber }}
         </p>
         <div v-if="request.response.status === RequestStatus.PendingForPickup" class="mt-xl">
-          <p class="text-lg ">
+          <p class="text-lg">
             Your request is ready for pickup. Please bring the needed documents.
           </p>
           <p>
@@ -126,7 +126,7 @@ onMounted(async () => {
             </li>
           </ul>
           <div class="max-w-120 w-full">
-            <QFile v-model="payment.fields.payment" label="Attach your receipt here">
+            <QFile v-model="payment.fields.payment" accept="image/*" label="Attach your receipt here">
               <template #prepend>
                 <div class="i-hugeicons:document-attachment" />
               </template>
