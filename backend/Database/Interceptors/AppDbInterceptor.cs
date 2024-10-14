@@ -35,13 +35,13 @@ public class AppDbInterceptor(IUserService userService) : SaveChangesInterceptor
         // base entity
         foreach (var entry in context.ChangeTracker.Entries<AuditEntity>())
         {
-            if (entry.State == EntityState.Added && userService.UserId != null)
+            if (entry.State == EntityState.Added)
             {
-                entry.Entity.CreatedById = userService.UserId.Value;
+                entry.Entity.CreatedById = userService.UserId;
             }
-            else if (entry.State == EntityState.Modified && userService.UserId != null)
+            else if (entry.State == EntityState.Modified)
             {
-                entry.Entity.UpdatedById = userService.UserId.Value;
+                entry.Entity.UpdatedById = userService.UserId;
             }
         }
     }

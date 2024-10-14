@@ -110,17 +110,20 @@ public class Endpoint : Endpoint<RequestReq, RequestRes>
             );
         }
         request.Requirements = requirements;
-        request.Histories = [];
+        request.Histories =
+        [
+            new RequestHistory
+            {
+                RequestId = request.Id,
+                Remarks =
+                    "Request submitted. Waiting for admin validation before proceeding with payment.",
+                RequestStatus = RequestStatus.Submitted,
+                CreatedById = null,
+            },
+        ];
         request.ReferenceNumber = await GenerateReferenceNumber(ct);
         request.Status = RequestStatus.Submitted;
-        var history = new RequestHistory
-        {
-            Remarks =
-                "Request submitted. Waiting for admin validation before proceeding with payment.",
-            RequestStatus = RequestStatus.Submitted,
-        };
         request.PicturePath = await StorageService.UploadFileAsync(req.Picture, "pictures", ct);
-        request.Histories.Add(history);
         await Db.Requests.AddAsync(request, ct);
         await Db.SaveChangesAsync(ct);
         Response = request.Adapt<RequestRes>();
