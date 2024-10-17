@@ -32,7 +32,7 @@ public class Endpoint : EndpointWithoutRequest
             return;
         }
         request.Status = RequestStatus.Released;
-        request.DateOfReleased = DateTime.Now;
+        request.DateReleased = DateTime.Now;
         var history = new RequestHistory
         {
             RequestId = id,

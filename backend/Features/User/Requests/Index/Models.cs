@@ -1,9 +1,11 @@
 ﻿using Backend.Database;
+using Backend.Enums;
 
 namespace Backend.Features.User.Requests.Index;
 
 public class RequestPagedReq : PagedReq
 {
+    public RequestStatus? Status { get; set; }
     public string? Search { get; set; }
 }
 

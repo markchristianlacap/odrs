@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Backend.Migrations
 {
     /// <inheritdoc />
-    public partial class InItialMigration : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -163,7 +163,13 @@ namespace Backend.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     PaymentPath = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    ORNumber = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     CollectorType = table.Column<int>(type: "int", nullable: false),
+                    Representative = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    DateReleased = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    ReleasedById = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
                     CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: true)
                 },
@@ -182,6 +188,11 @@ namespace Backend.Migrations
                         principalTable: "Programs",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Requests_Users_ReleasedById",
+                        column: x => x.ReleasedById,
+                        principalTable: "Users",
+                        principalColumn: "Id");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -292,6 +303,11 @@ namespace Backend.Migrations
                 name: "IX_Requests_ProgramId",
                 table: "Requests",
                 column: "ProgramId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Requests_ReleasedById",
+                table: "Requests",
+                column: "ReleasedById");
         }
 
         /// <inheritdoc />

@@ -113,7 +113,7 @@ namespace Backend.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<DateTime>("DateOfReleased")
+                    b.Property<DateTime?>("DateReleased")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("DocumentTypes")
@@ -144,6 +144,9 @@ namespace Backend.Migrations
                     b.Property<string>("MiddleName")
                         .HasColumnType("longtext");
 
+                    b.Property<string>("ORNumber")
+                        .HasColumnType("longtext");
+
                     b.Property<string>("PaymentPath")
                         .HasColumnType("longtext");
 
@@ -161,6 +164,9 @@ namespace Backend.Migrations
                     b.Property<string>("ReferenceNumber")
                         .IsRequired()
                         .HasColumnType("longtext");
+
+                    b.Property<Guid?>("ReleasedById")
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("Representative")
                         .HasColumnType("longtext");
@@ -193,6 +199,8 @@ namespace Backend.Migrations
                     b.HasIndex("CampusId");
 
                     b.HasIndex("ProgramId");
+
+                    b.HasIndex("ReleasedById");
 
                     b.ToTable("Requests");
                 });
@@ -382,9 +390,15 @@ namespace Backend.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Backend.Entities.User", "ReleasedBy")
+                        .WithMany()
+                        .HasForeignKey("ReleasedById");
+
                     b.Navigation("Campus");
 
                     b.Navigation("Program");
+
+                    b.Navigation("ReleasedBy");
                 });
 
             modelBuilder.Entity("Backend.Entities.RequestHistory", b =>

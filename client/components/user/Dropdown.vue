@@ -30,6 +30,14 @@ async function onLogout() {
         </QItemSection>
         <QItemSection> Requested Documents </QItemSection>
       </QItem>
+      <QItem clickable to="/user/reports">
+        <QItemSection avatar>
+          <QIcon>
+            <div class="i-hugeicons:school-report-card" />
+          </QIcon>
+        </QItemSection>
+        <QItemSection> Report </QItemSection>
+      </QItem>
       <QItem clickable to="/user/update-profile">
         <QItemSection avatar>
           <QIcon>

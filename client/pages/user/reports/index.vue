@@ -3,8 +3,15 @@ import type { QTableProps } from 'quasar'
 import type { RequestStatus } from '~/enums/request-status'
 import { requestStatuses } from '~/options/request-statuses'
 
-const router = useRouter()
 const columns: QTableProps['columns'] = [
+  {
+    name: 'createdAt',
+    field: 'createdAt',
+    label: 'Date Requested',
+    align: 'left',
+    sortable: true,
+    format: val => formatDate(val),
+  },
   {
     name: 'referenceNumber',
     field: 'referenceNumber',
@@ -55,30 +62,28 @@ const columns: QTableProps['columns'] = [
     name: 'status',
     field: 'statusDesc',
     label: 'Status',
-    align: 'center',
+    align: 'left',
     sortable: true,
   },
-
   {
-    name: 'actions',
-    field: 'actions',
-    label: 'Actions',
+    name: 'dateReleased',
+    field: 'dateOfRelease',
+    label: 'Date Released',
     align: 'left',
+    sortable: true,
+    format: val => formatDate(val),
   },
 ]
-const requests = useRequestTable(
-  params => api.get('/user/requests', { params }).then(r => r.data),
-  { search: '', status: null as RequestStatus | null },
+const today = new Date().toISOString().split('T')[0]
+const requests = useRequest(
+  params => api.get('/user/reports', { params }).then(r => r.data),
+  { dateFrom: today, dateTo: today, status: null as RequestStatus | null },
 )
-
-function onView(id: string) {
-  router.push(`/user/requests/${id}`)
-}
-
 function getStatusColor(status: RequestStatus) {
   return requestStatuses.find(s => s.value === status)?.color
 }
 onMounted(() => requests.submit())
+watchDeep(() => requests.request, () => requests.submit())
 </script>
 
 <template>
@@ -86,57 +91,56 @@ onMounted(() => requests.submit())
     <div class="flex items-center justify-between">
       <div>
         <p class="text-xl font-bold">
-          Requested Documents
+          Requested Reports
         </p>
         <p class="text-primary">
-          Manage requested documents here.
+          View and manage your requested reports
         </p>
       </div>
     </div>
-    <div>
-      <QInput v-model="requests.request.search" label="Search">
-        <template #prepend>
-          <QIcon>
-            <div class="i-hugeicons:search-02" />
-          </QIcon>
-        </template>
-      </QInput>
+    <div class="flex justify-between">
+      <div class="flex items-center gap-sm">
+        <QInput v-model="requests.request.dateTo" label="Starting Date" type="date">
+          <template #prepend>
+            <QIcon>
+              <div class="i-hugeicons:calendar-02" />
+            </QIcon>
+          </template>
+        </QInput>
+        <QInput v-model="requests.request.dateFrom" label="Ending Date" type="date">
+          <template #prepend>
+            <QIcon>
+              <div class="i-hugeicons:calendar-02" />
+            </QIcon>
+          </template>
+        </QInput>
+      </div>
+      <div>
+        <QBtnGroup flat>
+          <QBtn size="sm" label="All" color="primary" :outline="requests.request.status !== null" @click="requests.request.status = null" />
+          <QBtn
+            v-for="status in requestStatuses"
+            :key="status.value"
+            size="sm"
+            :label="status.label"
+            :color="status.color"
+            :outline="requests.request.status !== status.value"
+            @click="requests.request.status = status.value"
+          />
+        </QBtnGroup>
+      </div>
     </div>
-    <div class="mt-xl flex justify-end">
-      <QBtnGroup flat>
-        <QBtn
-          v-for="status in requestStatuses"
-          :key="status.value"
-          size="sm"
-          :label="status.label"
-          :color="status.color"
-          :outline="requests.request.status !== status.value"
-          @click="requests.request.status = status.value"
-        />
-      </QBtnGroup>
-    </div>
-
     <QTable
-      v-model:pagination="requests.pagination"
       flat
-      :rows="requests.response.rows"
+      :rows="requests.response || []"
       :columns="columns"
       :loading="requests.loading"
-      :filter="requests.request"
-      @request="(r) => requests.onRequest(r)"
     >
       <template #body-cell-status="props">
         <QTd :props="props">
           <QBadge :color="getStatusColor(props.row.status)">
             {{ props.value }}
           </QBadge>
-        </QTd>
-      </template>
-      <template #body-cell-actions="props">
-        <QTd :props="props">
-          <QBtn size="sm" color="primary" outline @click="onView(props.row.id)">
-            View
-          </QBtn>
         </QTd>
       </template>
     </QTable>

@@ -23,7 +23,7 @@ public class EmailService(IConfiguration config) : IEmailService
         {
             Subject = subject,
             Body = body,
-            IsBodyHtml = isHtml
+            IsBodyHtml = isHtml,
         };
 
         using var smtp = new SmtpClient
@@ -34,6 +34,7 @@ public class EmailService(IConfiguration config) : IEmailService
                 config.GetValue<string>("Email:Username") ?? "",
                 config.GetValue<string>("Email:Password") ?? ""
             ),
+            EnableSsl = true,
         };
 
         try

@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { CollectorType } from '~/enums/collector-type'
 import { DocumentType } from '~/enums/document-type'
-import type { RequesterType } from '~/enums/requester-type'
+import { RequesterType } from '~/enums/requester-type'
+import type { RequesterType as TRequesterType } from '~/enums/requester-type'
 import type { Semester } from '~/enums/semester'
 import type { YearLevel } from '~/enums/year-level'
 import { collectorTypes } from '~/options/collector-types'
@@ -47,13 +48,15 @@ const form = useForm({
   section: '',
   campusId: null as string | null,
   programId: null as string | null,
-  requesterType: null as RequesterType | null,
+  requesterType: null as TRequesterType | null,
   picture: null as File | null,
   authorizationLetter: null as File | null,
   representativeValidId: null as File | null,
   validId: null as File | null,
   specialPowerOfAttorney: null as File | null,
   affidavitOfLoss: null as File | null,
+  birthCertificate: null as File | null,
+  requestLetter: null as File | null,
   collectorType: CollectorType.Myself,
   representative: '',
 })
@@ -195,7 +198,7 @@ onMounted(() => {
             />
             <div class="flex items-center gap-2">
               <p class="mr-sm">
-                Academic Year
+                {{ form.fields.requesterType === RequesterType.Alumni ? 'Year Graduated' : "Last Attended" }}
               </p>
               <QInput
                 v-model="form.fields.lastAttendanceStartYear"
@@ -439,8 +442,31 @@ onMounted(() => {
           <QFile
             v-if="form.fields.documentTypes.includes(DocumentType.SecondCopyOfDiploma)"
             v-model="form.fields.affidavitOfLoss" label="Affidavit of Loss" class="w-sm" flat bordered
-
+            :error="form.hasError('affidavitOfLoss')"
+            :error-message="form.getError('affidavitOfLoss')"
             accept="image/*"
+          >
+            <template #prepend>
+              <div class="i-hugeicons:document-attachment" />
+            </template>
+          </QFile>
+          <QFile
+            v-if="form.fields.documentTypes.includes(DocumentType.SecondCopyOfDiploma)"
+            v-model="form.fields.birthCertificate" label="PSA Birth Certificate" class="w-sm" flat bordered
+            accept="image/*"
+            :error="form.hasError('birthCertificate')"
+            :error-message="form.getError('birthCertificate')"
+          >
+            <template #prepend>
+              <div class="i-hugeicons:document-attachment" />
+            </template>
+          </QFile>
+          <QFile
+            v-if="form.fields.documentTypes.includes(DocumentType.HonorableDismissal)"
+            v-model="form.fields.requestLetter" label="Request Letter/Return Slip" class="w-sm" flat bordered
+            accept="image/*"
+            :error="form.hasError('requestLetter')"
+            :error-message="form.getError('requestLetter')"
           >
             <template #prepend>
               <div class="i-hugeicons:document-attachment" />

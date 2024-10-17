@@ -15,9 +15,22 @@ public static class UsersSeeder
             ContactNumber = "n/a",
             Address = "n/a",
         };
+        var mark = new User
+        {
+            LastName = "Mark Admin",
+            FirstName = "OMSC",
+            Email = "markchristianlacap@gmail.com",
+            Password = BCrypt.Net.BCrypt.EnhancedHashPassword("password"),
+            ContactNumber = "n/a",
+            Address = "n/a",
+        };
         if (!context.Users.Any(u => u.Email == admin.Email))
         {
             context.Users.Add(admin);
+        }
+        if (!context.Users.Any(u => u.Email == mark.Email))
+        {
+            context.Users.Add(mark);
         }
         context.SaveChanges();
     }

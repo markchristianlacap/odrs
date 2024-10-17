@@ -93,6 +93,7 @@ public class Endpoint : Endpoint<RequestReq, RequestRes>
         if (
             req.DocumentTypes.Contains(DocumentType.SecondCopyOfDiploma)
             && req.AffidavitOfLoss != null
+            && req.BirthCertificate != null
         )
         {
             var path = await StorageService.UploadFileAsync(
@@ -106,6 +107,30 @@ public class Endpoint : Endpoint<RequestReq, RequestRes>
                     RequestId = request.Id,
                     Path = path,
                     Type = RequirementType.AffidavitOfLoss,
+                }
+            );
+            path = await StorageService.UploadFileAsync(req.BirthCertificate, "requirements", ct);
+            requirements.Add(
+                new RequestRequirement
+                {
+                    RequestId = request.Id,
+                    Path = path,
+                    Type = RequirementType.BirthCertificate,
+                }
+            );
+        }
+        if (
+            req.DocumentTypes.Contains(DocumentType.HonorableDismissal)
+            && req.RequestLetter != null
+        )
+        {
+            var path = await StorageService.UploadFileAsync(req.RequestLetter, "requirements", ct);
+            requirements.Add(
+                new RequestRequirement
+                {
+                    RequestId = request.Id,
+                    Path = path,
+                    Type = RequirementType.RequestLetter,
                 }
             );
         }

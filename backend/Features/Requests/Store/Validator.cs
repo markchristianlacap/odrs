@@ -53,11 +53,16 @@ public class Validator : Validator<RequestReq>
             () =>
             {
                 RuleFor(x => x.AffidavitOfLoss).NotNull();
+                RuleFor(x => x.BirthCertificate).NotNull();
             }
         );
         When(
             x => x.CollectorType != CollectorType.Myself,
             () => RuleFor(x => x.Representative).NotEmpty()
+        );
+        When(
+            x => x.DocumentTypes.Contains(DocumentType.HonorableDismissal),
+            () => RuleFor(x => x.RequestLetter).NotNull()
         );
     }
 }

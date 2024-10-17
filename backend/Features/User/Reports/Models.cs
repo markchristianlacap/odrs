@@ -1,15 +1,24 @@
 ﻿using Backend.Enums;
 using Humanizer;
 
-namespace Backend.Features.User.Requests;
+namespace Backend.Features.User.Reports;
 
-public class RequestModel
+public class ReportReq
 {
-    public CollectorType CollectorType { get; set; }
+    public DateTime? DateFrom { get; set; }
+    public DateTime? DateTo { get; set; }
+    public RequestStatus? Status { get; set; }
+}
+
+public class ReportRes
+{
     public string ReferenceNumber { get; set; } = null!;
     public List<DocumentType> DocumentTypes { get; set; } = null!;
+    public string DocumentTypesDesc =>
+        string.Join(", ", DocumentTypes.Select(x => x.Humanize(LetterCasing.Title)));
     public string Email { get; set; } = null!;
     public RequesterType RequesterType { get; set; }
+    public string RequesterTypeDesc => RequesterType.Humanize(LetterCasing.Title);
     public string FirstName { get; set; } = null!;
     public string LastName { get; set; } = null!;
     public string? MiddleName { get; set; }
@@ -24,9 +33,15 @@ public class RequestModel
     public Semester Semester { get; set; }
     public YearLevel YearLevel { get; set; }
     public string Section { get; set; } = null!;
-    public Guid ProgramId { get; set; }
-    public Guid CampusId { get; set; }
-    public string? Representative { get; set; }
+    public string ProgramName { get; set; } = null!;
+    public string CampusName { get; set; } = null!;
+    public decimal Amount { get; set; }
     public RequestStatus Status { get; set; }
     public string StatusDesc => Status.Humanize(LetterCasing.Title);
+    public string PicturePath { get; set; } = null!;
+    public string? PaymentPath { get; set; }
+    public CollectorType CollectorType { get; set; }
+    public string? Representative { get; set; }
+    public DateTime? DateReleased { get; set; }
+    public DateTime CreatedAt { get; set; }
 }

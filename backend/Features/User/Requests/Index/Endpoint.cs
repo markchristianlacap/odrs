@@ -25,6 +25,10 @@ public class Endpoint : Endpoint<RequestPagedReq, PagedRes<RequestRowRes>>
                 || x.LastName.Contains(req.Search)
             );
         }
+        if (req.Status is not null)
+        {
+            query = query.Where(x => x.Status == req.Status);
+        }
         var mapCfg = new TypeAdapterConfig();
         mapCfg
             .NewConfig<Request, RequestRowRes>()

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { isAxiosError } from 'axios'
 import { RequestStatus } from '~/enums/request-status'
+import { requestStatuses } from '~/options/request-statuses'
 
 const route = useRoute()
 const id = computed(() => route.params.id)
@@ -8,6 +9,9 @@ const $q = useQuasar()
 const request = useRequest(() =>
   api.get(`/user/requests/${id.value}`).then(r => r.data),
 )
+function getStatusColor(status: RequestStatus) {
+  return requestStatuses.find(s => s.value === status)?.color
+}
 const imagePreview = ref<string | null>(null)
 const pictureURL = computed(() => `/api/requests/${id.value}/picture`)
 const paymentURL = computed(() => `/api/user/requests/${id.value}/payment`)
@@ -168,7 +172,13 @@ onMounted(() => request.submit())
         <QCardSection>
           <div class="flex justify-between gap-sm">
             <p class="mb-xl text-xl font-bold">
-              Request #{{ request.response.referenceNumber }} | {{ request.response.statusDesc }}
+              Request #{{ request.response.referenceNumber }} |
+              <span
+                class="uppercase"
+                :class="`text-${getStatusColor(request.response.status)}`"
+              >
+                {{ request.response.statusDesc }}
+              </span>
             </p>
             <div class="space-x-sm">
               <QBtn v-if="request.response.status === RequestStatus.Submitted" color="positive" @click="approve">

@@ -10,6 +10,8 @@ public class RequestReq : RequestModel
     public IFormFile? AuthorizationLetter { get; set; } = null;
     public IFormFile? SpecialPowerOfAttorney { get; set; } = null;
     public IFormFile? AffidavitOfLoss { get; set; } = null;
+    public IFormFile? BirthCertificate { get; set; } = null;
+    public IFormFile? RequestLetter { get; set; } = null;
     public CollectorType CollectorType { get; set; }
 }
 

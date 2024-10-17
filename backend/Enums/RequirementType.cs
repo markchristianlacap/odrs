@@ -7,4 +7,6 @@ public enum RequirementType
     RepresentativeValidId,
     SpecialPowerOfAttorney,
     AffidavitOfLoss,
+    BirthCertificate,
+    RequestLetter,
 }
