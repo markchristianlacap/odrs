@@ -31,8 +31,6 @@ public class RequestShowRes : RequestModel
     public string RequesterTypeDesc => RequesterType.Humanize(LetterCasing.Title);
     public string YearLevelDesc => YearLevel.Humanize(LetterCasing.Title);
     public string SemesterDesc => Semester.Humanize(LetterCasing.Title);
-    public RequestStatus Status { get; set; }
-    public string StatusDesc => Status.Humanize(LetterCasing.Title);
     public List<HistoryModel> Histories { get; set; } = null!;
     public List<RequestRequirementModel> Requirements { get; set; } = null!;
 }
