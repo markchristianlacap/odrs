@@ -51,9 +51,15 @@ public class Endpoint : Endpoint<ForgotPasswordReq>
 
         await Db.ResetPasswords.AddAsync(resetPassword);
         await Db.SaveChangesAsync();
-        var subject = "Reset Password";
+        var subject = "Reset Password Link";
         var body =
-            $"Click <a href=\"http://localhost:3000/reset-password?token={token}\">here</a> to reset your password.";
+            @$"
+            <p>Hello,</p>
+            <p>You requested a password reset.</p>
+            <p>Please follow the link below to reset your password.</p>
+            <br/>
+            Click <a href='{BaseURL}reset-password?token={token}'>here</a> to reset your password.
+            ";
         return await EmailService.SendEmail(emailAddress, subject, body, true);
     }
 

@@ -11,6 +11,7 @@ public class Endpoint : Endpoint<RequestReq, RequestRes>
 {
     public AppDbContext Db { get; set; } = null!;
     public IStorageService StorageService { get; set; } = null!;
+    public IEmailService EmailService { get; set; } = null!;
 
     public override void Configure()
     {
@@ -151,6 +152,7 @@ public class Endpoint : Endpoint<RequestReq, RequestRes>
         request.PicturePath = await StorageService.UploadFileAsync(req.Picture, "pictures", ct);
         await Db.Requests.AddAsync(request, ct);
         await Db.SaveChangesAsync(ct);
+        SendEmailNotification(req.Email);
         Response = request.Adapt<RequestRes>();
     }
 
@@ -166,5 +168,18 @@ public class Endpoint : Endpoint<RequestReq, RequestRes>
         lastNum = lastNum?[6..];
         var newNum = lastNum == null ? 1 : int.Parse(lastNum) + 1;
         return $"{year}{month:00}{newNum:0000}";
+    }
+
+    private void SendEmailNotification(string emailAddress)
+    {
+        var subject = "Request Submitted";
+        var body =
+            @$"
+            <p>Hello,</p>
+            <p>You have submitted a request.</p>
+            <p>Please wait for admin validation before proceeding with payment.</p>
+            <p>Thank you.</p>
+            ";
+        EmailService.SendEmail(emailAddress, subject, body, isHtml: true);
     }
 }

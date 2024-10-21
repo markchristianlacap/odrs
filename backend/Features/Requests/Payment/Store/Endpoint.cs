@@ -10,6 +10,7 @@ public class Endpoint : EndpointWithoutRequest
 {
     public IStorageService StorageService { get; set; } = null!;
     public AppDbContext Db { get; set; } = null!;
+    public IEmailService EmailService { get; set; } = null!;
 
     public override void Configure()
     {
@@ -47,5 +48,18 @@ public class Endpoint : EndpointWithoutRequest
         };
         await Db.RequestHistories.AddAsync(history, ct);
         await Db.SaveChangesAsync(ct);
+        SendEmailNotification(request.Email);
+    }
+
+    private void SendEmailNotification(string emailAddress)
+    {
+        var subject = "Payment Submitted";
+        var body =
+            @$"
+            <p>Payment has been submitted.</p>
+            <p>Please wait for admin to verify your payment another notification will be sent.</p>
+            <p>Thank you.</p>
+            ";
+        EmailService.SendEmail(emailAddress, subject, body, isHtml: true);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Backend.Database;
 using Backend.Entities;
 using Backend.Enums;
+using Backend.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Features.User.Requests.ReleaseDocuments;
@@ -8,6 +9,7 @@ namespace Backend.Features.User.Requests.ReleaseDocuments;
 public class Endpoint : EndpointWithoutRequest
 {
     public AppDbContext Db { get; set; } = null!;
+    public IEmailService EmailService { get; set; } = null!;
 
     public override void Configure()
     {
@@ -41,5 +43,17 @@ public class Endpoint : EndpointWithoutRequest
         };
         await Db.RequestHistories.AddAsync(history, ct);
         await Db.SaveChangesAsync(ct);
+        SendEmailNotification(request.Email, request.ReferenceNumber);
+    }
+
+    private void SendEmailNotification(string emailAddress, string referenceNumber)
+    {
+        var subject = "Request with Reference Number: " + referenceNumber + " has been Released";
+        var body =
+            @$"
+            <p>Request has been released.</p>
+            <p>Thank you for using our service.</p>
+            ";
+        EmailService.SendEmail(emailAddress, subject, body, isHtml: true);
     }
 }
