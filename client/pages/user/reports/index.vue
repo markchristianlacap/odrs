@@ -82,6 +82,13 @@ const requests = useRequest(
 function getStatusColor(status: RequestStatus) {
   return requestStatuses.find(s => s.value === status)?.color
 }
+function print() {
+  let url = '/user/reports/print'
+  url += `?dateFrom=${requests.request.dateFrom}`
+  url += `&dateTo=${requests.request.dateTo}`
+  url += `&status=${requests.request.status || ''}`
+  window.open(url, '_blank')
+}
 onMounted(() => requests.submit())
 watchDeep(() => requests.request, () => requests.submit())
 </script>
@@ -98,8 +105,8 @@ watchDeep(() => requests.request, () => requests.submit())
         </p>
       </div>
     </div>
-    <div class="flex justify-between">
-      <div class="flex items-center gap-sm">
+    <div>
+      <div class="mb-sm flex items-center gap-sm">
         <QInput v-model="requests.request.dateTo" label="Starting Date" type="date">
           <template #prepend>
             <QIcon>
@@ -114,10 +121,22 @@ watchDeep(() => requests.request, () => requests.submit())
             </QIcon>
           </template>
         </QInput>
+        <QBtn color="primary" @click="print">
+          <QIcon left>
+            <div class="i-hugeicons:printer" />
+          </QIcon>
+          Print
+        </QBtn>
       </div>
       <div>
         <QBtnGroup flat>
-          <QBtn size="sm" label="All" color="primary" :outline="requests.request.status !== null" @click="requests.request.status = null" />
+          <QBtn
+            size="sm"
+            label="All"
+            color="primary"
+            :outline="requests.request.status !== null"
+            @click="requests.request.status = null"
+          />
           <QBtn
             v-for="status in requestStatuses"
             :key="status.value"

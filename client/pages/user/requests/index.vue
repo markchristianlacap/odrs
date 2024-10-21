@@ -102,8 +102,9 @@ onMounted(() => requests.submit())
         </template>
       </QInput>
     </div>
-    <div class="mt-xl flex justify-end">
+    <div class="mt-sm">
       <QBtnGroup flat>
+        <QBtn size="sm" label="All" color="primary" :outline="requests.request.status !== null" @click="requests.request.status = null" />
         <QBtn
           v-for="status in requestStatuses"
           :key="status.value"

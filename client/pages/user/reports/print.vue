@@ -9,6 +9,7 @@ const requests = useRequest(
 function formatName(row: any) {
   return `${row.firstName} ${row.middleName} ${row.lastName}`
 }
+const dateTime = new Date()
 onMounted(async () => {
   await requests.submit()
   window.print()
@@ -17,62 +18,87 @@ watchDeep(() => requests.request, () => requests.submit())
 </script>
 
 <template>
-  <QMarkupTable
-    flat
-    :loading="requests.loading"
-  >
-    <thead>
-      <tr>
-        <th class="text-left">
-          Reference Number
-        </th>
-        <th class="text-left">
-          Name
-        </th>
-        <th class="text-left">
-          Type of Documents
-        </th>
-        <th class="text-left">
-          Campus
-        </th>
-        <th class="text-left">
-          Course
-        </th>
-        <th class="text-left">
-          Purpose
-        </th>
-        <th class="text-left">
-          Price
-        </th>
-        <th class="text-left">
-          OR Number
-        </th>
-        <th class="text-left">
-          Date of Release
-        </th>
-        <th>Action Taken By</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="row in requests.response" :key="row.referenceNumber">
-        <td>{{ row.referenceNumber }}</td>
-        <td>{{ formatName(row) }}</td>
-        <td>{{ row.documentTypesDesc }}</td>
-        <td>{{ row.campusName }}</td>
-        <td>{{ row.programName }}</td>
-        <td>{{ row.purpose }}</td>
-        <td>{{ row.amount }}</td>
-        <td>{{ row.orNumber }}</td>
-        <td>{{ row.dateOfRelease }}</td>
-        <td>{{ row.actionTakenBy }}</td>
-      </tr>
-    </tbody>
-  </QMarkupTable>
+  <div>
+    <div>
+      <p class="mb-xl text-2xl text-primary font-bold">
+        Online Document Request System Report
+      </p>
+    </div>
+    <table>
+      <thead>
+        <tr class="*:border *:px-1 *:py-2 *:text-nowrap">
+          <th class="text-left">
+            Reference Number
+          </th>
+          <th class="text-left">
+            Name
+          </th>
+          <th class="text-left">
+            Type of Documents
+          </th>
+          <th class="text-left">
+            Campus
+          </th>
+          <th class="text-left">
+            Course
+          </th>
+          <th class="text-left">
+            Purpose
+          </th>
+          <th class="text-left">
+            Price
+          </th>
+          <th class="text-left">
+            OR Number
+          </th>
+          <th class="text-left">
+            Status
+          </th>
+          <th class="text-left">
+            Date of Release
+          </th>
+          <th>Action Taken By</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="row in requests.response" :key="row.referenceNumber" class="*:border *:px-1 *:py-2 *:text-nowrap">
+          <td>{{ row.referenceNumber }}</td>
+          <td>{{ formatName(row) }}</td>
+          <td>{{ row.documentTypesDesc }}</td>
+          <td>{{ row.campusName }}</td>
+          <td>{{ row.programName }}</td>
+          <td>{{ row.purpose }}</td>
+          <td>{{ row.amount }}</td>
+          <td>{{ row.orNumber }}</td>
+          <td>{{ row.statusDesc }}</td>
+          <td>{{ row.dateOfRelease }}</td>
+          <td>{{ row.actionTakenBy }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="mt-xl">
+      Printed on {{ dateTime }}
+    </p>
+  </div>
 </template>
 
-<style lang="css" scoped>
-@page {
-  size: 25cm 35.7cm;
-  margin: 5mm 5mm 5mm 5mm; /* change the margins as you want them to be. */
+  <style>
+    /* Force landscape orientation for printing */
+@media print {
+  @page {
+    size: A4 landscape; /* A4 paper in landscape mode */
+    margin: 10mm; /* Adjust margins if needed */
+  }
+
+  body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    background-color: white;
+    font-size: 12px;
+  }
+
+  .no-print {
+    display: none; /* Hide elements you don't want to print */
+  }
 }
 </style>
