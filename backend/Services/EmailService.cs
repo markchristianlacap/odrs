@@ -18,7 +18,7 @@ public class EmailService(IConfiguration config) : IEmailService
     )
     {
         var to = new MailAddress(emailAddress);
-        var from = new MailAddress(config.GetValue<string>("Email:From") ?? "");
+        var from = new MailAddress(config.GetValue<string>("Email:Username") ?? "");
         var email = new MailMessage(from, to)
         {
             Subject = subject,
