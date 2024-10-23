@@ -28,7 +28,7 @@ public class Endpoint : EndpointWithoutRequest
             await SendNotFoundAsync(ct);
             return;
         }
-        if (request.Status != RequestStatus.PendingForPickup)
+        if (request.Status != RequestStatus.PendingForRelease)
         {
             await SendForbiddenAsync(ct);
             return;

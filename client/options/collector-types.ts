@@ -2,8 +2,8 @@ import { CollectorType } from '~/enums/collector-type'
 
 export const collectorTypes = [
   {
-    label: 'Myself',
-    value: CollectorType.Myself,
+    label: 'Owner',
+    value: CollectorType.Owner,
   },
   {
     label: 'Immediate Family Member',

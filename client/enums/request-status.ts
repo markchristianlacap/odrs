@@ -4,7 +4,7 @@ export enum RequestStatus {
   WaitingForPayment,
   PaymentSubmitted,
   OnProcess,
-  PendingForPickup,
+  PendingForRelease,
   Released,
   Canceled,
 }

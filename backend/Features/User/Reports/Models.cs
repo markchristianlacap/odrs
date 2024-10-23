@@ -30,7 +30,7 @@ public class ReportRes
     public string Purpose { get; set; } = null!;
     public int LastAttendanceStartYear { get; set; }
     public int LastAttendanceEndYear { get; set; }
-    public Semester Semester { get; set; }
+    public Semester? Semester { get; set; }
     public YearLevel YearLevel { get; set; }
     public string Section { get; set; } = null!;
     public string ProgramName { get; set; } = null!;

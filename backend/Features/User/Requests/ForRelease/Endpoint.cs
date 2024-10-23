@@ -4,7 +4,7 @@ using Backend.Enums;
 using Backend.Services;
 using Microsoft.EntityFrameworkCore;
 
-namespace Backend.Features.User.Requests.ForPickup;
+namespace Backend.Features.User.Requests.ForRelease;
 
 public class Endpoint : EndpointWithoutRequest
 {
@@ -13,7 +13,7 @@ public class Endpoint : EndpointWithoutRequest
 
     public override void Configure()
     {
-        Post("/user/requests/{id:guid}/for-pickup");
+        Post("/user/requests/{id:guid}/for-release");
     }
 
     public override async Task HandleAsync(CancellationToken ct)
@@ -25,10 +25,10 @@ public class Endpoint : EndpointWithoutRequest
             await SendNotFoundAsync(ct);
             return;
         }
-        request.Status = RequestStatus.PendingForPickup;
+        request.Status = RequestStatus.PendingForRelease;
         var status = new RequestHistory
         {
-            RequestStatus = RequestStatus.PendingForPickup,
+            RequestStatus = RequestStatus.PendingForRelease,
             Remarks =
                 "Request is ready to pick up please go to the registrars office and pick up the request. Thank you.",
             RequestId = id,

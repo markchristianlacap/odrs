@@ -10,7 +10,13 @@ public class Validator : Validator<RequestReq>
         RuleFor(x => x.DocumentTypes).NotNull().ForEach(x => x.IsInEnum());
         RuleFor(x => x.LastAttendanceStartYear).NotEmpty();
         RuleFor(x => x.LastAttendanceEndYear).NotEmpty();
-        RuleFor(x => x.Semester).NotNull().IsInEnum();
+        When(
+            x => x.RequesterType == RequesterType.FormerStudent,
+            () =>
+            {
+                RuleFor(x => x.Semester).NotNull().IsInEnum();
+            }
+        );
         RuleFor(x => x.YearLevel).NotNull().IsInEnum();
         RuleFor(x => x.RequesterType).NotNull().IsInEnum();
         RuleFor(x => x.Section).NotEmpty();
@@ -27,7 +33,7 @@ public class Validator : Validator<RequestReq>
         RuleFor(x => x.Picture).NotNull();
         RuleFor(x => x.ValidId).NotNull();
         When(
-            x => x.CollectorType != CollectorType.Myself,
+            x => x.CollectorType != CollectorType.Owner,
             () =>
             {
                 RuleFor(x => x.RepresentativeValidId).NotNull();
@@ -57,7 +63,7 @@ public class Validator : Validator<RequestReq>
             }
         );
         When(
-            x => x.CollectorType != CollectorType.Myself,
+            x => x.CollectorType != CollectorType.Owner,
             () => RuleFor(x => x.Representative).NotEmpty()
         );
         When(

@@ -10,7 +10,7 @@ export const semesters = [
     value: Semester.Second,
   },
   {
-    label: 'Summer',
-    value: Semester.Summer,
+    label: 'Mid-Year',
+    value: Semester.MidYear,
   },
 ]

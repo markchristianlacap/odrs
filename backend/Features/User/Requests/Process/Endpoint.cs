@@ -30,7 +30,7 @@ public class Endpoint : EndpointWithoutRequest
         {
             RequestStatus = RequestStatus.OnProcess,
             Remarks =
-                "Payment validated. Request is being processed. Please wait for the pickup. Thank you.",
+                "Payment validated. Request is being processed. Please wait for the release. Thank you.",
             RequestId = id,
         };
         await Db.RequestHistories.AddAsync(status, ct);

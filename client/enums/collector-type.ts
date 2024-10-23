@@ -1,5 +1,5 @@
 export enum CollectorType {
-  Myself,
+  Owner,
   ImmediateFamilyMember,
   AuthorizedRepresentative,
 }

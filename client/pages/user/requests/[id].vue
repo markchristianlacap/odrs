@@ -52,16 +52,16 @@ function approve() {
     }
   })
 }
-function forPickup() {
+function forRelease() {
   $q.dialog({
-    title: 'For Pickup Confirmation',
-    message: 'This can be undone. Are you sure you want to change the status of this request to for pickup?',
+    title: 'For Release Confirmation',
+    message: 'This can be undone. Are you sure you want to change the status of this request to for release?',
 
   }).onOk(async () => {
     try {
-      await api.post(`/user/requests/${id.value}/for-pickup`)
+      await api.post(`/user/requests/${id.value}/for-release`)
       $q.notify({
-        message: 'For pickup successfully',
+        message: 'For release successfully',
         type: 'positive',
       })
       request.submit()
@@ -185,7 +185,7 @@ onMounted(() => request.submit())
                 <div class="i-hugeicons:thumbs-up mr-xs text-xl" />
                 Approve
               </QBtn>
-              <QBtn v-if="request.response.status === RequestStatus.PendingForPickup" color="positive" @click="release">
+              <QBtn v-if="request.response.status === RequestStatus.PendingForRelease" color="positive" @click="release">
                 <div class="i-hugeicons:new-releases mr-xs text-xl" />
                 Release Document
               </QBtn>
@@ -193,9 +193,9 @@ onMounted(() => request.submit())
                 <div class="i-hugeicons:thumbs-up mr-xs text-xl" />
                 Start Processing
               </QBtn>
-              <QBtn v-if="request.response.status === RequestStatus.OnProcess" color="primary" @click="forPickup">
+              <QBtn v-if="request.response.status === RequestStatus.OnProcess" color="primary" @click="forRelease">
                 <div class="i-hugeicons:thumbs-up mr-xs text-xl" />
-                Ready for Pickup
+                Ready for Release
               </QBtn>
               <QBtn v-if="request.response.status !== RequestStatus.Released" label="Reject" color="negative" @click="reject" />
             </div>

@@ -20,13 +20,14 @@ const programs = useRequest(() =>
   api.get('/options/programs').then(r => r.data),
 )
 const purposes = [
-  'For Employment',
-  'For Reference',
-  'For Scholarship',
-  'For PNP Application',
-  'For Napolcom Examination',
-  'For Board Examination',
-  'For Promotion',
+  'For Employment Purposes Only',
+  'For Reference Purposes Only',
+  'For Scholarship Purposes Only',
+  'For PNP Application Purposes Only',
+  'For NAPOLCOM Examination Purposes Only',
+  'For Board Examination Purposes Only',
+  'For Promotion Purposes Only',
+  'For Evaluation Purposes Only',
 ]
 const otherPurpose = ref(false)
 const form = useForm({
@@ -57,7 +58,7 @@ const form = useForm({
   affidavitOfLoss: null as File | null,
   birthCertificate: null as File | null,
   requestLetter: null as File | null,
-  collectorType: CollectorType.Myself,
+  collectorType: CollectorType.Owner,
   representative: '',
 })
 function onPictureChange(files: readonly any[]) {
@@ -220,7 +221,7 @@ onMounted(() => {
                 type="number"
               />
             </div>
-            <div class="flex items-center gap-2">
+            <div v-if="form.fields.requesterType === RequesterType.FormerStudent" class="flex items-center gap-2">
               <p>Semester</p>
               <QRadio
                 v-for="semester in semesters"
@@ -420,7 +421,7 @@ onMounted(() => {
             </template>
           </QFile>
           <QInput
-            v-if="form.fields.collectorType !== CollectorType.Myself"
+            v-if="form.fields.collectorType !== CollectorType.Owner"
             v-model="form.fields.representative"
             label="Name of Representative"
             class="w-sm" flat
@@ -428,7 +429,7 @@ onMounted(() => {
             :error-message="form.getError('representative')"
           />
           <QFile
-            v-if="form.fields.collectorType !== CollectorType.Myself" v-model="form.fields.representativeValidId" label="Representative's Valid ID" class="w-sm"
+            v-if="form.fields.collectorType !== CollectorType.Owner" v-model="form.fields.representativeValidId" label="Representative's Valid ID" class="w-sm"
             flat bordered
             :error="form.hasError('representativeValidId')"
             :error-message="form.getError('representativeValidId')"

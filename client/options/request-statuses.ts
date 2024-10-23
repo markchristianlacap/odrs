@@ -27,8 +27,8 @@ export const requestStatuses = [
     color: 'info',
   },
   {
-    value: RequestStatus.PendingForPickup,
-    label: 'Pending For Pickup',
+    value: RequestStatus.PendingForRelease,
+    label: 'Pending For Release',
     color: 'info',
   },
   {

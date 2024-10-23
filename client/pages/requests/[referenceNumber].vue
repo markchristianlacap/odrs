@@ -67,9 +67,9 @@ onMounted(async () => {
           <b>Reference Number:</b>
           {{ request.response.referenceNumber }}
         </p>
-        <div v-if="request.response.status === RequestStatus.PendingForPickup" class="mt-xl">
+        <div v-if="request.response.status === RequestStatus.PendingForRelease" class="mt-xl">
           <p class="text-lg">
-            Your request is ready for pickup. Please bring the needed documents.
+            Your request is ready for release. Please bring the needed documents.
           </p>
           <p>
             <b>Requirements:</b>
@@ -108,7 +108,7 @@ onMounted(async () => {
         <div v-else-if="request.response.status === RequestStatus.WaitingForPayment" class="mt-xl">
           <p>
             <b>Payment:</b>
-            Pay via gcash if the status is ready to pickup.
+            Pay via gcash if the status is ready to release.
           </p>
           <p class="text-lg font-bold">
             Please pay the following amount to start the process:
@@ -191,7 +191,7 @@ onMounted(async () => {
     </QMarkupTable>
 
     <!-- <p> -->
-    <!--   <b>Note:</b> Print the receipt if the status is ready to pickup. -->
+    <!--   <b>Note:</b> Print the receipt if the status is ready to release. -->
     <!-- </p> -->
 
     <p class="mt-xl text-lg font-bold">
