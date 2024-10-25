@@ -13,9 +13,7 @@ public class ReportReq
 public class ReportRes
 {
     public string ReferenceNumber { get; set; } = null!;
-    public List<DocumentType> DocumentTypes { get; set; } = null!;
-    public string DocumentTypesDesc =>
-        string.Join(", ", DocumentTypes.Select(x => x.Humanize(LetterCasing.Title)));
+    public string Documents { get; set; } = null!;
     public string Email { get; set; } = null!;
     public RequesterType RequesterType { get; set; }
     public string RequesterTypeDesc => RequesterType.Humanize(LetterCasing.Title);
@@ -30,7 +28,7 @@ public class ReportRes
     public string Purpose { get; set; } = null!;
     public int LastAttendanceStartYear { get; set; }
     public int LastAttendanceEndYear { get; set; }
-    public Semester? Semester { get; set; }
+    public Semester Semester { get; set; }
     public YearLevel YearLevel { get; set; }
     public string Section { get; set; } = null!;
     public string ProgramName { get; set; } = null!;

@@ -51,7 +51,7 @@ function submit() {
         </div>
       </div>
     </div>
-    <div class="mx-auto mb-5xl mt-xl container md:mx-0">
+    <div class="mx-auto mb-5xl mt-xl container">
       <p class="text-xl font-bold">
         Request Status Tracker
       </p>

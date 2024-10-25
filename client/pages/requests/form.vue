@@ -12,6 +12,7 @@ import { semesters } from '~/options/semesters'
 import { yearLevels } from '~/options/year-levels'
 
 const $q = useQuasar()
+const documents = ref<DocumentType[]>([])
 const router = useRouter()
 const campuses = useRequest(() =>
   api.get('/options/campuses').then(r => r.data),
@@ -33,7 +34,11 @@ const otherPurpose = ref(false)
 const form = useForm({
   studentNumber: '',
   email: '',
-  documentTypes: [] as DocumentType[],
+  documents: [] as {
+    type: DocumentType
+    purpose: string
+    copies: number
+  }[],
   lastName: '',
   firstName: '',
   middleName: '' as string | undefined,
@@ -71,7 +76,7 @@ function onSubmit() {
       for (const [key, value] of Object.entries(fields)) {
         formData.append(key, value as string)
       }
-      form.fields.documentTypes.forEach((documentType) => {
+      form.fields.documents.forEach((documentType) => {
         formData.append('documentTypes[]', documentType.toString())
       })
       const { data } = await api.post('/requests', formData, {
@@ -93,10 +98,24 @@ function onSubmit() {
     }
   })
 }
+function getDocumentTypeLabel(type: DocumentType) {
+  return documentTypes.find(t => t.value === type)?.label
+}
 watch(otherPurpose, () => {
   if (otherPurpose.value) {
     form.fields.purpose = ''
   }
+})
+// sync documents with form.fields.documents -> document.type but retaining copies and purpose
+watch(documents, (v) => {
+  form.fields.documents = v.map((type) => {
+    const document = form.fields.documents.find(d => d.type === type)
+    return {
+      type,
+      purpose: document?.purpose ?? '',
+      copies: document?.copies ?? 1,
+    }
+  })
 })
 watch(
   () => form.fields.purpose,
@@ -113,7 +132,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <QCard class="mx-auto mt-xl container">
+  <QCard class="mx-auto mt-xl container" flat bordered>
     <QCardSection>
       <QForm @submit="onSubmit">
         <p class="text-xl font-bold">
@@ -138,38 +157,23 @@ onMounted(() => {
           </template>
           There's an error please check all the highlighted fields.
         </QBanner>
-        <div class="grid grid-cols-2 items-center gap-sm">
-          <div class="mt-xl">
-            <QRadio
-              v-for="requesterType in requesterTypes"
-              :key="requesterType.value"
-              v-model="form.fields.requesterType"
-              :val="requesterType.value"
-              :label="requesterType.label"
-              :color="form.hasError('requesterType') ? 'negative' : 'primary'"
-              keep-color
-            />
-          </div>
-          <QInput
-            v-model="form.fields.studentNumber"
-            label="Student Number"
-            :error="form.hasError('studentNumber')"
-            :error-message="form.getError('studentNumber')"
+        <div class="mt-xl">
+          Are you:
+          <QBtnToggle
+            v-model="form.fields.requesterType"
+            :options="requesterTypes"
+            option-value="value"
+            option-label="label"
+            toggle-color="primary"
           />
         </div>
-        <p class="mt-xl font-bold">
-          Select document you want to request:
-        </p>
-        <QCheckbox
-          v-for="documentType in documentTypes"
-          :key="documentType.value"
-          v-model="form.fields.documentTypes"
-          :color="form.hasError('documentTypes') ? 'negative' : 'primary'"
-          keep-color
-          :val="documentType.value"
-          :label="documentType.label"
+        <QInput
+          v-model="form.fields.studentNumber"
+          label="Student Number"
+          :error="form.hasError('studentNumber')"
+          :error-message="form.getError('studentNumber')"
+          class="w-sm"
         />
-
         <div class="mt-xl">
           <p class="font-bold">
             Last Attendance:
@@ -221,7 +225,7 @@ onMounted(() => {
                 type="number"
               />
             </div>
-            <div v-if="form.fields.requesterType === RequesterType.FormerStudent" class="flex items-center gap-2">
+            <div class="flex items-center gap-2">
               <p>Semester</p>
               <QRadio
                 v-for="semester in semesters"
@@ -266,29 +270,64 @@ onMounted(() => {
             </div>
           </div>
         </div>
-        <p lass="mt-xl font-bold">
-          Purpose
-        </p>
-        <div class="grid grid-cols-2">
-          <QRadio
-            v-for="purpose in purposes"
-            :key="purpose"
-            v-model="form.fields.purpose"
-            :val="purpose"
-            :label="purpose"
-          />
-        </div>
         <div>
-          <QRadio v-model="otherPurpose" :val="true" label="Other" />
-          <QInput
-            v-model="form.fields.purpose"
-            placeholder="Type your purpose"
-            :disable="!otherPurpose"
-            :error="form.hasError('purpose')"
-            :error-message="form.getError('purpose')"
-            class="mb-lg"
+          <p class="mt-xl font-bold">
+            Select document you want to request:
+          </p>
+          <QCheckbox
+            v-for="documentType in documentTypes"
+            :key="documentType.value"
+            v-model="documents"
+            :color="form.hasError('documents') ? 'negative' : 'primary'"
+            keep-color
+            :val="documentType.value"
+            :label="documentType.label"
           />
         </div>
+        <ul class="mt-xl">
+          <li
+            v-for="document in form.fields.documents"
+            :key="document.type"
+          >
+            <div class="flex items-center gap-2">
+              <p>
+                How do you copies do you need for <b> {{ getDocumentTypeLabel(document.type) }}</b>?
+              </p>
+              <QInput
+                v-model="document.copies"
+                mask="##"
+                class="w-120px"
+                :min="1"
+                dense
+                type="number"
+              />
+            </div>
+            <p lass="mt-xl font-bold">
+              Purpose for <b>{{ getDocumentTypeLabel(document.type) }}</b>
+            </p>
+            <div class="grid grid-cols-2">
+              <QRadio
+                v-for="purpose in purposes"
+                :key="purpose"
+                v-model="document.purpose"
+                :val="purpose"
+                :label="purpose"
+              />
+            </div>
+            <div>
+              <QRadio v-model="otherPurpose" :val="true" label="Other" />
+              <QInput
+                v-model="document.purpose"
+                placeholder="Type your purpose"
+                :disable="!otherPurpose"
+                :error="form.hasError('purpose')"
+                :error-message="form.getError('purpose')"
+                class="mb-lg"
+              />
+            </div>
+          </li>
+        </ul>
+
         <QExpansionItem
           label="Personal Information"
           caption="You can edit your Personal Information for this request here."
@@ -335,6 +374,8 @@ onMounted(() => {
                 <QInput
                   v-model="form.fields.contactNumber"
                   label="Contact Number"
+                  mask="###-###-####"
+                  hint="E.g. 933-456-7890"
                   :error="form.hasError('contactNumber')"
                   :error-message="form.getError('contactNumber')"
                 />
@@ -441,7 +482,7 @@ onMounted(() => {
             </template>
           </QFile>
           <QFile
-            v-if="form.fields.documentTypes.includes(DocumentType.SecondCopyOfDiploma)"
+            v-if="form.fields.documents.some(x => x.type === DocumentType.SecondCopyOfDiploma)"
             v-model="form.fields.affidavitOfLoss" label="Affidavit of Loss" class="w-sm" flat bordered
             :error="form.hasError('affidavitOfLoss')"
             :error-message="form.getError('affidavitOfLoss')"
@@ -452,7 +493,7 @@ onMounted(() => {
             </template>
           </QFile>
           <QFile
-            v-if="form.fields.documentTypes.includes(DocumentType.SecondCopyOfDiploma)"
+            v-if="form.fields.documents.some(x => x.type === DocumentType.SecondCopyOfDiploma)"
             v-model="form.fields.birthCertificate" label="PSA Birth Certificate" class="w-sm" flat bordered
             accept="image/*"
             :error="form.hasError('birthCertificate')"
@@ -463,7 +504,7 @@ onMounted(() => {
             </template>
           </QFile>
           <QFile
-            v-if="form.fields.documentTypes.includes(DocumentType.HonorableDismissal)"
+            v-if="form.fields.documents.some(x => x.type === DocumentType.HonorableDismissal)"
             v-model="form.fields.requestLetter" label="Request Letter/Return Slip" class="w-sm" flat bordered
             accept="image/*"
             :error="form.hasError('requestLetter')"
@@ -481,6 +522,9 @@ onMounted(() => {
             :loading="form.loading"
             type="submit"
           >
+            <QIcon left>
+              <div class="i-hugeicons:checkmark-square-04" />
+            </QIcon>
             Submit
           </QBtn>
         </div>

@@ -3,10 +3,11 @@ using Backend.Enums;
 
 namespace Backend.Entities;
 
-public class Request : BaseEntity
+public class Request
 {
+    public Guid Id { get; set; } = Guid.NewGuid();
     public string ReferenceNumber { get; set; } = null!;
-    public List<DocumentType> DocumentTypes { get; set; } = null!;
+    public List<RequestDocument> Documents { get; set; } = null!;
     public string Email { get; set; } = null!;
     public RequesterType RequesterType { get; set; }
     public string FirstName { get; set; } = null!;
@@ -17,10 +18,9 @@ public class Request : BaseEntity
     public string ContactNumber { get; set; } = null!;
     public DateOnly Birthdate { get; set; }
     public string Address { get; set; } = null!;
-    public string Purpose { get; set; } = null!;
     public int LastAttendanceStartYear { get; set; }
     public int LastAttendanceEndYear { get; set; }
-    public Semester? Semester { get; set; }
+    public Semester Semester { get; set; }
     public YearLevel YearLevel { get; set; }
     public string Section { get; set; } = null!;
     public Guid ProgramId { get; set; }
@@ -39,4 +39,5 @@ public class Request : BaseEntity
     public DateTime? DateReleased { get; set; }
     public Guid? ReleasedById { get; set; }
     public User? ReleasedBy { get; set; }
+    public DateTime CreatedAt { get; set; } = DateTime.Now;
 }

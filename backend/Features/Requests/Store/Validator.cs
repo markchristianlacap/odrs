@@ -3,20 +3,25 @@ using FluentValidation;
 
 namespace Backend.Features.Requests.Store;
 
+public class DocumentValidator : AbstractValidator<RequestDocumentModel>
+{
+    public DocumentValidator()
+    {
+        RuleFor(x => x.Type).NotNull().IsInEnum();
+        RuleFor(x => x.Copies).NotEmpty().GreaterThan(0);
+        RuleFor(x => x.Purpose).NotEmpty();
+    }
+}
+
 public class Validator : Validator<RequestReq>
 {
     public Validator()
     {
-        RuleFor(x => x.DocumentTypes).NotNull().ForEach(x => x.IsInEnum());
+        RuleFor(x => x.Documents).NotNull();
+        RuleForEach(x => x.Documents).SetValidator(new DocumentValidator());
         RuleFor(x => x.LastAttendanceStartYear).NotEmpty();
         RuleFor(x => x.LastAttendanceEndYear).NotEmpty();
-        When(
-            x => x.RequesterType == RequesterType.FormerStudent,
-            () =>
-            {
-                RuleFor(x => x.Semester).NotNull().IsInEnum();
-            }
-        );
+        RuleFor(x => x.Semester).NotNull().IsInEnum();
         RuleFor(x => x.YearLevel).NotNull().IsInEnum();
         RuleFor(x => x.RequesterType).NotNull().IsInEnum();
         RuleFor(x => x.Section).NotEmpty();
@@ -55,7 +60,7 @@ public class Validator : Validator<RequestReq>
             }
         );
         When(
-            x => x.DocumentTypes.Contains(DocumentType.SecondCopyOfDiploma),
+            x => x.Documents.Any(x => x.Type == DocumentType.SecondCopyOfDiploma),
             () =>
             {
                 RuleFor(x => x.AffidavitOfLoss).NotNull();
@@ -67,7 +72,7 @@ public class Validator : Validator<RequestReq>
             () => RuleFor(x => x.Representative).NotEmpty()
         );
         When(
-            x => x.DocumentTypes.Contains(DocumentType.HonorableDismissal),
+            x => x.Documents.Any(x => x.Type == DocumentType.HonorableDismissal),
             () => RuleFor(x => x.RequestLetter).NotNull()
         );
     }

@@ -2,10 +2,17 @@
 
 namespace Backend.Features.Requests;
 
+public class RequestDocumentModel
+{
+    public DocumentType Type { get; set; }
+    public string Purpose { get; set; } = null!;
+    public int Copies { get; set; }
+}
+
 public class RequestModel
 {
     [BindFrom("documentTypes[]")]
-    public List<DocumentType> DocumentTypes { get; set; } = null!;
+    public List<RequestDocumentModel> Documents { get; set; } = null!;
     public string Email { get; set; } = null!;
     public RequesterType? RequesterType { get; set; }
     public string FirstName { get; set; } = null!;
@@ -19,7 +26,7 @@ public class RequestModel
     public string Purpose { get; set; } = null!;
     public int? LastAttendanceStartYear { get; set; }
     public int? LastAttendanceEndYear { get; set; }
-    public Semester? Semester { get; set; }
+    public Semester Semester { get; set; }
     public YearLevel? YearLevel { get; set; }
     public string Section { get; set; } = null!;
     public Guid? ProgramId { get; set; }

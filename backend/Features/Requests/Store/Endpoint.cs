@@ -92,7 +92,7 @@ public class Endpoint : Endpoint<RequestReq, RequestRes>
             );
         }
         if (
-            req.DocumentTypes.Contains(DocumentType.SecondCopyOfDiploma)
+            req.Documents.Any(x => x.Type == DocumentType.SecondCopyOfDiploma)
             && req.AffidavitOfLoss != null
             && req.BirthCertificate != null
         )
@@ -121,7 +121,7 @@ public class Endpoint : Endpoint<RequestReq, RequestRes>
             );
         }
         if (
-            req.DocumentTypes.Contains(DocumentType.HonorableDismissal)
+            req.Documents.Any(x => x.Type == DocumentType.HonorableDismissal)
             && req.RequestLetter != null
         )
         {
