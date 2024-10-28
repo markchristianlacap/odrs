@@ -30,7 +30,6 @@ const purposes = [
   'For Promotion Purposes Only',
   'For Evaluation Purposes Only',
 ]
-const otherPurpose = ref(false)
 const form = useForm({
   studentNumber: '',
   email: '',
@@ -38,6 +37,7 @@ const form = useForm({
     type: DocumentType
     purpose: string
     copies: number
+    otherPurpose: boolean
   }[],
   lastName: '',
   firstName: '',
@@ -46,7 +46,6 @@ const form = useForm({
   contactNumber: '',
   birthdate: null,
   address: '',
-  purpose: '',
   lastAttendanceStartYear: null as number | null,
   lastAttendanceEndYear: null as number | null,
   yearLevel: null as YearLevel | null,
@@ -76,8 +75,8 @@ function onSubmit() {
       for (const [key, value] of Object.entries(fields)) {
         formData.append(key, value as string)
       }
-      form.fields.documents.forEach((documentType) => {
-        formData.append('documentTypes[]', documentType.toString())
+      form.fields.documents.forEach((document) => {
+        formData.append('documents[]', JSON.stringify(document))
       })
       const { data } = await api.post('/requests', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
@@ -101,11 +100,7 @@ function onSubmit() {
 function getDocumentTypeLabel(type: DocumentType) {
   return documentTypes.find(t => t.value === type)?.label
 }
-watch(otherPurpose, () => {
-  if (otherPurpose.value) {
-    form.fields.purpose = ''
-  }
-})
+
 // sync documents with form.fields.documents -> document.type but retaining copies and purpose
 watch(documents, (v) => {
   form.fields.documents = v.map((type) => {
@@ -114,17 +109,10 @@ watch(documents, (v) => {
       type,
       purpose: document?.purpose ?? '',
       copies: document?.copies ?? 1,
+      otherPurpose: false,
     }
   })
 })
-watch(
-  () => form.fields.purpose,
-  (v) => {
-    if (purposes.includes(v)) {
-      otherPurpose.value = false
-    }
-  },
-)
 onMounted(() => {
   campuses.submit()
   programs.submit()
@@ -159,12 +147,14 @@ onMounted(() => {
         </QBanner>
         <div class="mt-xl">
           Are you:
-          <QBtnToggle
+          <QRadio
+            v-for="requesterType in requesterTypes"
+            :key="requesterType.value"
             v-model="form.fields.requesterType"
-            :options="requesterTypes"
-            option-value="value"
-            option-label="label"
-            toggle-color="primary"
+            :label="requesterType.label"
+            :val="requesterType.value"
+            :color="form.hasError('requesterType') ? 'negative' : 'primary'"
+            keep-color
           />
         </div>
         <QInput
@@ -286,7 +276,7 @@ onMounted(() => {
         </div>
         <ul class="mt-xl">
           <li
-            v-for="document in form.fields.documents"
+            v-for="document, i in form.fields.documents"
             :key="document.type"
           >
             <div class="flex items-center gap-2">
@@ -306,22 +296,26 @@ onMounted(() => {
               Purpose for <b>{{ getDocumentTypeLabel(document.type) }}</b>
             </p>
             <div class="grid grid-cols-2">
+              <!-- @vue-expect-error -->
               <QRadio
                 v-for="purpose in purposes"
                 :key="purpose"
                 v-model="document.purpose"
                 :val="purpose"
                 :label="purpose"
+                :color="form.hasError(`documents[${i}].purpose`) ? 'negative' : 'primary'"
+                keep-color
               />
             </div>
             <div>
-              <QRadio v-model="otherPurpose" :val="true" label="Other" />
+              <QRadio v-model="document.otherPurpose" :val="true" label="Other" />
+              <!-- @vue-expect-error -->
               <QInput
                 v-model="document.purpose"
                 placeholder="Type your purpose"
-                :disable="!otherPurpose"
-                :error="form.hasError('purpose')"
-                :error-message="form.getError('purpose')"
+                :disable="!document.otherPurpose"
+                :error="form.hasError(`documents[${i}].purpose`)"
+                :error-message="form.getError(`documents[${i}].purpose`)"
                 class="mb-lg"
               />
             </div>

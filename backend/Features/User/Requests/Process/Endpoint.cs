@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Features.User.Requests.Process;
 
-public class Endpoint : EndpointWithoutRequest
+public class Endpoint : Endpoint<ProcessReq>
 {
     public AppDbContext Db { get; set; } = null!;
     public IEmailService EmailService { get; set; } = null!;
@@ -16,7 +16,7 @@ public class Endpoint : EndpointWithoutRequest
         Post("/user/requests/{id:guid}/process");
     }
 
-    public override async Task HandleAsync(CancellationToken ct)
+    public override async Task HandleAsync(ProcessReq req, CancellationToken ct)
     {
         var id = Route<Guid>("id");
         var request = await Db.Requests.FirstOrDefaultAsync(x => x.Id == id, ct);
@@ -26,6 +26,7 @@ public class Endpoint : EndpointWithoutRequest
             return;
         }
         request.Status = RequestStatus.OnProcess;
+        request.ORNumber = req.ORNumber;
         var status = new RequestHistory
         {
             RequestStatus = RequestStatus.OnProcess,

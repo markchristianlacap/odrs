@@ -16,8 +16,20 @@ public class Endpoint : EndpointWithoutRequest<List<RequestRecentRes>>
     public override async Task HandleAsync(CancellationToken ct)
     {
         var res = await Db
-            .Requests.OrderByDescending(x => x.CreatedAt)
-            .ProjectToType<RequestRecentRes>()
+            .RequestDocuments.OrderByDescending(x => x.Request.CreatedAt)
+            .Select(x => new RequestRecentRes
+            {
+                ReferenceNumber = x.Request.ReferenceNumber,
+                FirstName = x.Request.FirstName,
+                YearLevel = x.Request.YearLevel,
+                Id = x.Request.Id,
+                Type = x.Type,
+                LastName = x.Request.LastName,
+                Semester = x.Request.Semester,
+                MiddleName = x.Request.MiddleName,
+                ExtensionName = x.Request.ExtensionName,
+                RequesterType = x.Request.RequesterType,
+            })
             .Take(10)
             .ToListAsync(ct);
         Response = res;

@@ -25,6 +25,7 @@ public class AppDbContext(
     public DbSet<User> Users { get; set; } = null!;
     public DbSet<ResetPassword> ResetPasswords { get; set; } = null!;
     public DbSet<Request> Requests { get; set; } = null!;
+    public DbSet<RequestDocument> RequestDocuments { get; set; } = null!;
     public DbSet<Campus> Campuses { get; set; } = null!;
     public DbSet<Entities.Program> Programs { get; set; } = null!;
     public DbSet<RequestHistory> RequestHistories { get; set; } = null!;

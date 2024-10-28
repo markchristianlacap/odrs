@@ -60,7 +60,7 @@ onMounted(() => request.submit())
                 }}
               </td>
               <td>
-                {{ row.documentTypeDesc }}
+                {{ row.typeDesc }}
               </td>
             </tr>
             <tr v-if="!request.response.length">

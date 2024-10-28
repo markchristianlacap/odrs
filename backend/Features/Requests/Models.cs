@@ -11,7 +11,7 @@ public class RequestDocumentModel
 
 public class RequestModel
 {
-    [BindFrom("documentTypes[]")]
+    [BindFrom("documents[]")]
     public List<RequestDocumentModel> Documents { get; set; } = null!;
     public string Email { get; set; } = null!;
     public RequesterType? RequesterType { get; set; }
@@ -23,7 +23,6 @@ public class RequestModel
     public string ContactNumber { get; set; } = null!;
     public DateOnly? Birthdate { get; set; }
     public string Address { get; set; } = null!;
-    public string Purpose { get; set; } = null!;
     public int? LastAttendanceStartYear { get; set; }
     public int? LastAttendanceEndYear { get; set; }
     public Semester Semester { get; set; }

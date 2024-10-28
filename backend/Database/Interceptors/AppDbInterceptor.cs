@@ -37,11 +37,11 @@ public class AppDbInterceptor(IUserService userService) : SaveChangesInterceptor
         {
             if (entry.State == EntityState.Added)
             {
-                entry.Entity.CreatedById = userService.UserId;
+                entry.Entity.CreatedById = userService.UserId ?? null;
             }
             else if (entry.State == EntityState.Modified)
             {
-                entry.Entity.UpdatedById = userService.UserId;
+                entry.Entity.UpdatedById = userService.UserId ?? null;
             }
         }
     }

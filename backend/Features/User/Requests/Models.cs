@@ -8,13 +8,14 @@ public class RequestDocumentModel
     public DocumentType Type { get; set; }
     public string Purpose { get; set; } = null!;
     public int Copies { get; set; }
+    public string TypeDesc => Type.Humanize(LetterCasing.Title);
 }
 
 public class RequestModel
 {
+    public List<RequestDocumentModel> Documents { get; set; } = null!;
     public CollectorType CollectorType { get; set; }
     public string ReferenceNumber { get; set; } = null!;
-    public List<RequestDocumentModel> Documents { get; set; } = null!;
     public string Email { get; set; } = null!;
     public RequesterType RequesterType { get; set; }
     public string FirstName { get; set; } = null!;

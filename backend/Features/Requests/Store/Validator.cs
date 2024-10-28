@@ -27,7 +27,6 @@ public class Validator : Validator<RequestReq>
         RuleFor(x => x.Section).NotEmpty();
         RuleFor(x => x.ProgramId).NotEmpty();
         RuleFor(x => x.CampusId).NotEmpty();
-        RuleFor(x => x.Purpose).NotEmpty();
         RuleFor(x => x.FirstName).NotEmpty();
         RuleFor(x => x.LastName).NotEmpty();
         RuleFor(x => x.ContactNumber).NotEmpty();

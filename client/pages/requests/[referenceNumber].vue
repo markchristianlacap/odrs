@@ -23,6 +23,7 @@ function uploadPayment() {
     request.submit()
   })
 }
+const latestRemarks = computed(() => request.response?.histories?.[0]?.remarks)
 const pictureURL = computed(() => `/api/requests/${request.response?.id}/picture`)
 onMounted(async () => {
   try {
@@ -67,7 +68,7 @@ onMounted(async () => {
           <b>Reference Number:</b>
           {{ request.response.referenceNumber }}
         </p>
-        <div v-if="request.response.status === RequestStatus.PendingForRelease" class="mt-xl">
+        <div v-if="request.response.status === RequestStatus.PendingForRelease" class="my-xl">
           <p class="text-lg">
             Your request is ready for release. Please bring the needed documents.
           </p>
@@ -105,7 +106,7 @@ onMounted(async () => {
           </ul>
           <p><b>Note:</b> For second copy of documents such as Second copy of diploma, etc. Please bring a </p>
         </div>
-        <div v-else-if="request.response.status === RequestStatus.WaitingForPayment" class="mt-xl">
+        <div v-else-if="request.response.status === RequestStatus.WaitingForPayment" class="my-xl">
           <p>
             <b>Payment:</b>
             Pay via gcash if the status is ready to release.
@@ -136,33 +137,29 @@ onMounted(async () => {
             </QBtn>
           </div>
         </div>
-        <div v-else-if="request.response.status === RequestStatus.Submitted" class="mt-xl">
-          <p class="text-lg font-bold">
-            We have received your request. Please wait for the admin to check your request. Before you proceed to payment.
-          </p>
-        </div>
-        <div v-else class="mt-xl">
-          <p class="text-lg font-bold">
-            Please wait for the admin to check your request.
+        <div v-else class="my-xl">
+          <p>
+            <b>Remarks:</b>
+            {{ latestRemarks }}
           </p>
         </div>
       </div>
       <img :src="pictureURL" alt="Request Picture" class="h-300px">
     </div>
-    <QMarkupTable flat class="mt-xl">
+    <QMarkupTable flat class="mt-xl" bordered>
       <thead>
         <tr>
           <th class="text-left">
             Date
           </th>
           <th class="text-left">
-            Reference Number
+            Document Type
           </th>
           <th class="text-left">
             Name
           </th>
           <th class="text-left">
-            Details
+            Copies
           </th>
           <th class="text-left">
             Status
@@ -170,18 +167,18 @@ onMounted(async () => {
         </tr>
       </thead>
       <tbody>
-        <tr>
+        <tr v-for="document in request.response.documents" :key="document.type">
           <td>
             {{ formatDate(request.response.createdAt) }}
           </td>
           <td>
-            {{ request.response.referenceNumber }}
+            {{ document.typeDesc }}
           </td>
           <td>
             {{ formatName(request.response) }}
           </td>
           <td>
-            {{ request.response.documentTypeDesc }}
+            {{ document.copies }}
           </td>
           <td>
             {{ request.response.statusDesc }}
@@ -194,10 +191,10 @@ onMounted(async () => {
     <!--   <b>Note:</b> Print the receipt if the status is ready to release. -->
     <!-- </p> -->
 
-    <p class="mt-xl text-lg font-bold">
+    <p class="mt-xl text-lg">
       Request History
     </p>
-    <QMarkupTable class="mt-xl">
+    <QMarkupTable class="mt-xl" flat bordered>
       <thead>
         <tr>
           <th class="text-left">

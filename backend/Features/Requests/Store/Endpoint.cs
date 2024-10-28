@@ -144,7 +144,6 @@ public class Endpoint : Endpoint<RequestReq, RequestRes>
                 Remarks =
                     "Request submitted. Waiting for admin validation before proceeding with payment.",
                 RequestStatus = RequestStatus.Submitted,
-                CreatedById = null,
             },
         ];
         request.ReferenceNumber = await GenerateReferenceNumber(ct);

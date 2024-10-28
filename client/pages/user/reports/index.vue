@@ -66,6 +66,13 @@ const columns: QTableProps['columns'] = [
     sortable: true,
   },
   {
+    name: 'oRNumber',
+    field: 'orNumber',
+    label: 'OR Number',
+    align: 'left',
+    sortable: true,
+  },
+  {
     name: 'dateReleased',
     field: 'dateOfRelease',
     label: 'Date Released',

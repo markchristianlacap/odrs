@@ -12,6 +12,7 @@ public class ReportReq
 
 public class ReportRes
 {
+    public string? ORNumber { get; set; }
     public string ReferenceNumber { get; set; } = null!;
     public string Documents { get; set; } = null!;
     public string Email { get; set; } = null!;

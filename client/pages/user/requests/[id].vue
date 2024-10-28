@@ -104,10 +104,13 @@ function process() {
   $q.dialog({
     title: 'Process Confirmation',
     message: 'This can be undone. Are you sure you want to process this request?',
-
-  }).onOk(async () => {
+    prompt: {
+      model: '',
+      label: 'Enter Official Receipt Number',
+    },
+  }).onOk(async (oRNumber) => {
     try {
-      await api.post(`/user/requests/${id.value}/process`)
+      await api.post(`/user/requests/${id.value}/process`, { oRNumber })
       $q.notify({
         message: 'Change status successfully',
         type: 'positive',
@@ -168,7 +171,7 @@ onMounted(() => request.submit())
 <template>
   <div class="mx-auto mt-xl container">
     <template v-if="request.response">
-      <QCard>
+      <QCard flat bordered>
         <QCardSection>
           <div class="flex justify-between gap-sm">
             <p class="mb-xl text-xl font-bold">
@@ -203,13 +206,7 @@ onMounted(() => request.submit())
           <img :src="pictureURL" alt="Request Picture" class="mb-xl h-300px cursor-zoom-in" @click="imagePreview = pictureURL">
           <ul class="list-disc pl-xl space-y-2">
             <li>
-              {{ request.response.requesterTypeDesc }}2024100004
-            </li>
-            <li>
-              <b> Type of Document: </b>
-              <span class="text-lg text-primary font-bold">
-                {{ request.response.documentTypeDesc }}
-              </span>
+              {{ request.response.requesterTypeDesc }}
             </li>
             <li>
               <b>
@@ -289,7 +286,43 @@ onMounted(() => request.submit())
           </div>
         </QCardSection>
       </QCard>
-      <QCard class="mt-xl">
+      <QCard flat bordered class="mt-xl">
+        <QCardSection>
+          <p class="text-lg font-bold">
+            Requested Documents
+          </p>
+          <QMarkupTable flat>
+            <thead>
+              <tr>
+                <th class="text-left">
+                  Document
+                </th>
+                <th class="text-left">
+                  Purpose
+                </th>
+                <th class="text-left">
+                  Copies
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="document in request.response.documents" :key="document.type" class="text-left">
+                <td>
+                  {{ document.typeDesc }}
+                </td>
+                <td>
+                  {{ document.purpose }}
+                </td>
+                <td>
+                  {{ document.copies }}
+                </td>
+              </tr>
+            </tbody>
+          </QMarkupTable>
+        </QCardSection>
+      </QCard>
+
+      <QCard flat bordered class="mt-xl">
         <QCardSection>
           <p class="text-lg font-bold">
             Request History
