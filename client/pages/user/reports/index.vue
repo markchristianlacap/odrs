@@ -96,6 +96,9 @@ function print() {
   url += `&status=${requests.request.status || ''}`
   window.open(url, '_blank')
 }
+function exportReport() {
+  window.open('/api/user/reports/export', '_blank')
+}
 onMounted(() => requests.submit())
 watchDeep(() => requests.request, () => requests.submit())
 </script>
@@ -133,6 +136,12 @@ watchDeep(() => requests.request, () => requests.submit())
             <div class="i-hugeicons:printer" />
           </QIcon>
           Print
+        </QBtn>
+        <QBtn color="primary" @click="exportReport">
+          <QIcon left>
+            <div class="i-hugeicons:file-export" />
+          </QIcon>
+          Export
         </QBtn>
       </div>
       <div>

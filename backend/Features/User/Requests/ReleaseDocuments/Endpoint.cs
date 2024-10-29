@@ -10,6 +10,7 @@ public class Endpoint : EndpointWithoutRequest
 {
     public AppDbContext Db { get; set; } = null!;
     public IEmailService EmailService { get; set; } = null!;
+    public IUserService UserService { get; set; } = null!;
 
     public override void Configure()
     {
@@ -35,6 +36,7 @@ public class Endpoint : EndpointWithoutRequest
         }
         request.Status = RequestStatus.Released;
         request.DateReleased = DateTime.Now;
+        request.ReleasedById = UserService.UserId;
         var history = new RequestHistory
         {
             RequestId = id,
