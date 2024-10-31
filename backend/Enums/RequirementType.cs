@@ -9,4 +9,5 @@ public enum RequirementType
     AffidavitOfLoss,
     BirthCertificate,
     RequestLetter,
+    DocumentToBeCertified,
 }

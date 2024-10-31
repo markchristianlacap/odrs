@@ -74,5 +74,12 @@ public class Validator : Validator<RequestReq>
             x => x.Documents.Any(x => x.Type == DocumentType.HonorableDismissal),
             () => RuleFor(x => x.RequestLetter).NotNull()
         );
+        When(
+            x => x.Documents.Any(x => x.Type == DocumentType.Authentication),
+            () =>
+            {
+                RuleFor(x => x.DocumentToBeCertified).NotNull();
+            }
+        );
     }
 }

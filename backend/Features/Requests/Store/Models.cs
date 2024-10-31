@@ -12,6 +12,7 @@ public class RequestReq : RequestModel
     public IFormFile? AffidavitOfLoss { get; set; } = null;
     public IFormFile? BirthCertificate { get; set; } = null;
     public IFormFile? RequestLetter { get; set; } = null;
+    public IFormFile? DocumentToBeCertified { get; set; } = null;
     public CollectorType CollectorType { get; set; }
 }
 

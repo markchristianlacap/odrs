@@ -6,4 +6,5 @@ export enum DocumentType {
   CertificateOfGPAGWA,
   HonorableDismissal,
   CAV,
+  Authentication,
 }
