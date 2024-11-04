@@ -22,7 +22,13 @@ public class Validator : Validator<RequestReq>
         RuleFor(x => x.LastAttendanceStartYear).NotEmpty();
         RuleFor(x => x.LastAttendanceEndYear).NotEmpty();
         RuleFor(x => x.Semester).NotNull().IsInEnum();
-        RuleFor(x => x.YearLevel).NotNull().IsInEnum();
+        When(
+            x => x.RequesterType == RequesterType.FormerStudent,
+            () =>
+            {
+                RuleFor(x => x.YearLevel).NotNull().IsInEnum();
+            }
+        );
         RuleFor(x => x.RequesterType).NotNull().IsInEnum();
         RuleFor(x => x.Section).NotEmpty();
         RuleFor(x => x.ProgramId).NotEmpty();

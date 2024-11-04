@@ -30,7 +30,7 @@ public class RequestModel
     public int LastAttendanceStartYear { get; set; }
     public int LastAttendanceEndYear { get; set; }
     public Semester Semester { get; set; }
-    public YearLevel YearLevel { get; set; }
+    public YearLevel? YearLevel { get; set; }
     public string Section { get; set; } = null!;
     public Guid ProgramId { get; set; }
     public Guid CampusId { get; set; }

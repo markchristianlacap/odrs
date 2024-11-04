@@ -57,10 +57,14 @@ function forRelease() {
   $q.dialog({
     title: 'For Release Confirmation',
     message: 'This can be undone. Are you sure you want to change the status of this request to for release?',
-
-  }).onOk(async () => {
+    prompt: {
+      model: '',
+      label: 'Enter claim deadline',
+      type: 'date',
+    },
+  }).onOk(async (claimDeadline) => {
     try {
-      await api.post(`/user/requests/${id.value}/for-release`)
+      await api.post(`/user/requests/${id.value}/for-release`, { claimDeadline })
       $q.notify({
         message: 'For release successfully',
         type: 'positive',
@@ -235,10 +239,13 @@ onMounted(() => {
               <ol class="list-decimal pl-xl space-y-sm">
                 <li> <b>School Year:</b> {{ request.response.lastAttendanceStartYear }} - {{ request.response.lastAttendanceEndYear }}</li>
                 <li><b>Semester:</b> {{ request.response.semesterDesc }}</li>
-                <li><b>Year Level:</b> {{ request.response.yearLevelDesc }}</li>
+                <li><b>Year Level:</b> {{ request.response.yearLevelDesc || 'N/A' }}</li>
                 <li><b>Campus:</b> {{ request.response.campusName }}</li>
                 <li><b>Program:</b> {{ request.response.programName }}</li>
                 <li><b>Section:</b> {{ request.response.section }}</li>
+                <li class="text-red">
+                  <b>Claim Deadline:</b> {{ formatDate(request.response.claimDeadline) }}
+                </li>
               </ol>
             </li>
           </ul>

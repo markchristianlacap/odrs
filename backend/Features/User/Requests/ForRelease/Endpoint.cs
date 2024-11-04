@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Features.User.Requests.ForRelease;
 
-public class Endpoint : EndpointWithoutRequest
+public class Endpoint : Endpoint<ReleaseDocumentsReq>
 {
     public AppDbContext Db { get; set; } = null!;
     public IEmailService EmailService { get; set; } = null!;
@@ -16,7 +16,7 @@ public class Endpoint : EndpointWithoutRequest
         Post("/user/requests/{id:guid}/for-release");
     }
 
-    public override async Task HandleAsync(CancellationToken ct)
+    public override async Task HandleAsync(ReleaseDocumentsReq req, CancellationToken ct)
     {
         var id = Route<Guid>("id");
         var request = await Db.Requests.FirstOrDefaultAsync(x => x.Id == id, ct);
@@ -26,11 +26,12 @@ public class Endpoint : EndpointWithoutRequest
             return;
         }
         request.Status = RequestStatus.PendingForRelease;
+        request.ClaimDeadline = req.ClaimDeadline;
         var status = new RequestHistory
         {
             RequestStatus = RequestStatus.PendingForRelease,
             Remarks =
-                "Request is ready to pick up please go to the registrars office and pick up the request. Thank you.",
+                $"Request is ready to pick up please go to the registrars office and pick up the request. Make sure to pick up the request before or on ${req.ClaimDeadline:MMM/dd/yyyy} Thank you.",
             RequestId = id,
         };
         await Db.RequestHistories.AddAsync(status, ct);

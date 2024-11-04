@@ -41,6 +41,10 @@ public static class UsersSeeder
         {
             context.Users.Add(mark);
         }
+        if (!context.Users.Any(u => u.Email == odrs.Email))
+        {
+            context.Users.Add(odrs);
+        }
         context.SaveChanges();
     }
 }

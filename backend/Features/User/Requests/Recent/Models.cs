@@ -12,7 +12,7 @@ public class RequestRecentRes
     public string? ExtensionName { get; set; }
     public string DocumentsDesc { get; set; } = null!;
     public RequesterType RequesterType { get; set; }
-    public YearLevel YearLevel { get; set; }
+    public YearLevel? YearLevel { get; set; }
     public string RequesterTypeDesc => RequesterType.Humanize(LetterCasing.Title);
     public string YearLevelDesc => YearLevel.Humanize(LetterCasing.Title);
     public string SemesterDesc => Semester.Humanize(LetterCasing.Title);

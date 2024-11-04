@@ -28,8 +28,9 @@ public class RequestShowRes : RequestModel
     public string CampusName { get; set; } = null!;
     public string DocumentsDesc { get; set; } = null!;
     public string RequesterTypeDesc => RequesterType.Humanize(LetterCasing.Title);
-    public string YearLevelDesc => YearLevel.Humanize(LetterCasing.Title);
+    public string? YearLevelDesc => YearLevel?.Humanize(LetterCasing.Title);
     public string SemesterDesc => Semester.Humanize(LetterCasing.Title);
+    public DateTime? ClaimDeadline { get; set; }
     public List<HistoryModel> Histories { get; set; } = null!;
     public List<RequestRequirementModel> Requirements { get; set; } = null!;
 }

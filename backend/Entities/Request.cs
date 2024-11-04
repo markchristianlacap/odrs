@@ -21,7 +21,7 @@ public class Request
     public int LastAttendanceStartYear { get; set; }
     public int LastAttendanceEndYear { get; set; }
     public Semester Semester { get; set; }
-    public YearLevel YearLevel { get; set; }
+    public YearLevel? YearLevel { get; set; }
     public string Section { get; set; } = null!;
     public Guid ProgramId { get; set; }
     public Program Program { get; set; } = null!;
@@ -40,4 +40,5 @@ public class Request
     public Guid? ReleasedById { get; set; }
     public User? ReleasedBy { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.Now;
+    public DateTime? ClaimDeadline { get; set; }
 }

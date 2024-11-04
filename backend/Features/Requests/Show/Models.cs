@@ -24,7 +24,7 @@ public class RequestShowRes : RequestModel
     public string ProgramName { get; set; } = null!;
     public string CampusName { get; set; } = null!;
     public string RequesterTypeDesc => RequesterType.Humanize(LetterCasing.Title);
-    public string YearLevelDesc => YearLevel.Humanize(LetterCasing.Title);
+    public string? YearLevelDesc => YearLevel?.Humanize(LetterCasing.Title);
     public string SemesterDesc => Semester.Humanize(LetterCasing.Title);
     public RequestStatus Status { get; set; }
     public string StatusDesc => Status.Humanize(LetterCasing.Title);

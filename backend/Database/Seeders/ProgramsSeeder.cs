@@ -6,12 +6,12 @@ public static class ProgramsSeeder
     {
         var courses = new List<Entities.Program>
         {
-            new() { Name = "Bachelor in Human Services", },
-            new() { Name = "Bachelor of Agriculture Technology", },
-            new() { Name = "Bachelor of Arts in Communication", },
-            new() { Name = "Bachelor of Arts in History", },
-            new() { Name = "Bachelor of Elementary Education", },
-            new() { Name = "Bachelor of Physical Education", },
+            new() { Name = "Bachelor in Human Services" },
+            new() { Name = "Bachelor of Agriculture Technology" },
+            new() { Name = "Bachelor of Arts in Communication" },
+            new() { Name = "Bachelor of Arts in History" },
+            new() { Name = "Bachelor of Elementary Education" },
+            new() { Name = "Bachelor of Physical Education" },
             new() { Name = "Bachelor of Public Administration" },
             new() { Name = "Bachelor of Science in Accountancy" },
             new() { Name = "Bachelor of Science in Accounting Information System" },
@@ -37,6 +37,13 @@ public static class ProgramsSeeder
             new() { Name = "Bachelor of Technical-Vocational Teacher Education" },
             new() { Name = "Bachelor of Technology and Livelihood Education" },
             new() { Name = "Diploma in Midwifery" },
+            new() { Name = "Bachelor of Secondary Education Major in Filipino" },
+            new() { Name = "Bachelor of Secondary Education Major in Mathematics" },
+            new() { Name = "Bachelor of Secondary Education Major in English" },
+            new() { Name = "Bachelor of Secondary Education Major in Science" },
+            new() { Name = "Bachelor of Technology and Livelihood Education" },
+            new() { Name = "Bachelor of Physical Education" },
+            new() { Name = "Bachelor of Elementary Education" },
         };
 
         foreach (var course in courses)

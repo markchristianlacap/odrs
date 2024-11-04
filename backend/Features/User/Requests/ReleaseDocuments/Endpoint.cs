@@ -37,6 +37,7 @@ public class Endpoint : EndpointWithoutRequest
         request.Status = RequestStatus.Released;
         request.DateReleased = DateTime.Now;
         request.ReleasedById = UserService.UserId;
+        request.ClaimDeadline = request.ClaimDeadline;
         var history = new RequestHistory
         {
             RequestId = id,

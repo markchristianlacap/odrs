@@ -79,6 +79,9 @@ function onSubmit() {
       form.fields.documents.forEach((document) => {
         formData.append('documents[]', JSON.stringify(document))
       })
+      if (form.fields.requesterType === RequesterType.Alumni) {
+        formData.delete('yearLevel')
+      }
       const { data } = await api.post('/requests', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       })
@@ -229,7 +232,10 @@ onMounted(() => {
                 :label="semester.label"
               />
             </div>
-            <div class="flex items-center gap-2">
+            <div
+              v-if="form.fields.requesterType === RequesterType.FormerStudent"
+              class="flex items-center gap-2"
+            >
               <p class="mr-5xl">
                 Year Level
               </p>
