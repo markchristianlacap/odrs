@@ -135,6 +135,26 @@ public class Endpoint : Endpoint<RequestReq, RequestRes>
                 }
             );
         }
+        if (
+            req.Documents.Any(x => x.Type == DocumentType.Authentication)
+            && req.DocumentToBeCertified != null
+        )
+        {
+            var path = await StorageService.UploadFileAsync(
+                req.DocumentToBeCertified,
+                "requirements",
+                ct
+            );
+            requirements.Add(
+                new RequestRequirement
+                {
+                    RequestId = request.Id,
+                    Path = path,
+                    Type = RequirementType.DocumentToBeCertified,
+                }
+            );
+        }
+
         request.Requirements = requirements;
         request.Histories =
         [

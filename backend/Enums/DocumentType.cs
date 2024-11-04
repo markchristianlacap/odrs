@@ -16,4 +16,5 @@ public enum DocumentType
 
     [Description("Certificate, Authentication and Verification")]
     CAV,
+    Authentication,
 }

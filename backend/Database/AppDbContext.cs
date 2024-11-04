@@ -30,4 +30,5 @@ public class AppDbContext(
     public DbSet<Entities.Program> Programs { get; set; } = null!;
     public DbSet<RequestHistory> RequestHistories { get; set; } = null!;
     public DbSet<RequestRequirement> RequestRequirements { get; set; }
+    public DbSet<Configuration> Configurations { get; set; } = null!;
 }

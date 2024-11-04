@@ -2,6 +2,7 @@
 import { isAxiosError } from 'axios'
 import { RequestStatus } from '~/enums/request-status'
 
+const config = useConfigurations()
 const payment = useForm({
   payment: null as File | null,
 })
@@ -26,6 +27,7 @@ function uploadPayment() {
 const latestRemarks = computed(() => request.response?.histories?.[0]?.remarks)
 const pictureURL = computed(() => `/api/requests/${request.response?.id}/picture`)
 onMounted(async () => {
+  config.fetch()
   try {
     await request.submit()
   }
@@ -122,8 +124,8 @@ onMounted(async () => {
               <b>Amount:</b> {{ request.response.amount }}
             </li>
             <li>
-              <p>GCash Number: 093-12345678</p>
-              <p>Account Name: OMSC Cashier</p>
+              <p>GCash Number: {{ config.paymentDetails.accountNumber }}</p>
+              <p>Account Name: {{ config.paymentDetails.accountName }}</p>
             </li>
           </ul>
           <div class="max-w-120 w-full">

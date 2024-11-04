@@ -29,4 +29,8 @@ export const documentTypes = [
     label: 'Certificate, Authentication and Verification',
     value: DocumentType.CAV,
   },
+  {
+    label: 'Authentication',
+    value: DocumentType.Authentication,
+  },
 ]

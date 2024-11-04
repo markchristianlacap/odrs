@@ -3,6 +3,7 @@ import { isAxiosError } from 'axios'
 import { RequestStatus } from '~/enums/request-status'
 import { requestStatuses } from '~/options/request-statuses'
 
+const config = useConfigurations()
 const route = useRoute()
 const id = computed(() => route.params.id)
 const $q = useQuasar()
@@ -165,7 +166,10 @@ function reject() {
 function getRequirementURL(requirementId: string) {
   return `/api/requests/${id.value}/requirements/${requirementId}`
 }
-onMounted(() => request.submit())
+onMounted(() => {
+  request.submit()
+  config.fetch()
+})
 </script>
 
 <template>
@@ -264,10 +268,10 @@ onMounted(() => request.submit())
               <b>Amount:</b> {{ request.response.amount }}
             </p>
             <p>
-              <b>GCash Number:</b> 093-12345678
+              <b>GCash Number:</b> {{ config.paymentDetails.accountNumber }}
             </p>
             <p>
-              <b>Account Name:</b> OMSC Cashier
+              <b>Account Name:</b> {{ config.paymentDetails.accountName }}
             </p>
             <img v-if="request.response.status === RequestStatus.PaymentSubmitted" :src="paymentURL" alt="Request Picture" class="h-300px cursor-zoom-in" @click="imagePreview = paymentURL">
           </div>

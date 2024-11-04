@@ -34,7 +34,10 @@ public class Endpoint : Endpoint<RequestPagedReq, PagedRes<RequestRowRes>>
             .NewConfig<Request, RequestRowRes>()
             .Map(dest => dest.ProgramName, src => src.Program.Name)
             .Map(dest => dest.CampusName, src => src.Campus.Name);
-        var res = await query.ProjectToType<RequestRowRes>(mapCfg).ToPagedAsync(req, ct);
+        var res = await query
+            .OrderByDescending(x => x.CreatedAt)
+            .ProjectToType<RequestRowRes>(mapCfg)
+            .ToPagedAsync(req, ct);
         Response = res;
     }
 }

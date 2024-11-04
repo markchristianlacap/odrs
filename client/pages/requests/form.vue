@@ -64,6 +64,7 @@ const form = useForm({
   requestLetter: null as File | null,
   collectorType: CollectorType.Owner,
   representative: '',
+  documentToBeCertified: null as File | null,
 })
 function onPictureChange(files: readonly any[]) {
   form.fields.picture = files[0]
@@ -503,6 +504,17 @@ onMounted(() => {
             accept="image/*"
             :error="form.hasError('requestLetter')"
             :error-message="form.getError('requestLetter')"
+          >
+            <template #prepend>
+              <div class="i-hugeicons:document-attachment" />
+            </template>
+          </QFile>
+          <QFile
+            v-if="form.fields.documents.some(x => x.type === DocumentType.Authentication)"
+            v-model="form.fields.documentToBeCertified" label="Document to be authenticated" class="w-sm" flat bordered
+            accept="image/*"
+            :error="form.hasError('documentToBeCertified')"
+            :error-message="form.getError('documentToBeCertified')"
           >
             <template #prepend>
               <div class="i-hugeicons:document-attachment" />
