@@ -24,6 +24,15 @@ public static class UsersSeeder
             ContactNumber = "n/a",
             Address = "n/a",
         };
+        var odrs = new User
+        {
+            LastName = "Admin",
+            FirstName = "ODRS",
+            Email = " onlinedocumentrequestsystem@gmail.com",
+            Password = BCrypt.Net.BCrypt.EnhancedHashPassword("odrs080224"),
+            ContactNumber = "n/a",
+            Address = "n/a",
+        };
         if (!context.Users.Any(u => u.Email == admin.Email))
         {
             context.Users.Add(admin);
