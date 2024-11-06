@@ -37,9 +37,6 @@ watchDeep(() => requests.request, () => requests.submit())
             Name
           </th>
           <th class="text-left">
-            Type of Documents
-          </th>
-          <th class="text-left">
             Campus
           </th>
           <th class="text-left">
@@ -68,7 +65,6 @@ watchDeep(() => requests.request, () => requests.submit())
           <td>{{ row.referenceNumber }}</td>
           <td>{{ row.document }}</td>
           <td>{{ formatName(row) }}</td>
-          <td>{{ row.documentTypesDesc }}</td>
           <td>{{ row.campusName }}</td>
           <td>{{ row.programName }}</td>
           <td>{{ row.purpose }}</td>
