@@ -117,14 +117,14 @@ watchDeep(() => requests.request, () => requests.submit())
     </div>
     <div>
       <div class="mb-sm flex items-center gap-sm">
-        <QInput v-model="requests.request.dateTo" label="Starting Date" type="date">
+        <QInput v-model="requests.request.dateFrom" label="Starting Date" type="date">
           <template #prepend>
             <QIcon>
               <div class="i-hugeicons:calendar-02" />
             </QIcon>
           </template>
         </QInput>
-        <QInput v-model="requests.request.dateFrom" label="Ending Date" type="date">
+        <QInput v-model="requests.request.dateTo" label="Ending Date" type="date">
           <template #prepend>
             <QIcon>
               <div class="i-hugeicons:calendar-02" />

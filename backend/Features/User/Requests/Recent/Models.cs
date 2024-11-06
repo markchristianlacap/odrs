@@ -14,7 +14,7 @@ public class RequestRecentRes
     public RequesterType RequesterType { get; set; }
     public YearLevel? YearLevel { get; set; }
     public string RequesterTypeDesc => RequesterType.Humanize(LetterCasing.Title);
-    public string YearLevelDesc => YearLevel.Humanize(LetterCasing.Title);
+    public string YearLevelDesc => YearLevel?.Humanize(LetterCasing.Title) ?? "N/A";
     public string SemesterDesc => Semester.Humanize(LetterCasing.Title);
     public Semester Semester { get; set; }
     public string FirstName { get; set; } = null!;

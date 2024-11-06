@@ -288,7 +288,7 @@ onMounted(() => {
           >
             <div class="flex items-center gap-2">
               <p>
-                How do you copies do you need for <b> {{ getDocumentTypeLabel(document.type) }}</b>?
+                How many copies do you need for <b> {{ getDocumentTypeLabel(document.type) }}</b>?
               </p>
               <QInput
                 v-model="document.copies"

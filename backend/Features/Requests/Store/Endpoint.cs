@@ -44,7 +44,7 @@ public class Endpoint : Endpoint<RequestReq, RequestRes>
                 }
             );
         }
-        if (req.ValidId != null && req.CollectorType != CollectorType.Owner)
+        if (req.ValidId != null)
         {
             var path = await StorageService.UploadFileAsync(req.ValidId, "requirements", ct);
             requirements.Add(
@@ -57,25 +57,6 @@ public class Endpoint : Endpoint<RequestReq, RequestRes>
             );
         }
         if (req.RepresentativeValidId != null && req.CollectorType != CollectorType.Owner)
-        {
-            var path = await StorageService.UploadFileAsync(
-                req.RepresentativeValidId,
-                "requirements",
-                ct
-            );
-            requirements.Add(
-                new RequestRequirement
-                {
-                    RequestId = request.Id,
-                    Path = path,
-                    Type = RequirementType.RepresentativeValidId,
-                }
-            );
-        }
-        if (
-            req.CollectorType == CollectorType.AuthorizedRepresentative
-            && req.RepresentativeValidId != null
-        )
         {
             var path = await StorageService.UploadFileAsync(
                 req.RepresentativeValidId,

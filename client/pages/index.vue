@@ -35,8 +35,7 @@ function submit() {
               Open Hours
             </p>
             <ul>
-              <li>Monday 7:00 am - 4:00 pm</li>
-              <li>Tuesday - Thursday 8:00 am - 5:00 pm</li>
+              <li>Monday to Friday 8:00 am - 5:00 pm</li>
             </ul>
             <div class="mt-xl flex gap-xl">
               <QBtn label="Get Started" color="primary" to="/requests/form" />
