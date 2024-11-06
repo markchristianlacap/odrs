@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Features.User.Reports.Export;
 
-public class Endpoint : EndpointWithoutRequest
+public class Endpoint : Endpoint<ReportReq>
 {
     public AppDbContext Db { get; set; } = null!;
 
@@ -14,10 +14,25 @@ public class Endpoint : EndpointWithoutRequest
         Get("/user/reports/export");
     }
 
-    public override async Task HandleAsync(CancellationToken ct)
+    public override async Task HandleAsync(ReportReq req, CancellationToken ct)
     {
-        var requests = await Db
-            .RequestDocuments.Select(static x => new
+        var query = Db.RequestDocuments.AsQueryable();
+        if (req.DateTo is not null)
+        {
+            query = query.Where(x => x.Request.CreatedAt.Date <= req.DateTo.Value.Date);
+        }
+
+        if (req.DateFrom is not null)
+        {
+            query = query.Where(x => x.Request.CreatedAt.Date >= req.DateFrom.Value.Date);
+        }
+
+        if (req.Status is not null)
+        {
+            query = query.Where(x => x.Request.Status == req.Status);
+        }
+        var requests = await query
+            .Select(static x => new
             {
                 x.Request.CreatedAt,
                 x.Request.FirstName,

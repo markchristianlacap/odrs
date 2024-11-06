@@ -97,7 +97,7 @@ function print() {
   window.open(url, '_blank')
 }
 function exportReport() {
-  window.open('/api/user/reports/export', '_blank')
+  window.open(`/api/user/reports/export?dateFrom=${requests.request.dateFrom}&dateTo=${requests.request.dateTo}&status=${requests.request.status || ''}`, '_blank')
 }
 onMounted(() => requests.submit())
 watchDeep(() => requests.request, () => requests.submit())
