@@ -22,6 +22,7 @@ const isMobile = computed(() => $q.screen.lt.sm)
         </div>
         <QTabs
           dense
+          no-caps
           :class="{ 'w-full': isMobile }"
         >
           <QRouteTab flat to="/">
@@ -29,6 +30,9 @@ const isMobile = computed(() => $q.screen.lt.sm)
           </QRouteTab>
           <QRouteTab flat to="/requests/form">
             Request Documents
+          </QRouteTab>
+          <QRouteTab flat to="/how-to-use">
+            How To Use
           </QRouteTab>
           <QRouteTab flat to="/contact-us">
             Contact Us
