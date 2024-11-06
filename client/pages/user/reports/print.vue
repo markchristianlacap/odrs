@@ -31,6 +31,9 @@ watchDeep(() => requests.request, () => requests.submit())
             Reference Number
           </th>
           <th class="text-left">
+            Document
+          </th>
+          <th class="text-left">
             Name
           </th>
           <th class="text-left">
@@ -63,6 +66,7 @@ watchDeep(() => requests.request, () => requests.submit())
       <tbody>
         <tr v-for="row in requests.response" :key="row.referenceNumber" class="*:border *:px-1 *:py-2 *:text-nowrap">
           <td>{{ row.referenceNumber }}</td>
+          <td>{{ row.document }}</td>
           <td>{{ formatName(row) }}</td>
           <td>{{ row.documentTypesDesc }}</td>
           <td>{{ row.campusName }}</td>
