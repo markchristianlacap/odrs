@@ -13,6 +13,12 @@ const columns: QTableProps['columns'] = [
     format: val => formatDate(val),
   },
   {
+    name: 'document',
+    field: 'document',
+    label: 'Document',
+    align: 'left',
+  },
+  {
     name: 'referenceNumber',
     field: 'referenceNumber',
     label: 'Reference Number',

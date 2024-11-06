@@ -14,7 +14,7 @@ public class ReportRes
 {
     public string? ORNumber { get; set; }
     public string ReferenceNumber { get; set; } = null!;
-    public string Documents { get; set; } = null!;
+    public string Document { get; set; } = null!;
     public string Email { get; set; } = null!;
     public RequesterType RequesterType { get; set; }
     public string RequesterTypeDesc => RequesterType.Humanize(LetterCasing.Title);
@@ -30,7 +30,7 @@ public class ReportRes
     public int LastAttendanceStartYear { get; set; }
     public int LastAttendanceEndYear { get; set; }
     public Semester Semester { get; set; }
-    public YearLevel YearLevel { get; set; }
+    public YearLevel? YearLevel { get; set; }
     public string Section { get; set; } = null!;
     public string ProgramName { get; set; } = null!;
     public string CampusName { get; set; } = null!;
