@@ -2,6 +2,7 @@
 import type { QTableProps } from 'quasar'
 
 const dialog = ref(false)
+const currentId = ref<string | null>(null)
 const form = ref({
   firstName: '',
   lastName: '',
@@ -70,6 +71,12 @@ const columns: QTableProps['columns'] = [
     name: 'address',
     align: 'left',
   },
+  {
+    label: 'Actions',
+    field: 'actions',
+    name: 'actions',
+    align: 'left',
+  },
 ]
 const requests = useRequestTable(
   params => api.get('/user/users', { params }).then(r => r.data),
@@ -77,6 +84,8 @@ const requests = useRequestTable(
 )
 function onEdit(row: any) {
   form.value = row
+  dialog.value = true
+  currentId.value = row.id
 }
 onMounted(() => requests.submit())
 </script>
@@ -100,6 +109,9 @@ onMounted(() => requests.submit())
             <div class="i-hugeicons:search-02" />
           </QIcon>
         </template>
+        <template #append>
+          <QBtn label="Add User" color="primary" @click="dialog = true" />
+        </template>
       </QInput>
     </div>
 
@@ -114,7 +126,7 @@ onMounted(() => requests.submit())
     >
       <template #body-cell-actions="props">
         <QTd :props="props">
-          <QBtn size="sm" color="primary" outline @click="onEdit(props.row.id)">
+          <QBtn size="sm" color="primary" outline @click="onEdit(props.row)">
             Edit
           </QBtn>
         </QTd>
@@ -123,6 +135,8 @@ onMounted(() => requests.submit())
     <UsersDialogForm
       v-model:dialog="dialog"
       :form="form"
+      :current-id="currentId"
+      @success="requests.submit"
     />
   </div>
 </template>

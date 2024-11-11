@@ -38,6 +38,15 @@ async function onLogout() {
         </QItemSection>
         <QItemSection> Report </QItemSection>
       </QItem>
+
+      <QItem clickable to="/user/users">
+        <QItemSection avatar>
+          <QIcon>
+            <div class="i-hugeicons:user-switch" />
+          </QIcon>
+        </QItemSection>
+        <QItemSection> Users Management</QItemSection>
+      </QItem>
       <QItem clickable to="/user/configurations">
         <QItemSection avatar>
           <QIcon>

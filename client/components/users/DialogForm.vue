@@ -2,10 +2,11 @@
 const props = defineProps<{
   dialog: boolean
   form: typeof form.fields
-  id?: string | null
+  currentId?: string | null
 }>()
 const emits = defineEmits<{
   (e: 'update:dialog', value: boolean): void
+  (e: 'success'): void
 }>()
 const $q = useQuasar()
 const { dialog } = useVModels(props, emits)
@@ -21,13 +22,13 @@ const form = useForm({
   password: '',
   confirmPassword: '',
 })
-watchDeep(() => props.form, (value) => {
+watch(() => props.form, (value) => {
   form.fields = value
 })
 function onSubmit() {
   form.submit(async (fields) => {
-    if (props.id) {
-      await api.put(`/user/users/${props.id}`, fields)
+    if (props.currentId) {
+      await api.put(`/user/users/${props.currentId}`, fields)
     }
     else {
       await api.post('/user/users', fields)
@@ -36,9 +37,14 @@ function onSubmit() {
       message: 'User account successfully saved.',
       color: 'positive',
     })
+    emits('success')
     dialog.value = false
   })
 }
+watch(dialog, (value) => {
+  if (!value)
+    form.reset()
+})
 </script>
 
 <template>
@@ -97,6 +103,7 @@ function onSubmit() {
             label="Birthdate"
             :error-message="form.getError('birthdate')"
             :error="form.hasError('birthdate')"
+            type="date"
             placeholder="Type your birthdate"
           />
           <QInput
@@ -107,7 +114,7 @@ function onSubmit() {
             placeholder="Type your address"
           />
           <QInput
-            v-if="!id"
+            v-if="!currentId"
             v-model="form.fields.password"
             label="Password"
             :error-message="form.getError('password')"
@@ -116,7 +123,7 @@ function onSubmit() {
             type="password"
           />
           <QInput
-            v-if="!id"
+            v-if="!currentId"
             v-model="form.fields.confirmPassword"
             label="Confirm Password"
             :error-message="form.getError('confirmPassword')"
@@ -125,15 +132,17 @@ function onSubmit() {
             type="password"
           />
 
-          <div class="flex justify-end gap-sm">
+          <div class="grid grid-cols-2 gap-sm">
             <QBtn
               color="negative"
+              class="w-full"
               @click="dialog = false"
             >
               Cancel
             </QBtn>
             <QBtn
               type="submit"
+              class="w-full"
               color="primary"
             >
               Save

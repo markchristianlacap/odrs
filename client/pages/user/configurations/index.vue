@@ -33,26 +33,34 @@ onMounted(() => fetch())
 </script>
 
 <template>
-  <div class="mx-auto container">
-    <p class="text-xl font-bold">
-      Payment Details Configurations
-    </p>
-    <QForm class="mt-xl max-w-xl" @submit="submit">
-      <QInput
-        v-model="paymentDetails.fields.accountName"
-        label="Account Name"
-        class="mb-sm"
-      />
-      <QInput
-        v-model="paymentDetails.fields.accountNumber"
-        label="Account Number"
-        class="mb-sm"
-      />
-      <div class="text-right">
-        <QBtn color="primary" type="submit" :disable="isValid" class="mt-xl">
-          Save Configurations
-        </QBtn>
-      </div>
-    </QForm>
-  </div>
+  <QCard class="mx-auto max-w-xl" flat>
+    <QCardSection>
+      <p class="text-xl font-bold">
+        Payment Details Configurations
+      </p>
+      <p class="text-primary">
+        Configure payment details here. These details will be used for payments.
+      </p>
+      <QForm class="mt-xl" @submit="submit">
+        <QInput
+          v-model="paymentDetails.fields.accountName"
+          label="Account Name"
+          class="mb-sm"
+        />
+        <QInput
+          v-model="paymentDetails.fields.accountNumber"
+          label="Account Number"
+          class="mb-sm"
+        />
+        <div class="text-right">
+          <QBtn color="primary" type="submit" :disable="isValid" class="mt-xl">
+            <QIcon left>
+              <div class="i-hugeicons:checkmark-circle-01" />
+            </QIcon>
+            Save Configurations
+          </QBtn>
+        </div>
+      </QForm>
+    </QCardSection>
+  </QCard>
 </template>
