@@ -30,7 +30,6 @@ public class Validator : Validator<RequestReq>
             }
         );
         RuleFor(x => x.RequesterType).NotNull().IsInEnum();
-        RuleFor(x => x.Section).NotEmpty();
         RuleFor(x => x.ProgramId).NotEmpty();
         RuleFor(x => x.CampusId).NotEmpty();
         RuleFor(x => x.FirstName).NotEmpty();
@@ -38,7 +37,6 @@ public class Validator : Validator<RequestReq>
         RuleFor(x => x.ContactNumber).NotEmpty();
         RuleFor(x => x.Birthdate).NotNull();
         RuleFor(x => x.Address).NotEmpty();
-        RuleFor(x => x.StudentNumber).NotEmpty();
         RuleFor(x => x.Email).NotEmpty().EmailAddress();
         RuleFor(x => x.Picture).NotNull();
         RuleFor(x => x.ValidId).NotNull();

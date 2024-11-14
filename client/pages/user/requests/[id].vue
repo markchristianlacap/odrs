@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { isAxiosError } from 'axios'
 import { RequestStatus } from '~/enums/request-status'
+import { requestProcess } from '~/options/request-process'
 import { requestStatuses } from '~/options/request-statuses'
 
 const config = useConfigurations()
@@ -179,6 +180,10 @@ onMounted(() => {
 <template>
   <div class="mx-auto mt-xl container">
     <template v-if="request.response">
+      <QStepper v-model="request.response.status" flat>
+        <QStep v-for="status in requestProcess" :key="status.value" :title="status.label" :name="status.value" :done="request.response.status >= status.value" :done-color="status.color" />
+      </QStepper>
+
       <QCard flat bordered>
         <QCardSection>
           <div class="flex justify-between gap-sm">

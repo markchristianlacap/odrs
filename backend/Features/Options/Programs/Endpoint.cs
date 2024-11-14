@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Features.Options.Programs;
 
-public class Endpoint : EndpointWithoutRequest
+public class Endpoint : Endpoint<ProgramOptionsReq, List<ProgramOptionsRes>>
 {
     public AppDbContext Db { get; set; } = null!;
 
@@ -14,9 +14,14 @@ public class Endpoint : EndpointWithoutRequest
         AllowAnonymous();
     }
 
-    public override async Task HandleAsync(CancellationToken ct)
+    public override async Task HandleAsync(ProgramOptionsReq req, CancellationToken ct)
     {
-        var res = await Db.Programs.ProjectToType<ProgramOptionsRes>().ToListAsync(ct);
+        var query = Db.Programs.AsQueryable();
+        if (req.CampusId is not null)
+        {
+            query = query.Where(x => x.CampusId == req.CampusId);
+        }
+        var res = await query.ProjectToType<ProgramOptionsRes>().ToListAsync(ct);
         Response = res;
     }
 }

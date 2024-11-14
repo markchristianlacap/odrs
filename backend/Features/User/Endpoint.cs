@@ -20,7 +20,7 @@ public class Endpoint : EndpointWithoutRequest<UserRes>
         var res = await Db
             .Users.ProjectToType<UserRes>()
             .FirstOrDefaultAsync(x => x.Id == UserService.UserId, ct);
-        if (res == null)
+        if (res is null)
         {
             await SendUnauthorizedAsync(ct);
             return;

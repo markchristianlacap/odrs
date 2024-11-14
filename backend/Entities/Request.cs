@@ -1,5 +1,4 @@
-﻿using Backend.Entities.Common;
-using Backend.Enums;
+﻿using Backend.Enums;
 
 namespace Backend.Entities;
 
@@ -14,7 +13,7 @@ public class Request
     public string LastName { get; set; } = null!;
     public string? MiddleName { get; set; }
     public string? ExtensionName { get; set; }
-    public string StudentNumber { get; set; } = null!;
+    public string? StudentNumber { get; set; }
     public string ContactNumber { get; set; } = null!;
     public DateOnly Birthdate { get; set; }
     public string Address { get; set; } = null!;
@@ -22,7 +21,7 @@ public class Request
     public int LastAttendanceEndYear { get; set; }
     public Semester Semester { get; set; }
     public YearLevel? YearLevel { get; set; }
-    public string Section { get; set; } = null!;
+    public string? Section { get; set; }
     public Guid ProgramId { get; set; }
     public Program Program { get; set; } = null!;
     public Guid CampusId { get; set; }

@@ -17,9 +17,10 @@ const router = useRouter()
 const campuses = useRequest(() =>
   api.get('/options/campuses').then(r => r.data),
 )
-const programs = useRequest(() =>
-  api.get('/options/programs').then(r => r.data),
-)
+const programs = useRequest(params =>
+  api.get('/options/programs', { params }).then(r => r.data), {
+  campusId: '',
+})
 const purposes = [
   'For Employment Purposes Only',
   'For Reference Purposes Only',
@@ -43,7 +44,7 @@ const form = useForm({
   firstName: '',
   middleName: '' as string | undefined,
   extensionName: '' as string | undefined,
-  contactNumber: '',
+  contactNumber: '+639',
   birthdate: null,
   address: '',
   lastAttendanceStartYear: null as number | null,
@@ -119,6 +120,10 @@ watch(documents, (v) => {
 })
 onMounted(() => {
   campuses.submit()
+})
+watch(() => form.fields.campusId, (v) => {
+  form.fields.programId = null
+  programs.request.campusId = v || ''
   programs.submit()
 })
 </script>
@@ -163,7 +168,7 @@ onMounted(() => {
         </div>
         <QInput
           v-model="form.fields.studentNumber"
-          label="Student Number"
+          label="Student Number (Optional)"
           :error="form.hasError('studentNumber')"
           :error-message="form.getError('studentNumber')"
           class="w-sm"
@@ -197,7 +202,8 @@ onMounted(() => {
             />
             <div class="flex items-center gap-2">
               <p class="mr-sm">
-                {{ form.fields.requesterType === RequesterType.Alumni ? 'Year Graduated' : "Last Attended" }}
+                <!-- {{ form.fields.requesterType === RequesterType.Alumni ? 'Year Graduated' : "Last Attended" }} -->
+                Academic Year
               </p>
               <QInput
                 v-model="form.fields.lastAttendanceStartYear"
@@ -261,7 +267,7 @@ onMounted(() => {
                 v-model="form.fields.section"
                 hide-bottom-space
                 class="flex-1"
-                label="Enter your last section"
+                label="Enter your last section (Optional)"
                 :error="form.hasError('section')"
               />
             </div>
@@ -375,8 +381,8 @@ onMounted(() => {
                 <QInput
                   v-model="form.fields.contactNumber"
                   label="Contact Number"
-                  mask="###-###-####"
-                  hint="E.g. 933-456-7890"
+                  mask="+63-###-###-####"
+                  hint="E.g. +63-933-456-7890"
                   :error="form.hasError('contactNumber')"
                   :error-message="form.getError('contactNumber')"
                 />
