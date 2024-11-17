@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { QTableProps } from 'quasar'
 import type { RequestStatus } from '~/enums/request-status'
+import { documentTypes } from '~/options/document-types'
 import { requestStatuses } from '~/options/request-statuses'
 
 const router = useRouter()
@@ -52,6 +53,12 @@ const columns: QTableProps['columns'] = [
     sortable: true,
   },
   {
+    name: 'documents',
+    field: 'documentsDesc',
+    label: 'Documents',
+    align: 'left',
+  },
+  {
     name: 'status',
     field: 'statusDesc',
     label: 'Status',
@@ -68,7 +75,7 @@ const columns: QTableProps['columns'] = [
 ]
 const requests = useRequestTable(
   params => api.get('/user/requests', { params }).then(r => r.data),
-  { search: '', status: null as RequestStatus | null },
+  { search: '', status: null as RequestStatus | null, documentType: null as string | null },
 )
 
 function onView(id: string) {
@@ -82,7 +89,7 @@ onMounted(() => requests.submit())
 </script>
 
 <template>
-  <div class="mx-auto mt-xl container">
+  <div class="mx-auto mt-xl max-w-900 container">
     <div class="flex items-center justify-between">
       <div>
         <p class="text-xl font-bold">
@@ -93,14 +100,15 @@ onMounted(() => requests.submit())
         </p>
       </div>
     </div>
-    <div>
-      <QInput v-model="requests.request.search" label="Search">
+    <div class="mt-xl flex items-center gap-sm">
+      <QInput v-model="requests.request.search" label="Search" class="flex-1">
         <template #prepend>
           <QIcon>
             <div class="i-hugeicons:search-02" />
           </QIcon>
         </template>
       </QInput>
+      <q-select v-model="requests.request.documentType" :options="documentTypes" label="Select Document" clearable class="min-w-sm" emit-value map-options option-value="value" option-label="label" />
     </div>
     <div class="mt-sm">
       <QBtnGroup flat>

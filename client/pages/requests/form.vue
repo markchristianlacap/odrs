@@ -318,10 +318,11 @@ watch(() => form.fields.campusId, (v) => {
                 :label="purpose"
                 :color="form.hasError(`documents[${i}].purpose`) ? 'negative' : 'primary'"
                 keep-color
+                @update:model-value="document.otherPurpose = false"
               />
             </div>
             <div>
-              <QRadio v-model="document.otherPurpose" :val="true" label="Other" />
+              <QRadio v-model="document.otherPurpose" :val="true" label="Other" @update:model-value="document.purpose = ''" />
               <!-- @vue-expect-error -->
               <QInput
                 v-model="document.purpose"
@@ -411,17 +412,19 @@ watch(() => form.fields.campusId, (v) => {
           :model-value="true"
           header-class="text-primary font-bold bg-blue-1 rounded-xl border-1 border-blue-2"
         >
-          <p class="mt-xl">
-            2x2 Picture
-          </p>
-          <QUploader
-            label="Attach your 2x2 picture here" class="w-sm" :hide-upload-btn="true" flat bordered accept="image/*"
+          <div v-if="form.fields.documents.some(x => x.type === DocumentType.TOR)">
+            <p class="mt-xl">
+              2x2 Picture
+            </p>
+            <QUploader
+              label="Attach your 2x2 picture here" class="w-sm" :hide-upload-btn="true" flat bordered accept="image/*"
 
-            @added="onPictureChange"
-          />
-          <p v-if="form.hasError('picture')" class="text-negative mt-sm">
-            {{ form.getError('picture') }}
-          </p>
+              @added="onPictureChange"
+            />
+            <p v-if="form.hasError('picture')" class="text-negative mt-sm">
+              {{ form.getError('picture') }}
+            </p>
+          </div>
           <p class="mt-xl">
             Who will collect the documents?
           </p>

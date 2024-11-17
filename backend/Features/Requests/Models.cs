@@ -12,7 +12,7 @@ public class RequestDocumentModel
 public class RequestModel
 {
     [BindFrom("documents[]")]
-    public List<RequestDocumentModel> Documents { get; set; } = null!;
+    public List<RequestDocumentModel> Documents { get; set; } = [];
     public string Email { get; set; } = null!;
     public RequesterType? RequesterType { get; set; }
     public string FirstName { get; set; } = null!;
