@@ -75,7 +75,7 @@ function onSubmit() {
     try {
       const formData = new FormData()
       for (const [key, value] of Object.entries(fields)) {
-        formData.append(key, value as string)
+        formData.append(key, (value ?? '') as string)
       }
       form.fields.documents.forEach((document) => {
         formData.append('documents[]', JSON.stringify(document))
