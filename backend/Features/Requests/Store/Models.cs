@@ -4,7 +4,7 @@ namespace Backend.Features.Requests.Store;
 
 public class RequestReq : RequestModel
 {
-    public IFormFile Picture { get; set; } = null!;
+    public IFormFile? Picture { get; set; } = null!;
     public IFormFile? ValidId { get; set; } = null;
     public IFormFile? RepresentativeValidId { get; set; } = null;
     public IFormFile? AuthorizationLetter { get; set; } = null;

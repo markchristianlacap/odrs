@@ -15,27 +15,27 @@
   "dependencies": {
     "@mdi/font": "^7.4.47",
     "@quasar/extras": "^1.16.13",
-    "@unocss/reset": "^0.64.0",
+    "@unocss/reset": "^0.64.1",
     "axios": "^1.7.7",
     "normalize.css": "^8.0.1",
     "nuxt": "^3.14.159",
-    "nuxt-quasar-ui": "^2.1.6",
-    "quasar": "^2.17.2",
-    "vue": "^3.5.12"
+    "nuxt-quasar-ui": "^2.1.7",
+    "quasar": "^2.17.3",
+    "vue": "^3.5.13"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^3.8.0",
+    "@antfu/eslint-config": "^3.9.1",
     "@iconify-json/hugeicons": "^1.2.1",
-    "@nuxt/eslint": "^0.6.1",
+    "@nuxt/eslint": "^0.7.0",
     "@prettier/plugin-xml": "^3.4.1",
-    "@unocss/eslint-plugin": "^0.64.0",
-    "@unocss/nuxt": "^0.64.0",
-    "@unocss/preset-icons": "^0.64.0",
+    "@unocss/eslint-plugin": "^0.64.1",
+    "@unocss/nuxt": "^0.64.1",
+    "@unocss/preset-icons": "^0.64.1",
     "@vueuse/core": "^11.2.0",
     "@vueuse/nuxt": "^11.2.0",
-    "eslint": "^9.14.0",
+    "eslint": "^9.15.0",
     "eslint-plugin-format": "^0.1.2",
     "typescript": "^5.6.3",
-    "unocss": "^0.64.0"
+    "unocss": "^0.64.1"
   }
 }

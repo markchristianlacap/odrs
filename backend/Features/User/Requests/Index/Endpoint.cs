@@ -29,10 +29,18 @@ public class Endpoint : Endpoint<RequestPagedReq, PagedRes<RequestRowRes>>
         {
             query = query.Where(x => x.Status == req.Status);
         }
+        if (req.DocumentType is not null)
+        {
+            query = query.Where(x => x.Documents.Any(d => d.Type == req.DocumentType));
+        }
         var mapCfg = new TypeAdapterConfig();
         mapCfg
             .NewConfig<Request, RequestRowRes>()
             .Map(dest => dest.ProgramName, src => src.Program.Name)
+            .Map(
+                dest => dest.DocumentsDesc,
+                src => string.Join(", ", src.Documents.Select(d => d.Type.ToString()))
+            )
             .Map(dest => dest.CampusName, src => src.Campus.Name);
         var res = await query
             .OrderByDescending(x => x.CreatedAt)

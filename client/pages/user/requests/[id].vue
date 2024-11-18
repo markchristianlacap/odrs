@@ -4,6 +4,7 @@ import { RequestStatus } from '~/enums/request-status'
 import { requestProcess } from '~/options/request-process'
 import { requestStatuses } from '~/options/request-statuses'
 
+const clipboard = useClipboard()
 const config = useConfigurations()
 const route = useRoute()
 const id = computed(() => route.params.id)
@@ -63,6 +64,14 @@ function forRelease() {
       label: 'Enter claim deadline',
       type: 'date',
     },
+    ok: {
+      label: 'Confirm',
+      color: 'positive',
+    },
+    cancel: {
+      label: 'Cancel',
+      flat: true,
+    },
   }).onOk(async (claimDeadline) => {
     try {
       await api.post(`/user/requests/${id.value}/for-release`, { claimDeadline })
@@ -86,6 +95,14 @@ function release() {
   $q.dialog({
     title: 'Release Confirmation',
     message: 'This can be undone. Are you sure you want to change the status of this request to release?',
+    ok: {
+      label: 'Confirm',
+      color: 'positive',
+    },
+    cancel: {
+      label: 'Cancel',
+      flat: true,
+    },
 
   }).onOk(async () => {
     try {
@@ -113,6 +130,14 @@ function process() {
     prompt: {
       model: '',
       label: 'Enter Official Receipt Number',
+    },
+    ok: {
+      label: 'Confirm',
+      color: 'positive',
+    },
+    cancel: {
+      label: 'Cancel',
+      flat: true,
     },
   }).onOk(async (oRNumber) => {
     try {
@@ -168,8 +193,50 @@ function reject() {
     }
   })
 }
+function cancel() {
+  $q.dialog({
+    title: 'Cancel Confirmation',
+    message: 'This can be undone. Are you sure you want to cancel this request?',
+    prompt: {
+      model: '',
+      label: 'Enter reason for cancellation',
+    },
+    ok: {
+      label: 'Confirm',
+      color: 'negative',
+    },
+    cancel: {
+      label: 'Cancel',
+      flat: true,
+    },
+  }).onOk(async (remarks) => {
+    try {
+      await api.post(`/user/requests/${id.value}/cancel`, { remarks })
+      $q.notify({
+        message: 'Cancelled successfully',
+        type: 'positive',
+      })
+      request.submit()
+    }
+    catch (e: any) {
+      if (isAxiosError(e)) {
+        $q.notify({
+          type: 'negative',
+          message: e.response?.data?.errors?.remarks?.[0] || 'Something went wrong',
+        })
+      }
+    }
+  })
+}
 function getRequirementURL(requirementId: string) {
   return `/api/requests/${id.value}/requirements/${requirementId}`
+}
+function copyToClipboard() {
+  clipboard.copy(request.response?.referenceNumber)
+  $q.notify({
+    message: 'Reference Number copied to clipboard',
+    type: 'positive',
+  })
 }
 onMounted(() => {
   request.submit()
@@ -179,23 +246,32 @@ onMounted(() => {
 
 <template>
   <div class="mx-auto mt-xl container">
-    <template v-if="request.response">
-      <QStepper v-model="request.response.status" flat>
+    <template v-if="request.response ">
+      <QStepper v-if="request.response.status !== RequestStatus.Canceled && request.response.status !== RequestStatus.Rejected" v-model="request.response.status" flat>
         <QStep v-for="status in requestProcess" :key="status.value" :title="status.label" :name="status.value" :done="request.response.status >= status.value" :done-color="status.color" />
       </QStepper>
 
       <QCard flat bordered>
         <QCardSection>
           <div class="flex justify-between gap-sm">
-            <p class="mb-xl text-xl font-bold">
-              Request #{{ request.response.referenceNumber }} |
+            <div class="mb-xl flex gap-sm text-xl font-bold">
+              <p class="text-primary">
+                Request #{{ request.response.referenceNumber }}
+                <QIcon class="cursor-pointer" size="sm" left @click="copyToClipboard">
+                  <q-tooltip>
+                    Click to copy reference number
+                  </q-tooltip>
+                  <div class="i-hugeicons:clipboard" />
+                </QIcon>
+                |
+              </p>
               <span
                 class="uppercase"
                 :class="`text-${getStatusColor(request.response.status)}`"
               >
                 {{ request.response.statusDesc }}
               </span>
-            </p>
+            </div>
             <div class="space-x-sm">
               <QBtn v-if="request.response.status === RequestStatus.Submitted" color="positive" @click="approve">
                 <div class="i-hugeicons:thumbs-up mr-xs text-xl" />
@@ -213,10 +289,13 @@ onMounted(() => {
                 <div class="i-hugeicons:thumbs-up mr-xs text-xl" />
                 Ready for Release
               </QBtn>
-              <QBtn v-if="request.response.status !== RequestStatus.Released" label="Reject" color="negative" @click="reject" />
+              <template v-if="request.response.status !== RequestStatus.Released && request.response.status !== RequestStatus.Canceled && request.response.status !== RequestStatus.Rejected">
+                <QBtn v-if="request.response.status <= RequestStatus.Submitted" label="Reject" color="negative" @click="reject" />
+                <QBtn v-else label="Cancel" color="negative" @click="cancel" />
+              </template>
             </div>
           </div>
-          <img :src="pictureURL" alt="Request Picture" class="mb-xl h-300px cursor-zoom-in" @click="imagePreview = pictureURL">
+          <img :src="pictureURL" alt="Request Picture" class="mb-xl h-300px cursor-zoom-in" onerror="this.onerror=null;this.src='/images/no-image.svg'" @click="imagePreview = pictureURL">
           <ul class="list-disc pl-xl space-y-2">
             <li>
               {{ request.response.requesterTypeDesc }}

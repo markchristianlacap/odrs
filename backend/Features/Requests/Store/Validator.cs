@@ -17,7 +17,7 @@ public class Validator : Validator<RequestReq>
 {
     public Validator()
     {
-        RuleFor(x => x.Documents).NotNull();
+        RuleFor(x => x.Documents).NotNull().NotEmpty();
         RuleForEach(x => x.Documents).SetValidator(new DocumentValidator());
         RuleFor(x => x.LastAttendanceStartYear).NotEmpty();
         RuleFor(x => x.LastAttendanceEndYear).NotEmpty();
@@ -38,7 +38,13 @@ public class Validator : Validator<RequestReq>
         RuleFor(x => x.Birthdate).NotNull();
         RuleFor(x => x.Address).NotEmpty();
         RuleFor(x => x.Email).NotEmpty().EmailAddress();
-        RuleFor(x => x.Picture).NotNull();
+        When(
+            x => x.Documents.Any(x => x.Type == DocumentType.TOR),
+            () =>
+            {
+                RuleFor(x => x.Picture).NotNull();
+            }
+        );
         RuleFor(x => x.ValidId).NotNull();
         When(
             x => x.CollectorType != CollectorType.Owner,

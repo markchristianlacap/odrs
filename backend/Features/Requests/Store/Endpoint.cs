@@ -135,7 +135,10 @@ public class Endpoint : Endpoint<RequestReq, RequestRes>
                 }
             );
         }
-
+        if (req.Documents.Any(x => x.Type == DocumentType.TOR) && req.Picture != null)
+        {
+            request.PicturePath = await StorageService.UploadFileAsync(req.Picture, "pictures", ct);
+        }
         request.Requirements = requirements;
         request.Histories =
         [
@@ -149,7 +152,6 @@ public class Endpoint : Endpoint<RequestReq, RequestRes>
         ];
         request.ReferenceNumber = await GenerateReferenceNumber(ct);
         request.Status = RequestStatus.Submitted;
-        request.PicturePath = await StorageService.UploadFileAsync(req.Picture, "pictures", ct);
         await Db.Requests.AddAsync(request, ct);
         await Db.SaveChangesAsync(ct);
         SendEmailNotification(req.Email);

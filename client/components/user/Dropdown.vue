@@ -1,9 +1,19 @@
 <script setup lang="ts">
 const { user, logout } = useUser()
 const router = useRouter()
+const $q = useQuasar()
 async function onLogout() {
-  await logout()
-  router.push('/login')
+  $q.dialog({
+    title: 'Logout Confirmation',
+    message: 'Are you sure you want to logout?',
+    ok: {
+      color: 'negative',
+    },
+    cancel: true,
+  }).onOk(async () => {
+    await logout()
+    router.push('/login')
+  })
 }
 </script>
 

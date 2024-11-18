@@ -11,6 +11,7 @@ public class Endpoint : EndpointWithoutRequest<List<ConfigurationRowRes>>
     public override void Configure()
     {
         Get("/user/configurations");
+        AllowAnonymous();
     }
 
     public override async Task HandleAsync(CancellationToken ct)

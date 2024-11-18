@@ -29,7 +29,7 @@ public class Request
     public List<RequestHistory> Histories { get; set; } = null!;
     public decimal Amount { get; set; }
     public RequestStatus Status { get; set; }
-    public string PicturePath { get; set; } = null!;
+    public string? PicturePath { get; set; }
     public string? PaymentPath { get; set; }
     public string? ORNumber { get; set; }
     public CollectorType CollectorType { get; set; }

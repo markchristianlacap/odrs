@@ -2,6 +2,8 @@
 import { isAxiosError } from 'axios'
 import { RequestStatus } from '~/enums/request-status'
 
+const $q = useQuasar()
+const clipboard = useClipboard()
 const config = useConfigurations()
 const payment = useForm({
   payment: null as File | null,
@@ -26,6 +28,13 @@ function uploadPayment() {
 }
 const latestRemarks = computed(() => request.response?.histories?.[0]?.remarks)
 const pictureURL = computed(() => `/api/requests/${request.response?.id}/picture`)
+function copyToClipboard() {
+  clipboard.copy(request.response?.referenceNumber)
+  $q.notify({
+    message: 'Reference Number copied to clipboard',
+    type: 'positive',
+  })
+}
 onMounted(async () => {
   config.fetch()
   try {
@@ -69,6 +78,12 @@ onMounted(async () => {
         <p class="text-primary">
           <b>Reference Number:</b>
           {{ request.response.referenceNumber }}
+          <QIcon class="cursor-pointer" size="sm" left @click="copyToClipboard">
+            <q-tooltip>
+              Click to copy reference number
+            </q-tooltip>
+            <div class="i-hugeicons:clipboard" />
+          </QIcon>
         </p>
         <div v-if="request.response.status === RequestStatus.PendingForRelease" class="my-xl">
           <p class="text-lg">
@@ -146,7 +161,7 @@ onMounted(async () => {
           </p>
         </div>
       </div>
-      <img :src="pictureURL" alt="Request Picture" class="h-300px">
+      <img :src="pictureURL" alt="Request Picture" class="h-300px" onerror="this.onerror=null;this.src='/images/no-image.svg'">
     </div>
     <QMarkupTable flat class="mt-xl" bordered>
       <thead>
