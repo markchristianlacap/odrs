@@ -23,12 +23,12 @@ public class RequestModel
     public string ContactNumber { get; set; } = null!;
     public DateOnly? Birthdate { get; set; } = null;
     public string Address { get; set; } = null!;
-    public int? LastAttendanceStartYear { get; set; }
-    public int? LastAttendanceEndYear { get; set; }
+    public int? LastAttendanceStartYear { get; set; } = null;
+    public int? LastAttendanceEndYear { get; set; } = null;
     public Semester? Semester { get; set; }
     public YearLevel? YearLevel { get; set; }
     public string? Section { get; set; }
-    public Guid? ProgramId { get; set; }
-    public Guid? CampusId { get; set; }
+    public Guid? ProgramId { get; set; } = null;
+    public Guid? CampusId { get; set; } = null;
     public string? Representative { get; set; }
 }

@@ -47,13 +47,13 @@ const form = useForm({
   contactNumber: '+639',
   birthdate: null,
   address: '',
-  lastAttendanceStartYear: null as number | null,
-  lastAttendanceEndYear: null as number | null,
+  lastAttendanceStartYear: '' as number | string,
+  lastAttendanceEndYear: '' as number | string,
   yearLevel: null as YearLevel | null,
   semester: null as Semester | null,
   section: '',
-  campusId: null as string | null,
-  programId: null as string | null,
+  campusId: '' as string | null,
+  programId: '' as string | null,
   requesterType: null as TRequesterType | null,
   picture: null as File | null,
   authorizationLetter: null as File | null,
@@ -188,6 +188,7 @@ watch(() => form.fields.campusId, (v) => {
               map-options
               label="Select Campus"
               :error="form.hasError('campusId')"
+              :error-message="form.getError('campusId')"
             />
             <QSelect
               v-if="programs.response"
@@ -198,6 +199,7 @@ watch(() => form.fields.campusId, (v) => {
               emit-value
               map-options
               label="Select Course"
+              :error-message="form.getError('programId')"
               :error="form.hasError('programId')"
             />
             <div class="flex items-center gap-2">
