@@ -25,5 +25,6 @@ public class Endpoint : Endpoint<UserStoreReq>
         var user = req.Adapt<UserEntity>();
         user.Password = BCrypt.Net.BCrypt.EnhancedHashPassword(req.Password);
         await Db.Users.AddAsync(user, ct);
+        await Db.SaveChangesAsync(ct);
     }
 }
