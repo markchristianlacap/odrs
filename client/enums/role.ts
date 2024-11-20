@@ -1,4 +1,4 @@
 export enum Role {
-  Registrar,
-  Cashier,
+  Admin,
+  Staff,
 }

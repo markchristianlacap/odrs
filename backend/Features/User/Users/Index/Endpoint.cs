@@ -1,4 +1,5 @@
 ﻿using Backend.Database;
+using Backend.Enums;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,6 +12,7 @@ public class Endpoint : Endpoint<UserPagedReq, PagedRes<UserRowRes>>
     public override void Configure()
     {
         Get("/user/users");
+        Roles(nameof(Role.Admin));
     }
 
     public override async Task HandleAsync(UserPagedReq req, CancellationToken ct)

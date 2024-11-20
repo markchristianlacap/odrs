@@ -1,5 +1,4 @@
 ﻿using Backend.Database;
-using Mapster;
 using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Features.User.Reports;

@@ -2,6 +2,6 @@
 
 public enum Role
 {
-    Requester,
-    Registrar,
+    Admin,
+    Staff,
 }

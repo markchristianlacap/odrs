@@ -1,7 +1,10 @@
 <script setup lang="ts">
+import { Role } from '~/enums/role'
+
 const { user, logout } = useUser()
 const router = useRouter()
 const $q = useQuasar()
+const role = computed(() => user.value?.role)
 async function onLogout() {
   $q.dialog({
     title: 'Logout Confirmation',
@@ -49,7 +52,7 @@ async function onLogout() {
         <QItemSection> Report </QItemSection>
       </QItem>
 
-      <QItem clickable to="/user/users">
+      <QItem v-if="role === Role.Admin" clickable to="/user/users">
         <QItemSection avatar>
           <QIcon>
             <div class="i-hugeicons:user-switch" />

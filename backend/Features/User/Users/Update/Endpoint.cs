@@ -1,4 +1,5 @@
 ﻿using Backend.Database;
+using Backend.Enums;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,6 +12,7 @@ public class Endpoint : Endpoint<UserUpdateReq>
     public override void Configure()
     {
         Put("/user/users/{id}");
+        Roles(nameof(Role.Admin));
     }
 
     public override async Task HandleAsync(UserUpdateReq req, CancellationToken ct)
@@ -23,7 +25,7 @@ public class Endpoint : Endpoint<UserUpdateReq>
             ThrowError(x => x.Email, "Email already taken by another user");
         }
         var user = await Db.Users.FirstOrDefaultAsync(x => x.Id == id, ct);
-        user.Adapt(req);
+        req.Adapt(user);
         await Db.SaveChangesAsync(ct);
     }
 }

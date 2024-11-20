@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import type { Role } from '~/enums/role'
+import { roles } from '~/options/roles'
+
 const props = defineProps<{
   dialog: boolean
   form: typeof form.fields
@@ -21,6 +24,7 @@ const form = useForm({
   address: '',
   password: '',
   confirmPassword: '',
+  role: null as Role | null,
 })
 watch(() => props.form, (value) => {
   form.fields = value
@@ -130,6 +134,19 @@ watch(dialog, (value) => {
             :error="form.hasError('confirmPassword')"
             placeholder="Type your confirm password"
             type="password"
+          />
+          <q-select
+            v-model="form.fields.role"
+            :options="roles"
+            emit-value
+            map-options
+            option-value="value"
+            option-label="label"
+            label="Select Role"
+            :error="form.hasError('role')"
+            :error-message="form.getError('role')"
+            class="mb-sm"
+            placeholder="Select role you want to assign"
           />
 
           <div class="grid grid-cols-2 gap-sm">

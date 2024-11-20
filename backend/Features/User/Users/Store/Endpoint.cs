@@ -1,4 +1,5 @@
 ﻿using Backend.Database;
+using Backend.Enums;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
 using UserEntity = Backend.Entities.User;
@@ -12,6 +13,7 @@ public class Endpoint : Endpoint<UserStoreReq>
     public override void Configure()
     {
         Post("/user/users");
+        Roles(nameof(Role.Admin));
     }
 
     public override async Task HandleAsync(UserStoreReq req, CancellationToken ct)

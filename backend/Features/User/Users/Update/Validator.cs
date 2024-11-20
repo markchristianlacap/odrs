@@ -12,5 +12,6 @@ public class Validator : Validator<UserUpdateReq>
         RuleFor(x => x.ContactNumber).NotEmpty();
         RuleFor(x => x.Birthdate).NotNull();
         RuleFor(x => x.Address).NotEmpty();
+        RuleFor(x => x.Role).NotNull().IsInEnum();
     }
 }

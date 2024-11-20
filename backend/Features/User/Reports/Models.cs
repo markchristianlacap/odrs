@@ -22,7 +22,7 @@ public class ReportRes
     public string LastName { get; set; } = null!;
     public string? MiddleName { get; set; }
     public string? ExtensionName { get; set; }
-    public string StudentNumber { get; set; } = null!;
+    public string? StudentNumber { get; set; } = null!;
     public string ContactNumber { get; set; } = null!;
     public DateOnly Birthdate { get; set; }
     public string Address { get; set; } = null!;
@@ -31,13 +31,13 @@ public class ReportRes
     public int LastAttendanceEndYear { get; set; }
     public Semester Semester { get; set; }
     public YearLevel? YearLevel { get; set; }
-    public string Section { get; set; } = null!;
+    public string? Section { get; set; } = null!;
     public string ProgramName { get; set; } = null!;
     public string CampusName { get; set; } = null!;
     public decimal Amount { get; set; }
     public RequestStatus Status { get; set; }
     public string StatusDesc => Status.Humanize(LetterCasing.Title);
-    public string PicturePath { get; set; } = null!;
+    public string? PicturePath { get; set; } = null!;
     public string? PaymentPath { get; set; }
     public CollectorType CollectorType { get; set; }
     public string? Representative { get; set; }

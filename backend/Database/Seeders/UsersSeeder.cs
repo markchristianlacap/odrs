@@ -1,4 +1,5 @@
 ﻿using Backend.Entities;
+using Backend.Enums;
 
 namespace Backend.Database.Seeders;
 
@@ -14,6 +15,7 @@ public static class UsersSeeder
             Password = BCrypt.Net.BCrypt.EnhancedHashPassword("password"),
             ContactNumber = "n/a",
             Address = "n/a",
+            Role = Role.Admin,
         };
         var mark = new User
         {
@@ -23,6 +25,7 @@ public static class UsersSeeder
             Password = BCrypt.Net.BCrypt.EnhancedHashPassword("password"),
             ContactNumber = "n/a",
             Address = "n/a",
+            Role = Role.Admin,
         };
         var odrs = new User
         {
@@ -32,6 +35,7 @@ public static class UsersSeeder
             Password = BCrypt.Net.BCrypt.EnhancedHashPassword("odrs080224"),
             ContactNumber = "n/a",
             Address = "n/a",
+            Role = Role.Admin,
         };
         if (!context.Users.Any(u => u.Email == admin.Email))
         {

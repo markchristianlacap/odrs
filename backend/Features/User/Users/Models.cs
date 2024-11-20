@@ -1,4 +1,6 @@
-﻿namespace Backend.Features.User.Users;
+﻿using Backend.Enums;
+
+namespace Backend.Features.User.Users;
 
 public class UserModel
 {
@@ -10,4 +12,5 @@ public class UserModel
     public string ContactNumber { get; set; } = null!;
     public DateOnly? Birthdate { get; set; }
     public string Address { get; set; } = null!;
+    public Role? Role { get; set; } = null;
 }

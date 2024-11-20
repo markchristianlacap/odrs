@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import type { QTableProps } from 'quasar'
+import type { Role } from '~/enums/role'
 
 const dialog = ref(false)
 const currentId = ref<string | null>(null)
@@ -14,6 +15,7 @@ const form = ref({
   address: '',
   password: '',
   confirmPassword: '',
+  role: null as Role | null,
 })
 const columns: QTableProps['columns'] = [
   {
@@ -72,6 +74,12 @@ const columns: QTableProps['columns'] = [
     align: 'left',
   },
   {
+    label: 'Role',
+    field: 'roleDesc',
+    name: 'role',
+    align: 'left',
+  },
+  {
     label: 'Actions',
     field: 'actions',
     name: 'actions',
@@ -82,6 +90,10 @@ const requests = useRequestTable(
   params => api.get('/user/users', { params }).then(r => r.data),
   { search: '' },
 )
+function addUser() {
+  currentId.value = null
+  dialog.value = true
+}
 function onEdit(row: any) {
   form.value = row
   dialog.value = true
@@ -110,7 +122,7 @@ onMounted(() => requests.submit())
           </QIcon>
         </template>
         <template #append>
-          <QBtn label="Add User" color="primary" @click="dialog = true" />
+          <QBtn label="Add User" color="primary" @click="addUser" />
         </template>
       </QInput>
     </div>
@@ -136,7 +148,7 @@ onMounted(() => requests.submit())
       v-model:dialog="dialog"
       :form="form"
       :current-id="currentId"
-      @success="requests.submit"
+      @success="() => requests.submit()"
     />
   </div>
 </template>
