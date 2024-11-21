@@ -165,6 +165,10 @@ watch(() => form.fields.campusId, (v) => {
             :color="form.hasError('requesterType') ? 'negative' : 'primary'"
             keep-color
           />
+          <p class="text-sm text-gray-7">
+            * <b>Former Student: </b>
+            Individuals who left the institution for personal, academic, or professional reasons before graduating.
+          </p>
         </div>
         <QInput
           v-model="form.fields.studentNumber"
@@ -227,18 +231,23 @@ watch(() => form.fields.campusId, (v) => {
                 type="number"
               />
             </div>
-            <div class="flex items-center gap-2">
-              <p>Semester</p>
-              <QRadio
-                v-for="semester in semesters"
-                :key="semester.value"
-                v-model="form.fields.semester"
-                :color="form.hasError('semester') ? 'negative' : 'primary'"
-                keep-color
-                :error="form.hasError('semester')"
-                :val="semester.value"
-                :label="semester.label"
-              />
+            <div>
+              <div class="flex items-center gap-2">
+                <p>Semester</p>
+                <QRadio
+                  v-for="semester in semesters"
+                  :key="semester.value"
+                  v-model="form.fields.semester"
+                  :color="form.hasError('semester') ? 'negative' : 'primary'"
+                  keep-color
+                  :error="form.hasError('semester')"
+                  :val="semester.value"
+                  :label="semester.label"
+                />
+              </div>
+              <p class="text-sm text-gray-7">
+                * Which semester did you graduated?
+              </p>
             </div>
             <div
               v-if="form.fields.requesterType === RequesterType.FormerStudent"

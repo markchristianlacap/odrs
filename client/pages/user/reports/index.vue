@@ -80,7 +80,7 @@ const columns: QTableProps['columns'] = [
   },
   {
     name: 'dateReleased',
-    field: 'dateOfRelease',
+    field: 'dateReleased',
     label: 'Date Released',
     align: 'left',
     sortable: true,
