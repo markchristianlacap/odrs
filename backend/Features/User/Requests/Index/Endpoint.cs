@@ -43,7 +43,7 @@ public class Endpoint : Endpoint<RequestPagedReq, PagedRes<RequestRowRes>>
             )
             .Map(dest => dest.CampusName, src => src.Campus.Name);
         var res = await query
-            .OrderByDescending(x => x.CreatedAt)
+            .OrderBy(x => x.CreatedAt)
             .ProjectToType<RequestRowRes>(mapCfg)
             .ToPagedAsync(req, ct);
         Response = res;

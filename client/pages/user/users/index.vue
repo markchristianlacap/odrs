@@ -2,6 +2,7 @@
 import type { QTableProps } from 'quasar'
 import type { Role } from '~/enums/role'
 
+const $q = useQuasar()
 const dialog = ref(false)
 const currentId = ref<string | null>(null)
 const form = ref({
@@ -99,6 +100,22 @@ function onEdit(row: any) {
   dialog.value = true
   currentId.value = row.id
 }
+function onDelete(row: any) {
+  $q.dialog({
+    title: 'Confirm',
+    message: 'Are you sure you want to delete this user?',
+    cancel: true,
+    persistent: true,
+  }).onOk(async () => {
+    await api.delete(`/user/users/${row.id}`)
+    requests.submit()
+    $q.notify({
+      type: 'positive',
+      message: 'User deleted successfully',
+      position: 'top',
+    })
+  })
+}
 onMounted(() => requests.submit())
 </script>
 
@@ -138,9 +155,14 @@ onMounted(() => requests.submit())
     >
       <template #body-cell-actions="props">
         <QTd :props="props">
-          <QBtn size="sm" color="primary" outline @click="onEdit(props.row)">
-            Edit
-          </QBtn>
+          <div class="flex gap-xs">
+            <QBtn size="sm" color="negative" outline @click="onDelete(props.row)">
+              Delete
+            </QBtn>
+            <QBtn size="sm" color="primary" outline @click="onEdit(props.row)">
+              Edit
+            </QBtn>
+          </div>
         </QTd>
       </template>
     </QTable>

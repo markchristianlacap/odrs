@@ -257,12 +257,15 @@ onMounted(() => {
             <div class="mb-xl flex gap-sm text-xl font-bold">
               <p class="text-primary">
                 Request #{{ request.response.referenceNumber }}
-                <QIcon class="cursor-pointer" size="sm" left @click="copyToClipboard">
+                <q-btn color="primary" size="sm" flat @click="copyToClipboard">
                   <q-tooltip>
                     Click to copy reference number
                   </q-tooltip>
-                  <div class="i-hugeicons:clipboard" />
-                </QIcon>
+                  <QIcon>
+                    <div class="i-hugeicons:clipboard" />
+                  </QIcon>
+                  Copy
+                </q-btn>
                 |
               </p>
               <span
@@ -295,7 +298,7 @@ onMounted(() => {
               </template>
             </div>
           </div>
-          <img :src="pictureURL" alt="Request Picture" class="mb-xl h-300px cursor-zoom-in" onerror="this.onerror=null;this.src='/images/no-image.svg'" @click="imagePreview = pictureURL">
+          <img :src="pictureURL" alt="" class="mb-xl h-300px cursor-zoom-in" @click="imagePreview = pictureURL">
           <ul class="list-disc pl-xl space-y-2">
             <li>
               {{ request.response.requesterTypeDesc }}

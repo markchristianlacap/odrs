@@ -15,5 +15,6 @@ public class User : BaseEntity
     public string Address { get; set; } = null!;
     public string Password { get; set; } = null!;
     public Role Role { get; set; }
-    public bool IsActive { get; set; } = false;
+    public bool IsActive { get; set; } = true;
+    public DateTime? DeletedAt { get; set; }
 }

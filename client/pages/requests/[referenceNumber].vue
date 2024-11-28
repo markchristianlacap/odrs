@@ -78,12 +78,15 @@ onMounted(async () => {
         <p class="text-primary">
           <b>Reference Number:</b>
           {{ request.response.referenceNumber }}
-          <QIcon class="cursor-pointer" size="sm" left @click="copyToClipboard">
+          <q-btn color="primary" size="sm" flat @click="copyToClipboard">
             <q-tooltip>
               Click to copy reference number
             </q-tooltip>
-            <div class="i-hugeicons:clipboard" />
-          </QIcon>
+            <QIcon>
+              <div class="i-hugeicons:clipboard" />
+            </QIcon>
+            Copy
+          </q-btn>
         </p>
         <div v-if="request.response.status === RequestStatus.PendingForRelease" class="my-xl">
           <p class="text-lg">
@@ -161,7 +164,7 @@ onMounted(async () => {
           </p>
         </div>
       </div>
-      <img :src="pictureURL" alt="Request Picture" class="h-300px" onerror="this.onerror=null;this.src='/images/no-image.svg'">
+      <img :src="pictureURL" class="h-300px">
     </div>
     <QMarkupTable flat class="mt-xl" bordered>
       <thead>

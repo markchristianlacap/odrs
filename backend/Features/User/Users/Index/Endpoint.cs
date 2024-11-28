@@ -17,7 +17,7 @@ public class Endpoint : Endpoint<UserPagedReq, PagedRes<UserRowRes>>
 
     public override async Task HandleAsync(UserPagedReq req, CancellationToken ct)
     {
-        var query = Db.Users.AsNoTracking();
+        var query = Db.Users.Where(x => x.DeletedAt == null).AsNoTracking();
         if (req.Search is not null)
         {
             query = query.Where(x =>
