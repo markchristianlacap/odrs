@@ -52,11 +52,12 @@ public class Endpoint : Endpoint<ReportReq>
                     + x.Request.ReleasedBy.LastName,
             })
             .ToListAsync(ct);
-        var wb = new XLWorkbook();
-        var ws = wb.Worksheets.Add("Requests");
-        var row = 1;
+        using var http = new HttpClient();
+        var template = await http.GetByteArrayAsync(BaseURL + "templates/report.xlsx", ct);
+        var wb = new XLWorkbook(new MemoryStream(template));
+        var ws = wb.Worksheet(1);
+        var row = 13;
         var col = 1;
-
         ws.Cell(row, col++).Value = "Date";
         ws.Cell(row, col++).Value = "Name";
         ws.Cell(row, col++).Value = "Type of Documents";
