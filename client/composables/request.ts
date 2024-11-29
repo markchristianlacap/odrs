@@ -8,7 +8,6 @@ export function useRequest<TRes = any, TReq = any>(
     loading: false,
     async submit() {
       this.loading = true
-      console.log(this.request)
       this.response = await req(this.request)
       this.loading = false
     },
