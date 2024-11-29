@@ -26,15 +26,23 @@ const isMobile = computed(() => $q.screen.lt.sm)
           :class="{ 'w-full': isMobile }"
         >
           <QRouteTab flat to="/">
+            <div class="i-hugeicons:home-05 text-xl" />
             Home
           </QRouteTab>
+          <QRouteTab flat to="/overview">
+            <div class="i-hugeicons:information-circle text-xl" />
+            Overview
+          </QRouteTab>
           <QRouteTab flat to="/requests/form">
+            <div class="i-hugeicons:keyframes-double-remove text-xl" />
             Request Documents
           </QRouteTab>
           <QRouteTab flat to="/how-to-use">
+            <div class="i-hugeicons:question text-xl" />
             How To Use
           </QRouteTab>
           <QRouteTab flat to="/contact-us">
+            <div class="i-hugeicons:contact text-xl" />
             Contact Us
           </QRouteTab>
           <UserDropdown v-if="!isMobile" />
