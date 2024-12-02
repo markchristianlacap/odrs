@@ -18,7 +18,7 @@ public class Endpoint : Endpoint<LoginReq>
     public override async Task HandleAsync(LoginReq req, CancellationToken ct)
     {
         var user = await Db
-            .Users.Where(x => x.Email == req.Email)
+            .Users.Where(x => x.Email == req.Email && x.DeletedAt == null)
             .Select(x => new
             {
                 x.Password,
