@@ -19,11 +19,6 @@ public class Endpoint : EndpointWithoutRequest<RequestShowRes>
     {
         var referenceNumber = Route<string>("referenceNumber");
         var cfg = new TypeAdapterConfig();
-        cfg.ForType<Request, RequestShowRes>()
-            .Map(
-                d => d.Histories,
-                s => s.Histories.Adapt<List<HistoryModel>>().OrderBy(x => x.CreatedAt)
-            );
         var request = await Db
             .Requests.AsQueryable()
             .Where(x => x.ReferenceNumber == referenceNumber)
@@ -34,6 +29,7 @@ public class Endpoint : EndpointWithoutRequest<RequestShowRes>
             await SendNotFoundAsync(ct);
             return;
         }
+        request.Histories = [.. request.Histories.OrderByDescending(x => x.CreatedAt)];
         Response = request;
     }
 }

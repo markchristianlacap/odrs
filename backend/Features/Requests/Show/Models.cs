@@ -32,4 +32,5 @@ public class RequestShowRes : RequestModel
     public DateTime CreatedAt { get; set; }
     public decimal Amount { get; set; }
     public new List<RequestDocumentShow> Documents { get; set; } = null!;
+    public DateTime? ClaimDeadline { get; set; }
 }

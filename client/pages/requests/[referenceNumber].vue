@@ -88,6 +88,10 @@ onMounted(async () => {
             Copy
           </q-btn>
         </p>
+        <p v-if="request.response.claimDeadline" class="text-red">
+          <b>Claim Deadline:</b>
+          {{ formatDate(request.response.claimDeadline) }}
+        </p>
         <div v-if="request.response.status === RequestStatus.PendingForRelease" class="my-xl">
           <p class="text-lg">
             Your request is ready for release. Please bring the needed documents.
@@ -124,7 +128,7 @@ onMounted(async () => {
               ✓ Photocopy of valid ID of the representative (1 copy)
             </li>
           </ul>
-          <p><b>Note:</b> For second copy of documents such as Second copy of diploma, etc. Please bring a </p>
+          <p><b>Note:</b> For second copy of documents such as Second copy of diploma, etc.</p>
         </div>
         <div v-else-if="request.response.status === RequestStatus.WaitingForPayment" class="my-xl">
           <p>
@@ -164,7 +168,7 @@ onMounted(async () => {
           </p>
         </div>
       </div>
-      <img :src="pictureURL" class="h-300px">
+      <img :src="pictureURL" class="h-300px" alt="">
     </div>
     <QMarkupTable flat class="mt-xl" bordered>
       <thead>

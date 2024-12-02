@@ -37,6 +37,17 @@ function submit() {
             <ul>
               <li>Monday to Friday 8:00 am - 5:00 pm</li>
             </ul>
+            <p class="text-md my-sm font-bold">
+              Online Document Request System for Alumni and Former Students of (OMSC) Occidental Mindoro State College.
+            </p>
+            <p class="mb-xl">
+              Who can request Documents?
+            </p>
+            <ol class="list-decimal pl-3xl space-y-sm">
+              <li>The Owner himself.</li>
+              <li>Immediate family (parents, siblings, spouse, children).</li>
+              <li>Representatives other tan family(friends, neighbors, etc.)</li>
+            </ol>
             <div class="mt-xl flex gap-xl">
               <QBtn label="Get Started" color="primary" to="/requests/form" />
               <QBtn

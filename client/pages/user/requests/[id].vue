@@ -465,7 +465,7 @@ onMounted(() => {
     <QDialog v-if="!!imagePreview" :model-value="!!imagePreview" @update:model-value="imagePreview = null">
       <QCard>
         <QCardSection>
-          <img :src="imagePreview" alt="Preview">
+          <img :src="imagePreview" alt="">
         </QCardSection>
       </QCard>
     </QDialog>
