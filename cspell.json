@@ -1,1 +1,22 @@
-{"language":"en","version":"0.2","words":["Nuxt","contentfiles","Mapster","odrs","hugeicons","omsc","unocss","iconify","vueuse","Napolcom","Axios","gcash","Agroforestry","nameof"],"flagWords":[]}
+{
+  "language": "en",
+  "version": "0.2",
+  "words": [
+    "Nuxt",
+    "contentfiles",
+    "Mapster",
+    "odrs",
+    "hugeicons",
+    "omsc",
+    "unocss",
+    "iconify",
+    "vueuse",
+    "Napolcom",
+    "Axios",
+    "gcash",
+    "Agroforestry",
+    "nameof",
+    "appsettings"
+  ],
+  "flagWords": []
+}

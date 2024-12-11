@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { CollectorType } from '~/enums/collector-type'
-import { DocumentType } from '~/enums/document-type'
-import { RequesterType } from '~/enums/requester-type'
 import type { RequesterType as TRequesterType } from '~/enums/requester-type'
 import type { Semester } from '~/enums/semester'
 import type { YearLevel } from '~/enums/year-level'
+import { CollectorType } from '~/enums/collector-type'
+import { DocumentType } from '~/enums/document-type'
+import { RequesterType } from '~/enums/requester-type'
 import { collectorTypes } from '~/options/collector-types'
 import { documentTypes } from '~/options/document-types'
 import { requesterTypes } from '~/options/requester-types'

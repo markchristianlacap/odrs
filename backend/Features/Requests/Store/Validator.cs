@@ -1,4 +1,5 @@
-﻿using Backend.Enums;
+﻿using System.Text.RegularExpressions;
+using Backend.Enums;
 using FluentValidation;
 
 namespace Backend.Features.Requests.Store;
@@ -42,8 +43,20 @@ public class Validator : Validator<RequestReq>
             .WithMessage("Campus is required");
         RuleFor(x => x.FirstName).NotEmpty();
         RuleFor(x => x.LastName).NotEmpty();
-        RuleFor(x => x.ContactNumber).NotEmpty();
-        RuleFor(x => x.Birthdate).NotNull();
+        RuleFor(x => x.ContactNumber)
+            .NotEmpty()
+            .Must(x =>
+            {
+                // check if it is a valid number +63-900-000-0000
+                return Regex.IsMatch(x, @"^\+63-\d{3}-\d{3}-\d{4}$");
+            })
+            .WithMessage("Invalid contact number");
+        RuleFor(x => x.Birthdate)
+            .NotEmpty()
+            .Must(x => x < DateOnly.FromDateTime(DateTime.Now))
+            .WithMessage("Invalid birthdate")
+            .Must(x => x != DateOnly.MinValue)
+            .WithMessage("Invalid birthdate");
         RuleFor(x => x.Address).NotEmpty();
         RuleFor(x => x.Email).NotEmpty().EmailAddress();
         RuleFor(x => x.ValidId).NotNull();
