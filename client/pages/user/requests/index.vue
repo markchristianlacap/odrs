@@ -25,10 +25,7 @@ const columns: QTableProps['columns'] = [
     field: 'lastName',
     label: 'Name',
     align: 'left',
-    format: (val, row) => {
-      const mi = row.middleName ? ` ${row.middleName.charAt(0)}.` : ''
-      return `${val}${mi} ${row.firstName} ${row.extensionName}`
-    },
+    format: (_, row) => formatName(row),
     sortable: true,
   },
   {

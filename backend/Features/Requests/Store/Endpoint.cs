@@ -154,7 +154,7 @@ public class Endpoint : Endpoint<RequestReq, RequestRes>
         request.Status = RequestStatus.Submitted;
         await Db.Requests.AddAsync(request, ct);
         await Db.SaveChangesAsync(ct);
-        SendEmailNotification(req.Email);
+        SendEmailNotification(req.Email, request.ReferenceNumber);
         Response = request.Adapt<RequestRes>();
     }
 
@@ -172,14 +172,15 @@ public class Endpoint : Endpoint<RequestReq, RequestRes>
         return $"{year}{month:00}{newNum:0000}";
     }
 
-    private void SendEmailNotification(string emailAddress)
+    private void SendEmailNotification(string emailAddress, string referenceNumber)
     {
         var subject = "Request Submitted";
         var body =
             @$"
             <p>Hello,</p>
             <p>You have submitted a request.</p>
-            <p>Please wait for admin validation before proceeding with payment.</p>
+            <p>Please wait for admin validation before proceeding with payment.</p> 
+            <p>Reference Number: {referenceNumber}</p>
             <p>Thank you.</p>
             ";
         EmailService.SendEmail(emailAddress, subject, body, isHtml: true);

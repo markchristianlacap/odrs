@@ -48,14 +48,15 @@ public class Endpoint : EndpointWithoutRequest
         };
         await Db.RequestHistories.AddAsync(history, ct);
         await Db.SaveChangesAsync(ct);
-        SendEmailNotification(request.Email);
+        SendEmailNotification(request.Email, request.ReferenceNumber);
     }
 
-    private void SendEmailNotification(string emailAddress)
+    private void SendEmailNotification(string emailAddress, string referenceNumber)
     {
-        var subject = "Payment Submitted";
+        var subject = $"Payment Submitted for Request Reference Number: {referenceNumber}";
         var body =
             @$"
+            <p>Request Reference Number: {referenceNumber}</p>
             <p>Payment has been submitted.</p>
             <p>Please wait for admin to verify your payment another notification will be sent.</p>
             <p>Thank you.</p>

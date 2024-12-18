@@ -342,9 +342,7 @@ onMounted(() => {
           <ul class="list-disc pl-xl space-y-sm">
             <li><b>Student Number:</b> {{ request.response.studentNumber }}</li>
             <li>
-              <b>Name:</b> {{ request.response.lastName }}
-              {{ request.response.middleName }} {{ request.response.firstName }}
-              {{ request.response.extensionName }}
+              <b>Name:</b>  {{ formatName(request.response) }}
             </li>
             <li><b>Birthdate:</b> {{ formatDate(request.response.birthdate) }}</li>
             <li><b>Email:</b> {{ request.response.email }}</li>
